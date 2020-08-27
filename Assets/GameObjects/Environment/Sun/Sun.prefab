@@ -157,7 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 0}
-  mass: 1
+  mass: 10
   initialVelocity: {x: 0, y: 0, z: 0}
 --- !u!1 &916924642776952149
 GameObject:

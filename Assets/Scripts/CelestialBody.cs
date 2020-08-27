@@ -3,11 +3,11 @@
 public class CelestialBody : MonoBehaviour
 {
     [HideInInspector] public new Rigidbody rigidbody;
-
+   
     // Movement
     public float mass;
-    [SerializeField] private Vector3 initialVelocity;
-    private Vector3 currentVelocity;
+    public Vector3 initialVelocity;
+    public Vector3 currentVelocity;
 
     private void Awake()
     {
