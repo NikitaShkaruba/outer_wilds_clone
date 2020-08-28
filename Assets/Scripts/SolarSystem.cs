@@ -2,7 +2,7 @@
 
 public class SolarSystem : MonoBehaviour
 {
-    private const float GravitationalConstant = 10f;
+    private const float GravitationalConstant = 10000f;
 
     private CelestialBody[] celestialBodies;
 
@@ -13,39 +13,37 @@ public class SolarSystem : MonoBehaviour
 
     private void FixedUpdate()
     {
+        ApplyGravity();
+    }
 
+    private void ApplyGravity()
+    {
         foreach (CelestialBody celestialBody in celestialBodies)
         {
-            Vector3 velocity = ComputeCelestialBodyVelocity(celestialBody);
+            foreach (CelestialBody otherCelestialBody in celestialBodies)
+            {
+                // Don't add force to itself
+                if (celestialBody == otherCelestialBody)
+                {
+                    continue;
+                }
 
-            celestialBody.AddVelocity(velocity * Time.deltaTime);
-            celestialBody.UpdatePosition();
+                Vector3 velocity = ComputeGravitationalForce(celestialBody, otherCelestialBody);
+
+                celestialBody.ApplyGravity(velocity * Time.deltaTime);
+            }
         }
     }
 
-    private Vector3 ComputeCelestialBodyVelocity(CelestialBody celestialBody)
+    private static Vector3 ComputeGravitationalForce(CelestialBody celestialBody, CelestialBody otherCelestialBody)
     {
-        Vector3 velocity = Vector3.zero;
-
-        foreach (CelestialBody otherCelestialBody in celestialBodies)
-        {
-            // Don't add force to itself
-            if (celestialBody == otherCelestialBody)
-            {
-                continue;
-            }
-
-            // Newton's law of universal gravitation F = G * (m1 * m2 / r^2)
-            Vector3 differenceWithOtherBody = otherCelestialBody.rigidbody.position - celestialBody.rigidbody.position;
-            float destinationSquare = differenceWithOtherBody.sqrMagnitude;
-            Vector3 forceDirection = differenceWithOtherBody.normalized;
-            Vector3 force = forceDirection * GravitationalConstant *
-                            (celestialBody.mass * otherCelestialBody.mass / destinationSquare);
-            Vector3 acceleration = force / celestialBody.mass;
-
-            velocity += acceleration;
-        }
-
-        return velocity;
+        // Newton's law of universal gravitation F = G * (m1 * m2 / r^2)
+        Vector3 differenceWithOtherBody = otherCelestialBody.Position - celestialBody.Position;
+        float destinationSquare = differenceWithOtherBody.sqrMagnitude;
+        Vector3 forceDirection = differenceWithOtherBody.normalized;
+        Vector3 force = forceDirection * GravitationalConstant *
+                        (celestialBody.Mass * otherCelestialBody.Mass / destinationSquare);
+        
+        return force / celestialBody.Mass;
     }
 }

@@ -2,27 +2,22 @@
 
 public class CelestialBody : MonoBehaviour
 {
-    [HideInInspector] public new Rigidbody rigidbody;
+    // Components
+    private new Rigidbody rigidbody;
    
     // Movement
-    public float mass;
     public Vector3 initialVelocity;
-    public Vector3 currentVelocity;
+    public Vector3 Position => rigidbody.position;
+    public float Mass => rigidbody.mass;
 
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody>();
-
-        currentVelocity = initialVelocity;
+        rigidbody.AddForce(initialVelocity);
     }
 
-    public void AddVelocity(Vector3 velocity)
+    public void ApplyGravity(Vector3 gravityForce)
     {
-        currentVelocity += velocity;
-    }
-
-    public void UpdatePosition()
-    {
-        rigidbody.position += currentVelocity;
+        rigidbody.AddForce(gravityForce);
     }
 }
