@@ -2,7 +2,7 @@
 
 public class SolarSystem : MonoBehaviour
 {
-    private const float GravitationalConstant = 10000f;
+    private const float GravitationalConstant = 667.4f;
 
     private CelestialBody[] celestialBodies;
 
@@ -28,22 +28,24 @@ public class SolarSystem : MonoBehaviour
                     continue;
                 }
 
-                Vector3 velocity = ComputeGravitationalForce(celestialBody, otherCelestialBody);
+                Vector3 gravityForce = ComputeGravitationalForce(celestialBody, otherCelestialBody);
 
-                celestialBody.ApplyGravity(velocity * Time.deltaTime);
+                celestialBody.ApplyGravity(gravityForce);
             }
         }
     }
 
     private static Vector3 ComputeGravitationalForce(CelestialBody celestialBody, CelestialBody otherCelestialBody)
     {
+        Vector3 positionsDifference = otherCelestialBody.Position - celestialBody.Position;
+
         // Newton's law of universal gravitation F = G * (m1 * m2 / r^2)
-        Vector3 differenceWithOtherBody = otherCelestialBody.Position - celestialBody.Position;
-        float destinationSquare = differenceWithOtherBody.sqrMagnitude;
-        Vector3 forceDirection = differenceWithOtherBody.normalized;
-        Vector3 force = forceDirection * GravitationalConstant *
-                        (celestialBody.Mass * otherCelestialBody.Mass / destinationSquare);
-        
+        float forceMagnitude = GravitationalConstant *
+                               (celestialBody.Mass * otherCelestialBody.Mass / positionsDifference.sqrMagnitude);
+
+        // Add direction
+        Vector3 force = positionsDifference.normalized * forceMagnitude;
+
         return force / celestialBody.Mass;
     }
 }

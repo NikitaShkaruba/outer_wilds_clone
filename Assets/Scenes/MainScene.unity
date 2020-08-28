@@ -321,8 +321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3335f091cbcf6e046bc9a4015f5c6b5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showTrajectories: 1
-  trajectorySteps: 10000
 --- !u!4 &1740240192
 Transform:
   m_ObjectHideFlags: 0
@@ -346,13 +344,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1740240192}
     m_Modifications:
+    - target: {fileID: 1504123080, guid: b9b9d379c2b977441b82c2c0a75cdf31, type: 3}
+      propertyPath: initialVelocity.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1504123083, guid: b9b9d379c2b977441b82c2c0a75cdf31, type: 3}
+      propertyPath: m_Mass
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1504123083, guid: b9b9d379c2b977441b82c2c0a75cdf31, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5604141899954346046, guid: b9b9d379c2b977441b82c2c0a75cdf31, type: 3}
       propertyPath: m_Name
       value: TimberHearth
       objectReference: {fileID: 0}
     - target: {fileID: 8907751199843789357, guid: b9b9d379c2b977441b82c2c0a75cdf31, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -60.36
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 8907751199843789357, guid: b9b9d379c2b977441b82c2c0a75cdf31, type: 3}
       propertyPath: m_LocalPosition.y
@@ -403,6 +413,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1740240192}
     m_Modifications:
+    - target: {fileID: 804095003, guid: e5bd2c8890ddd3c449cfd43e0169d6aa, type: 3}
+      propertyPath: m_Mass
+      value: 100000
+      objectReference: {fileID: 0}
     - target: {fileID: 812857914213690388, guid: e5bd2c8890ddd3c449cfd43e0169d6aa, type: 3}
       propertyPath: m_Name
       value: Sun
