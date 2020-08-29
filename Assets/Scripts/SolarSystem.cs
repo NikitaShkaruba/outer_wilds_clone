@@ -8,7 +8,7 @@ public class SolarSystem : MonoBehaviour
 
     private void Awake()
     {
-        Time.timeScale = 100; // Debug. Will need it before the whole solar system is done
+        Time.timeScale = 20; // Debug. Will need it before the whole solar system is done
         celestialBodies = FindObjectsOfType<CelestialBody>();
     }
 

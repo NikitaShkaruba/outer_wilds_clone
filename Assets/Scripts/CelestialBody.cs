@@ -31,7 +31,8 @@ public class CelestialBody : MonoBehaviour
         Color color;
         switch (name)
         {
-            case "Ash Twin": color = Color.yellow; break;
+            case "Sun Station": color = Color.yellow; break;
+            case "Ash Twin": color = Color.gray; break;
             case "Ember Twin": color = Color.red; break;
             case "Timber Hearth": color = Color.green; break;
             default: color = Color.white; break;
@@ -61,6 +62,10 @@ public class CelestialBody : MonoBehaviour
         if (name == "Timber Hearth" && isCloseEnough)
         {
             Debug.Log($"Timber Hearth EDGE. Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
+        }
+        if (name == "Sun Station" && isCloseEnough)
+        {
+            Debug.Log($"Sun station EDGE. Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
         }
     }
 
