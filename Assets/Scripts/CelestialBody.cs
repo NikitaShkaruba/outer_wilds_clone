@@ -21,7 +21,7 @@ public class CelestialBody : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         orbit = new Orbit(rigidbody.position);
         
-        rigidbody.AddForce(initialVelocity * 10000);
+        rigidbody.AddForce(initialVelocity);
     }
 
     private void FixedUpdate()
