@@ -8,6 +8,7 @@ public class SolarSystem : MonoBehaviour
 
     private void Awake()
     {
+        // Time.timeScale = 16; // Intentionally left here debug
         celestialBodies = FindObjectsOfType<CelestialBody>();
     }
 
@@ -24,6 +25,11 @@ public class SolarSystem : MonoBehaviour
             {
                 // Don't add force to itself
                 if (celestialBody == otherCelestialBody)
+                {
+                    continue;
+                }
+
+                if (celestialBody.isStationary)
                 {
                     continue;
                 }
