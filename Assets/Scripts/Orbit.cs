@@ -6,10 +6,12 @@ public class Orbit
     private readonly LinkedList<Vector3> coordinates = new LinkedList<Vector3>();
     private const int StepSize = 100;
     private const int MaxLength = 2000;
+    private readonly Color color;
 
-    public Orbit(Vector3 startPosition)
+    public Orbit(Vector3 startPosition, Color color)
     {
         coordinates.AddLast(startPosition);
+        this.color = color;
     }
 
     public void Draw()
@@ -19,7 +21,7 @@ public class Orbit
         
         while (nextElement != coordinates.Last && nextElement != null)
         {
-            Debug.DrawLine(element.Value, nextElement.Value);
+            Debug.DrawLine(element.Value, nextElement.Value, color);
 
             element = nextElement;
             nextElement = element.Next;

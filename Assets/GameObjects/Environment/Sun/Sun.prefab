@@ -44,7 +44,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 1
-  m_Range: 2000
+  m_Range: 160000
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -107,7 +107,7 @@ GameObject:
   m_Layer: 0
   m_Name: Sun
   m_TagString: Untagged
-  m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -120,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 812857914213690388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 115.167496, y: -4.008576, z: 54.23634}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 150, y: 150, z: 150}
   m_Children:
   - {fileID: 6048354916068082590}
   - {fileID: 6048354916374490692}
@@ -137,7 +137,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 812857914213690388}
   serializedVersion: 2
-  m_Mass: 100
+  m_Mass: 4300000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -157,7 +157,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855eeb2aef9da204e9abb159bd662a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Sun
   initialVelocity: {x: 0, y: 0, z: 0}
+  isStationary: 1
 --- !u!135 &1592852477
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -198,7 +200,7 @@ Transform:
   m_GameObject: {fileID: 916924642776952149}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 150, y: 150, z: 150}
   m_Children: []
   m_Father: {fileID: 6357989047281155244}
   m_RootOrder: 2
@@ -5105,7 +5107,7 @@ Transform:
   m_GameObject: {fileID: 6048354916374490691}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 150, y: 150, z: 150}
   m_Children: []
   m_Father: {fileID: 6357989047281155244}
   m_RootOrder: 1

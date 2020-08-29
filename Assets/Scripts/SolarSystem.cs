@@ -2,13 +2,13 @@
 
 public class SolarSystem : MonoBehaviour
 {
-    private const float GravitationalConstant = 1000f;
+    private const float GravitationalConstant = 1000000f;
 
     private CelestialBody[] celestialBodies;
 
     private void Awake()
     {
-        // Time.timeScale = 100; // Intentionally left here debug
+        Time.timeScale = 100; // Debug. Will need it before the whole solar system is done
         celestialBodies = FindObjectsOfType<CelestialBody>();
     }
 
