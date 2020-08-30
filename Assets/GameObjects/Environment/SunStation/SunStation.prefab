@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Sun Station
-  initialVelocity: {x: 0, y: 0, z: -203700}
+  initialVelocity: {x: -374.0645, y: 0, z: 253.4467}
   isStationary: 0
 --- !u!135 &3021183851908105020
 SphereCollider:

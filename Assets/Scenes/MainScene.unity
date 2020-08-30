@@ -515,34 +515,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 806867111845346775, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1225222512277141219, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276304307179289073, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: initialVelocity.z
-      value: 253.4467
-      objectReference: {fileID: 0}
-    - target: {fileID: 2276304307179289073, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: initialVelocity.x
-      value: -374.0645
-      objectReference: {fileID: 0}
-    - target: {fileID: 5113687847969422625, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: initialVelocity.z
-      value: -252000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5113687847969422626, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_Mass
-      value: 19000
-      objectReference: {fileID: 0}
-    - target: {fileID: 5932058647484086535, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6684806669511982213, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -590,26 +562,6 @@ PrefabInstance:
     - target: {fileID: 6684806669511982331, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
       propertyPath: m_Name
       value: SolarSystem
-      objectReference: {fileID: 0}
-    - target: {fileID: 6684806669511982331, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6684806670563505685, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: initialVelocity.z
-      value: -183000
-      objectReference: {fileID: 0}
-    - target: {fileID: 6684806670563505686, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_Mass
-      value: 19000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7208501800432061204, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1304.84
-      objectReference: {fileID: 0}
-    - target: {fileID: 7208501800432061204, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1937.932
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b7f8d927e0bd37c4795e51a0dab88423, type: 3}
