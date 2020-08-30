@@ -15,6 +15,7 @@ public class SolarSystem : MonoBehaviour
     private void FixedUpdate()
     {
         ApplyGravity();
+        CheckForLoopEnd();
     }
 
     private void ApplyGravity()
@@ -53,5 +54,13 @@ public class SolarSystem : MonoBehaviour
         Vector3 force = positionsDifference.normalized * forceMagnitude;
 
         return force / celestialBody.Mass;
+    }
+
+    private static void CheckForLoopEnd()
+    {
+        // 1320 = 22 * 60 (22 minutes)
+        if (Time.time <= 1320) return;
+
+        Debug.Log("LOOP ENDED");
     }
 }

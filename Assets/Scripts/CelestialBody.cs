@@ -6,7 +6,7 @@ public class CelestialBody : MonoBehaviour
     private new Rigidbody rigidbody;
 
     public new string name;
-   
+
     // Movement
     public Vector3 initialVelocity;
     public Vector3 Position => rigidbody.position;
@@ -14,7 +14,7 @@ public class CelestialBody : MonoBehaviour
 
     // I want the Sun to always be at 0, 0, 0. I can do it with moving sun, but it will ease the numbers
     public bool isStationary;
-    
+
     // Nested objects
     private Orbit orbit;
 
@@ -22,8 +22,8 @@ public class CelestialBody : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody>();
         orbit = CreateOrbit();
-        
-        rigidbody.AddForce(initialVelocity * 1000);
+
+        rigidbody.velocity = initialVelocity;
     }
 
     private Orbit CreateOrbit()
@@ -31,13 +31,23 @@ public class CelestialBody : MonoBehaviour
         Color color;
         switch (name)
         {
-            case "Sun Station": color = Color.yellow; break;
-            case "Ash Twin": color = Color.gray; break;
-            case "Ember Twin": color = Color.red; break;
-            case "Timber Hearth": color = Color.green; break;
-            default: color = Color.white; break;
+            case "Sun Station":
+                color = Color.yellow;
+                break;
+            case "Ash Twin":
+                color = Color.gray;
+                break;
+            case "Ember Twin":
+                color = Color.red;
+                break;
+            case "Timber Hearth":
+                color = Color.green;
+                break;
+            default:
+                color = Color.white;
+                break;
         }
-        
+
         return new Orbit(rigidbody.position, color);
     }
 
@@ -50,29 +60,16 @@ public class CelestialBody : MonoBehaviour
         }
 
         // Debug. Will need it until the whole solar system is done
-        bool isCloseEnough = Mathf.Abs(Position.x) < 10f || Mathf.Abs(Position.z) < 10f;
-        if (name == "Ember Twin" && isCloseEnough)
+        if (name == "Some Name")
         {
-            Debug.Log($"Ember Twin EDGE. Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
-        }
-        if (name == "Ash Twin" && isCloseEnough)
-        {
-            Debug.Log($"Ash Twin EDGE. Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
-        }
-        if (name == "Timber Hearth" && isCloseEnough)
-        {
-            Debug.Log($"Timber Hearth EDGE. Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
-        }
-        if (name == "Sun Station" && isCloseEnough)
-        {
-            Debug.Log($"Sun station EDGE. Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
+            Debug.Log($"Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
         // Debug. Helps to find the perfect numbers for Hourglass Twins. Will need it until the whole solar system is done
-        Debug.Log("COLLISION");
+        Debug.LogError("COLLISION");
     }
 
     public void ApplyGravity(Vector3 gravityForce)
