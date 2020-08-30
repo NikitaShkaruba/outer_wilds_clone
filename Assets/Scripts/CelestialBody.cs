@@ -28,27 +28,7 @@ public class CelestialBody : MonoBehaviour
 
     private Orbit CreateOrbit()
     {
-        Color color;
-        switch (name)
-        {
-            case "Sun Station":
-                color = Color.yellow;
-                break;
-            case "Ash Twin":
-                color = Color.gray;
-                break;
-            case "Ember Twin":
-                color = Color.red;
-                break;
-            case "Timber Hearth":
-                color = Color.green;
-                break;
-            default:
-                color = Color.white;
-                break;
-        }
-
-        return new Orbit(rigidbody.position, color);
+        return new Orbit(rigidbody.position, Color.white);
     }
 
     private void FixedUpdate()
@@ -58,18 +38,6 @@ public class CelestialBody : MonoBehaviour
             orbit.Draw();
             orbit.Update(this);
         }
-
-        // Debug. Will need it until the whole solar system is done
-        if (name == "Some Name")
-        {
-            Debug.Log($"Coordinates {Position.x}, {Position.z}. Time: {Time.time}");
-        }
-    }
-
-    private void OnCollisionEnter(Collision other)
-    {
-        // Debug. Helps to find the perfect numbers for Hourglass Twins. Will need it until the whole solar system is done
-        Debug.LogError("COLLISION");
     }
 
     public void ApplyGravity(Vector3 gravityForce)

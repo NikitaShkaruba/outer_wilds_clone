@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2263951281580978558}
   - component: {fileID: 2263951282075625007}
   m_Layer: 0
-  m_Name: Ember Twin
+  m_Name: EmberTwin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5957913693095391624}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4600, y: 0, z: 0}
+  m_LocalPosition: {x: 545.9839, y: 0, z: -4363.929}
   m_LocalScale: {x: 300, y: 300, z: 300}
   m_Children: []
   m_Father: {fileID: 0}
