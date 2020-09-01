@@ -39,7 +39,7 @@ public class CelestialBody : Body
             }
 
             Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, otherCelestialBody);
-            rigidbody.AddForce(gravityForce);
+            rigidbody.AddForce(gravityForce); // Todo: add multiplication with Time.deltaTime
         }
     }
 

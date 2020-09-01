@@ -98,8 +98,8 @@ public class Player : Body
 
         foreach (CelestialBody celestialBody in SolarSystem.CelestialBodies)
         {
-            Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, celestialBody) / 1200f; // 400f just for now. I don't understand why it works
-            rigidbody.AddForce(gravityForce);
+            Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, celestialBody) / 50f; // Todo: do something with this number
+            rigidbody.AddForce(gravityForce * Time.deltaTime);
 
             if (gravityForce.magnitude > maxGravityForce.magnitude)
             {
