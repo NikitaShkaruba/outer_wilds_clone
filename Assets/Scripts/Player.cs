@@ -133,7 +133,7 @@ public class Player : Body
         }
 
         // We don't rotate to the sun, because it's impossible to land on it
-        if (celestialBody.name == "The Sun")
+        if (celestialBody.name == "Sun")
         {
             return false;
         }
