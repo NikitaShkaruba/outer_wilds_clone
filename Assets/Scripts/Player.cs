@@ -4,57 +4,47 @@ using UnityEngine;
 public class Player : Body
 {
     private new Camera camera;
-    
+
     private const float Speed = 12000f;
-    
+
     // Camera
     private float verticalBodyRotation;
     private const float MouseSensitivity = 150f;
-    
-    // Max gravitation to something to rotate to it
-    private Vector3 maxGravityForce;
-    public CelestialBody maxCelestialBody;
 
     public new void Awake()
     {
         base.Awake();
+
         camera = GetComponentInChildren<Camera>();
     }
 
     private void FixedUpdate()
     {
-        ProcessMovementKeys();
-        ProcessCameraKeys();
-        ProcessDebugKeys();
+        ProcessUserInput();
+        ApplyGravity();
     }
 
-    private void ProcessMovementKeys()
+    private void ProcessUserInput()
     {
-        bool wKeyPressed = Input.GetKey(KeyCode.W);
-        bool aKeyPressed = Input.GetKey(KeyCode.A);
-        bool sKeyPressed = Input.GetKey(KeyCode.S);
-        bool dKeyPressed = Input.GetKey(KeyCode.D);
-        bool isShiftPressed = Input.GetKey(KeyCode.LeftShift);
-        bool isCtrlPressed = Input.GetKey(KeyCode.LeftControl);
+        ProcessMovementInput();
+        ProcessCameraInput();
+        ProcessDebugInput();
+    }
 
-        float forwardMotion = CalculateMotion(wKeyPressed, sKeyPressed);
-        float sidewaysMotion = CalculateMotion(dKeyPressed, aKeyPressed);
-        float yMotion = CalculateMotion(isShiftPressed, isCtrlPressed);
-
+    private void ProcessMovementInput()
+    {
         Transform cachedTransform = transform;
-        Vector3 playerMotion = cachedTransform.forward * forwardMotion +
-                               cachedTransform.right * sidewaysMotion +
-                               cachedTransform.up * yMotion;
 
-        playerMotion *= Time.deltaTime;
+        float forwardMotion = CalculateMotion(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
+        float sidewaysMotion = CalculateMotion(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
+        float yMotion = CalculateMotion(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
 
+        Vector3 playerMotion = (cachedTransform.forward * forwardMotion + cachedTransform.right * sidewaysMotion + cachedTransform.up * yMotion) * Time.deltaTime;
         rigidbody.AddForce(playerMotion);
-
     }
 
-    private void ProcessCameraKeys()
+    private void ProcessCameraInput()
     {
-
         float horizontalMouseOffset = Input.GetAxis("Mouse X") * MouseSensitivity * Time.deltaTime;
         float verticalMouseOffset = Input.GetAxis("Mouse Y") * MouseSensitivity * Time.deltaTime;
         bool rotateButtonPressed = Input.GetKey(KeyCode.R);
@@ -73,17 +63,14 @@ public class Player : Body
         }
     }
 
-    private static void ProcessDebugKeys()
+    private static void ProcessDebugInput()
     {
-        bool changeCursorLockStateKeyDown = Input.GetKeyDown(KeyCode.F1);
-        bool toggleDebugKeyDown = Input.GetKeyDown(KeyCode.F2);
-
-        if (changeCursorLockStateKeyDown)
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
         }
 
-        if (toggleDebugKeyDown)
+        if (Input.GetKeyDown(KeyCode.F2))
         {
             TopLeftCornerDebug topLeftCornerDebug2 = FindObjectOfType<TopLeftCornerDebug>();
             topLeftCornerDebug2.isHidden = !topLeftCornerDebug2.isHidden;
@@ -104,31 +91,64 @@ public class Player : Body
         return 0f;
     }
 
-    public void RememberRotation(Vector3 force, CelestialBody celestialBody)
+    private void ApplyGravity()
     {
-        if (force.magnitude > maxGravityForce.magnitude)
+        Vector3 maxGravityForce = Vector3.zero;
+        CelestialBody maxGravityForceCelestialBody = null;
+
+        foreach (CelestialBody celestialBody in SolarSystem.CelestialBodies)
         {
-            maxGravityForce = force;
-            maxCelestialBody = celestialBody;
+            Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, celestialBody) / 1200f; // 400f just for now. I don't understand why it works
+            rigidbody.AddForce(gravityForce);
+
+            if (gravityForce.magnitude > maxGravityForce.magnitude)
+            {
+                maxGravityForce = gravityForce;
+                maxGravityForceCelestialBody = celestialBody;
+            }
+        }
+
+        if (maxGravityForceCelestialBody != null)
+        {
+            TopLeftCornerDebug.AddDebug($"Gravitated towards: {maxGravityForceCelestialBody.name}");
+            TopLeftCornerDebug.AddDebug($"Gravity Magnitude: {maxGravityForce.magnitude}");
+            TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity(maxGravityForceCelestialBody)}");
+            RotateTowardsCelestialBody(maxGravityForceCelestialBody);
         }
     }
 
-    public void ResetRotation()
-    {
-        maxGravityForce = Vector3.zero;
-        maxCelestialBody = null;
-    }
-
-    public void RotateTowardsGravity()
+    private void RotateTowardsCelestialBody(CelestialBody celestialBody)
     {
         Transform cachedTransform = transform;
         Quaternion cachedTransformRotation = cachedTransform.rotation;
-        
-        Vector3 gravityForceDirection = (cachedTransform.position - maxCelestialBody.Position).normalized;
+
+        Vector3 gravityForceDirection = (cachedTransform.position - celestialBody.Position).normalized;
         Vector3 playerUp = cachedTransform.up;
         Quaternion neededRotation = Quaternion.FromToRotation(playerUp, gravityForceDirection) * cachedTransformRotation;
-        
+
         cachedTransformRotation = Quaternion.Slerp(cachedTransformRotation, neededRotation, Time.deltaTime);
         cachedTransform.rotation = cachedTransformRotation;
+    }
+
+    private string FormatPlayerVelocity(CelestialBody celestialBody)
+    {
+        if (celestialBody == null)
+        {
+            return "";
+        }
+
+        Vector3 playerVelocityCached = rigidbody.velocity;
+        Vector3 maxCelestialBodyVelocity = celestialBody.rigidbody.velocity;
+
+        float playerVelocityX = playerVelocityCached.x - maxCelestialBodyVelocity.x;
+        float playerVelocityY = playerVelocityCached.y - maxCelestialBodyVelocity.y;
+        float playerVelocityZ = playerVelocityCached.z - maxCelestialBodyVelocity.z;
+
+        const string stringFormat = "####0";
+        string playerVelocityXText = playerVelocityX.ToString(stringFormat);
+        string playerVelocityYText = playerVelocityY.ToString(stringFormat);
+        string playerVelocityZText = playerVelocityZ.ToString(stringFormat);
+
+        return $"({playerVelocityXText}, {playerVelocityYText}, {playerVelocityZText})";
     }
 }

@@ -13,21 +13,44 @@ public class CelestialBody : Body
     private new void Awake()
     {
         base.Awake();
-        
-        orbit = CreateOrbit();
-    }
 
-    private Orbit CreateOrbit()
-    {
-        return new Orbit(rigidbody.position, Color.white);
+        orbit = new Orbit(rigidbody.position, Color.white);
     }
 
     private void FixedUpdate()
     {
-        if (!isStationary)
+        ApplyGravity();
+        DrawOrbit();
+    }
+
+    private void ApplyGravity()
+    {
+        foreach (CelestialBody otherCelestialBody in SolarSystem.CelestialBodies)
         {
-            orbit.Draw();
-            orbit.Update(this);
+            // Don't add force to itself
+            if (this == otherCelestialBody)
+            {
+                continue;
+            }
+
+            if (isStationary)
+            {
+                continue;
+            }
+
+            Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, otherCelestialBody);
+            rigidbody.AddForce(gravityForce);
         }
+    }
+
+    private void DrawOrbit()
+    {
+        if (isStationary)
+        {
+            return;
+        }
+
+        orbit.Draw();
+        orbit.Update(this);
     }
 }

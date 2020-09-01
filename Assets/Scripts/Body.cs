@@ -13,9 +13,4 @@ public class Body : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         rigidbody.velocity = initialVelocity;
     }
-
-    public void ApplyGravity(Vector3 gravityForce)
-    {
-        rigidbody.AddForce(gravityForce);
-    }
 }

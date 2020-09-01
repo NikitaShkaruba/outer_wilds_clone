@@ -5,10 +5,10 @@ namespace Debug
 {
     public class TopLeftCornerDebug : MonoBehaviour
     {
-        [SerializeField] private Player player;
         private TextMeshProUGUI textMeshPro;
-    
+
         public bool isHidden;
+        private static string additionalDebug;
 
         // Start is called before the first frame update
         private void Start()
@@ -18,43 +18,18 @@ namespace Debug
 
         private void FixedUpdate()
         {
-            if (isHidden)
-            {
-                textMeshPro.text = "";
-                return;
-            }
-        
-            string playerVelocityText = GetPlayerVelocityText();
-            string playerGravitatedTowardsText = GetPlayerGravitatedTowardsText();
-
-            textMeshPro.text = playerVelocityText + playerGravitatedTowardsText;
+            textMeshPro.text = !isHidden ? additionalDebug : "";
+            ResetDebug();
         }
 
-        private string GetPlayerVelocityText()
+        public static void AddDebug(string debugString)
         {
-            if (player.maxCelestialBody == null)
-            {
-                return "";
-            }
-        
-            Vector3 playerVelocityCached = player.rigidbody.velocity;
-            Vector3 maxCelestialBodyVelocity = player.maxCelestialBody.rigidbody.velocity;
-
-            float playerVelocityX = playerVelocityCached.x - maxCelestialBodyVelocity.x;
-            float playerVelocityY = playerVelocityCached.y - maxCelestialBodyVelocity.y;
-            float playerVelocityZ = playerVelocityCached.z - maxCelestialBodyVelocity.z;
-        
-            const string stringFormat = "####0.00";
-            string playerVelocityXText = playerVelocityX.ToString(stringFormat);
-            string playerVelocityYText = playerVelocityY.ToString(stringFormat);
-            string playerVelocityZText = playerVelocityZ.ToString(stringFormat);
-        
-            return $"Player velocity: ({playerVelocityXText}, {playerVelocityYText}, {playerVelocityZText})";
+            additionalDebug += debugString + "\n";
         }
 
-        private string GetPlayerGravitatedTowardsText()
+        private static void ResetDebug()
         {
-            return player.maxCelestialBody ? $"\nGravitated towards: {player.maxCelestialBody.name}" : "";
+            additionalDebug = "";
         }
     }
 }
