@@ -5,7 +5,11 @@ public class Player : Body
 {
     private new Camera camera;
 
+    // Movement
     private const float Speed = 12000f;
+    private float forwardAcceleration;
+    private float sidewaysAcceleration;
+    private float yAcceleration;
 
     // Camera
     private float verticalBodyRotation;
@@ -18,29 +22,37 @@ public class Player : Body
         camera = GetComponentInChildren<Camera>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        ProcessUserInput();
-        ApplyGravity();
-    }
-
-    private void ProcessUserInput()
-    {
-        ProcessMovementInput();
+        SaveUserMovementInput();
         ProcessCameraInput();
         ProcessDebugInput();
     }
 
-    private void ProcessMovementInput()
+    private void FixedUpdate()
+    {
+        Move();
+        ApplyGravity();
+    }
+
+    private void Move()
     {
         Transform cachedTransform = transform;
 
-        float forwardMotion = CalculateMotion(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
-        float sidewaysMotion = CalculateMotion(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
-        float yMotion = CalculateMotion(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
-
-        Vector3 playerMotion = (cachedTransform.forward * forwardMotion + cachedTransform.right * sidewaysMotion + cachedTransform.up * yMotion) * Time.deltaTime;
+        Vector3 playerMotion = cachedTransform.forward * forwardAcceleration +
+                               cachedTransform.right * sidewaysAcceleration +
+                               cachedTransform.up * yAcceleration;
+        playerMotion *= Time.deltaTime;
+        
         rigidbody.AddForce(playerMotion);
+    }
+
+    private void SaveUserMovementInput()
+    {
+        // Move
+        forwardAcceleration = CalculateMotion(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
+        sidewaysAcceleration = CalculateMotion(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
+        yAcceleration = CalculateMotion(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
     }
 
     private void ProcessCameraInput()
@@ -137,7 +149,7 @@ public class Player : Body
         {
             return false;
         }
-        
+
         TopLeftCornerDebug.AddDebug($"Rotating towards {celestialBody.name}");
         return true;
     }

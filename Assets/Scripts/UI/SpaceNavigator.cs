@@ -10,10 +10,13 @@ namespace UI
 
         private CelestialBody lockedCelestialBody;
 
-        private void FixedUpdate()
+        private void Update()
         {
             ProcessUserInput();
+        }
 
+        private void FixedUpdate()
+        {
             if (!IsLocked())
             {
                 TryToSuggestCelestialBody();
