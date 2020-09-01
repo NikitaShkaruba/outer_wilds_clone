@@ -21,7 +21,7 @@ public class Orbit
         
         while (nextElement != coordinates.Last && nextElement != null)
         {
-            Debug.DrawLine(element.Value, nextElement.Value, color);
+            UnityEngine.Debug.DrawLine(element.Value, nextElement.Value, color);
 
             element = nextElement;
             nextElement = element.Next;

@@ -5,10 +5,12 @@ public class SolarSystem : MonoBehaviour
     private const float GravitationalConstant = 1000000f;
 
     private CelestialBody[] celestialBodies;
+    private Player player;
 
     private void Awake()
     {
         celestialBodies = FindObjectsOfType<CelestialBody>();
+        player = FindObjectOfType<Player>();
     }
 
     private void FixedUpdate()
@@ -18,6 +20,8 @@ public class SolarSystem : MonoBehaviour
 
     private void ApplyGravity()
     {
+        player.ResetRotation();
+        
         foreach (CelestialBody celestialBody in celestialBodies)
         {
             foreach (CelestialBody otherCelestialBody in celestialBodies)
@@ -37,20 +41,26 @@ public class SolarSystem : MonoBehaviour
 
                 celestialBody.ApplyGravity(gravityForce);
             }
+
+            Vector3 playerGravityForce = ComputeGravitationalForce(player, celestialBody) / 1200f; // 400f just for now. I don't understand why it works
+            player.ApplyGravity(playerGravityForce);
+            player.RememberRotation(playerGravityForce, celestialBody);
         }
+        
+        player.RotateTowardsGravity();
     }
 
-    private static Vector3 ComputeGravitationalForce(CelestialBody celestialBody, CelestialBody otherCelestialBody)
+    private static Vector3 ComputeGravitationalForce(Body firstBody, Body secondBody)
     {
-        Vector3 positionsDifference = otherCelestialBody.Position - celestialBody.Position;
+        Vector3 positionsDifference = secondBody.Position - firstBody.Position;
 
         // Newton's law of universal gravitation F = G * (m1 * m2 / r^2)
         float forceMagnitude = GravitationalConstant *
-                               (celestialBody.Mass * otherCelestialBody.Mass / positionsDifference.sqrMagnitude);
+                               (firstBody.Mass * secondBody.Mass / positionsDifference.sqrMagnitude);
 
         // Add direction
         Vector3 force = positionsDifference.normalized * forceMagnitude;
 
-        return force / celestialBody.Mass;
+        return force / firstBody.Mass;
     }
 }
