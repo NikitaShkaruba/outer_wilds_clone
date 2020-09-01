@@ -35,7 +35,7 @@ namespace UI
                 return;
             }
 
-            if (hasSuggestedPlanet() && !IsLocked())
+            if (HasSuggestedPlanet() && !IsLocked())
             {
                 Lock();
             }
@@ -91,7 +91,7 @@ namespace UI
             return celestialBody;
         }
 
-        private bool hasSuggestedPlanet()
+        private bool HasSuggestedPlanet()
         {
             return suggestCursor.activeSelf;
         }
