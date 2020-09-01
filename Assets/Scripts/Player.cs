@@ -101,7 +101,7 @@ public class Player : Body
             Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, celestialBody) / 50f; // Todo: do something with this number
             rigidbody.AddForce(gravityForce * Time.deltaTime);
 
-            if (gravityForce.magnitude > maxGravityForce.magnitude)
+            if (ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
             {
                 maxGravityForce = gravityForce;
                 maxGravityForceCelestialBody = celestialBody;
@@ -112,9 +112,34 @@ public class Player : Body
         {
             TopLeftCornerDebug.AddDebug($"Gravitated towards: {maxGravityForceCelestialBody.name}");
             TopLeftCornerDebug.AddDebug($"Gravity Magnitude: {maxGravityForce.magnitude}");
+            TopLeftCornerDebug.AddDebug($"Distance to {maxGravityForceCelestialBody.name}: {(maxGravityForceCelestialBody.Position - Position).magnitude}");
             TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity(maxGravityForceCelestialBody)}");
             RotateTowardsCelestialBody(maxGravityForceCelestialBody);
         }
+    }
+
+    private bool ShouldRotateTowardsCelestialBody(Vector3 gravityForce, Vector3 maxGravityForce, CelestialBody celestialBody)
+    {
+        // We only rotate to a body with the most gravity force
+        if (gravityForce.magnitude < maxGravityForce.magnitude)
+        {
+            return false;
+        }
+
+        // We only rotate to a body if it is nearby
+        if ((celestialBody.Position - Position).magnitude > 600f)
+        {
+            return false;
+        }
+
+        // We don't rotate to the sun, because it's impossible to land on it
+        if (celestialBody.name == "The Sun")
+        {
+            return false;
+        }
+        
+        TopLeftCornerDebug.AddDebug($"Rotating towards {celestialBody.name}");
+        return true;
     }
 
     private void RotateTowardsCelestialBody(CelestialBody celestialBody)
