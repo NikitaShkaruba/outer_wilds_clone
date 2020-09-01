@@ -5,29 +5,69 @@ namespace UI
     public class SpaceNavigator : MonoBehaviour
     {
         [SerializeField] private new Camera camera;
-        [SerializeField] private GameObject suggestedLock;
+        [SerializeField] private GameObject suggestCursor;
+        [SerializeField] private GameObject lockCursor;
+
+        private CelestialBody lockedCelestialBody;
 
         private void FixedUpdate()
         {
-            TryToSuggestLockForPlanet();
-        }
+            ProcessUserInput();
 
-        private void TryToSuggestLockForPlanet()
-        {
-            CelestialBody suggestedToLockPlanet = GetSuggestedToLockPlanet();
-
-            if (suggestedToLockPlanet != null)
+            if (!IsLocked())
             {
-                Lock(suggestedToLockPlanet);
-                Enable();
+                TryToSuggestCelestialBody();
             }
             else
             {
-                Disable();
+                UpdateLockCoordinates();
+            }
+        }
+        
+        private void ProcessUserInput()
+        {
+            bool mouseLeftClicked = Input.GetMouseButtonDown(0);
+            if (!mouseLeftClicked)
+            {
+                return;
+            }
+
+            if (hasSuggestedPlanet() && !IsLocked())
+            {
+                Lock();
+            }
+            else if (IsLocked())
+            {
+                Unlock();
             }
         }
 
-        private CelestialBody GetSuggestedToLockPlanet()
+        private void TryToSuggestCelestialBody()
+        {
+            if (IsLocked())
+            {
+                return;
+            }
+            
+            CelestialBody suggestedCelestialBody = GetSuggestedCelestialBody();
+
+            if (suggestedCelestialBody != null)
+            {
+                UpdateCursorCoordinates(suggestedCelestialBody);
+                suggestCursor.SetActive(true);
+            }
+            else
+            {
+                suggestCursor.SetActive(false);
+            }
+        }
+
+        private void UpdateLockCoordinates()
+        {
+            UpdateCursorCoordinates(lockedCelestialBody);
+        }
+
+        private CelestialBody GetSuggestedCelestialBody()
         {
             Transform cachedCameraTransform = camera.transform;
 
@@ -48,23 +88,36 @@ namespace UI
             return celestialBody;
         }
 
-        private void Enable()
+        private bool hasSuggestedPlanet()
         {
-            suggestedLock.SetActive(true);
+            return suggestCursor.activeSelf;
         }
 
-        private void Disable()
-        {
-            suggestedLock.SetActive(false);
-        }
-
-        private void Lock(CelestialBody celestialBody)
+        private void UpdateCursorCoordinates(CelestialBody celestialBody)
         {
             // Suggest this planet
             Vector3 worldToScreenPoint = camera.WorldToScreenPoint(celestialBody.Position);
             worldToScreenPoint.z /= 10; // If Z coordinate is too big, we don't see the cursor. This reduces it's coordinate
 
             transform.position = worldToScreenPoint;
+        }
+        
+        private void Lock()
+        {
+            lockedCelestialBody = GetSuggestedCelestialBody();
+            suggestCursor.SetActive(false);
+            lockCursor.SetActive(true);
+        }
+
+        private void Unlock()
+        {
+            lockCursor.SetActive(false);
+            lockedCelestialBody = null;
+        }
+
+        private bool IsLocked()
+        {
+            return lockedCelestialBody != null;
         }
     }
 }
