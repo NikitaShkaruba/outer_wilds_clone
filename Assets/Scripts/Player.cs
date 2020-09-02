@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Player : Body
 {
-    private new Camera camera;
+    public new Camera camera;
 
     // Movement
     private const float Speed = 12000f;
@@ -20,6 +20,7 @@ public class Player : Body
         base.Awake();
 
         camera = GetComponentInChildren<Camera>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void Update()

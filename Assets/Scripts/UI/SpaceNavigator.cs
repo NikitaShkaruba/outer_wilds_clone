@@ -1,14 +1,26 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 namespace UI
 {
     public class SpaceNavigator : MonoBehaviour
     {
-        [SerializeField] private new Camera camera;
+        // Suggest cursor
         [SerializeField] private GameObject suggestCursor;
+        
+        // Lock cursor
         [SerializeField] private GameObject lockCursor;
+        [SerializeField] private TextMeshProUGUI lockInformation;
+        [SerializeField] private GameObject topVelocityArrow;
+        [SerializeField] private GameObject rightVelocityArrow;
+        [SerializeField] private GameObject bottomVelocityArrow;
+        [SerializeField] private GameObject leftVelocityArrow;
 
+        // Linked objects
+        [SerializeField] private Player player;
+        
         private CelestialBody lockedCelestialBody;
+        private float previousDistance;
 
         private void Update()
         {
@@ -23,10 +35,10 @@ namespace UI
             }
             else
             {
-                UpdateLockCoordinates();
+                UpdateLock();
             }
         }
-        
+
         private void ProcessUserInput()
         {
             bool mouseLeftClicked = Input.GetMouseButtonDown(0);
@@ -45,13 +57,31 @@ namespace UI
             }
         }
 
+        private void Lock()
+        {
+            lockedCelestialBody = GetSuggestedCelestialBody();
+            suggestCursor.SetActive(false);
+            lockCursor.SetActive(true);
+        }
+
+        private void Unlock()
+        {
+            lockCursor.SetActive(false);
+            lockedCelestialBody = null;
+        }
+
+        private bool IsLocked()
+        {
+            return lockedCelestialBody != null;
+        }
+
+        private bool HasSuggestedPlanet()
+        {
+            return suggestCursor.activeSelf;
+        }
+
         private void TryToSuggestCelestialBody()
         {
-            if (IsLocked())
-            {
-                return;
-            }
-            
             CelestialBody suggestedCelestialBody = GetSuggestedCelestialBody();
 
             if (suggestedCelestialBody != null)
@@ -65,14 +95,9 @@ namespace UI
             }
         }
 
-        private void UpdateLockCoordinates()
-        {
-            UpdateCursorCoordinates(lockedCelestialBody);
-        }
-
         private CelestialBody GetSuggestedCelestialBody()
         {
-            Transform cachedCameraTransform = camera.transform;
+            Transform cachedCameraTransform = player.camera.transform;
 
             // Try to find something at the cursor
             bool foundSomething = Physics.Raycast(cachedCameraTransform.position, cachedCameraTransform.forward, out RaycastHit raycastHit);
@@ -91,36 +116,80 @@ namespace UI
             return celestialBody;
         }
 
-        private bool HasSuggestedPlanet()
+        private void UpdateLock()
         {
-            return suggestCursor.activeSelf;
+            UpdateCursorCoordinates(lockedCelestialBody);
+            UpdateLockText();
+            UpdateVelocityArrows();
         }
 
         private void UpdateCursorCoordinates(CelestialBody celestialBody)
         {
             // Suggest this planet
-            Vector3 worldToScreenPoint = camera.WorldToScreenPoint(celestialBody.Position);
+            Vector3 worldToScreenPoint = player.camera.WorldToScreenPoint(celestialBody.Position);
             worldToScreenPoint.z /= 10; // If Z coordinate is too big, we don't see the cursor. This reduces it's coordinate
 
             transform.position = worldToScreenPoint;
         }
         
-        private void Lock()
+        private void UpdateLockText()
         {
-            lockedCelestialBody = GetSuggestedCelestialBody();
-            suggestCursor.SetActive(false);
-            lockCursor.SetActive(true);
+            string celestialBodyName = lockedCelestialBody.name;
+            string distanceToCelestialBody = GetDistanceToCelestialBodyText();
+            string velocityToCelestialBody = GetVelocityMagnitudeToCelestialBodyText();
+
+            lockInformation.text = $"{celestialBodyName}\n{distanceToCelestialBody}\n{velocityToCelestialBody}";
         }
 
-        private void Unlock()
+        private void UpdateVelocityArrows()
         {
-            lockCursor.SetActive(false);
-            lockedCelestialBody = null;
+            Vector3 velocityDifference = player.rigidbody.velocity - lockedCelestialBody.rigidbody.velocity;
+
+            Vector3 playerEulers = player.transform.rotation.eulerAngles;
+            velocityDifference = Quaternion.Euler(0, 0, -playerEulers.z) * velocityDifference;
+
+            rightVelocityArrow.transform.localPosition = new Vector3(GetArrowLocalPosition(velocityDifference.x), 0f, 0f);
+            leftVelocityArrow.transform.localPosition = new Vector3(GetArrowLocalPosition(-velocityDifference.x), 0f, 0f);
+            topVelocityArrow.transform.localPosition = new Vector3(GetArrowLocalPosition(velocityDifference.y), 0f, 0f);
+            bottomVelocityArrow.transform.localPosition = new Vector3(GetArrowLocalPosition(-velocityDifference.y), 0f, 0f);
         }
 
-        private bool IsLocked()
+        /**
+         * Arrow moving is implemented with a mask where arrow totally hidden by mask and gets revealed slowly
+         */
+        private static float GetArrowLocalPosition(float velocityCoordinateDifference)
         {
-            return lockedCelestialBody != null;
+            const int nothingIsViewedValue = -100;
+            const int scaleFactor = 100;
+
+            float value = velocityCoordinateDifference / scaleFactor;
+
+            return nothingIsViewedValue + value;
+        }
+
+        private string GetDistanceToCelestialBodyText()
+        {
+            float metersFromPlayerToCelestialBody = (player.Position - lockedCelestialBody.Position).magnitude;
+
+            if (metersFromPlayerToCelestialBody > 5000)
+            {
+                return (metersFromPlayerToCelestialBody / 1000).ToString("####0") + "km";
+            }
+            else
+            {
+                return metersFromPlayerToCelestialBody.ToString("####0") + "m";
+            }
+        }
+
+        private string GetVelocityMagnitudeToCelestialBodyText()
+        {
+            float velocityToCelestialBody = (player.rigidbody.velocity - lockedCelestialBody.rigidbody.velocity).magnitude;
+
+            float currentDistance = (player.Position - lockedCelestialBody.Position).magnitude;
+            string velocitySign = previousDistance < currentDistance ? "-" : "";
+            previousDistance = currentDistance;
+
+            return $"{velocitySign}{velocityToCelestialBody:####0}m/s";
         }
     }
 }
