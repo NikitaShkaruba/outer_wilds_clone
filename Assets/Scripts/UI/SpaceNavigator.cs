@@ -80,8 +80,8 @@ namespace UI
         private void Lock()
         {
             lockedCelestialBody = GetSuggestedCelestialBody();
+            UpdateLock();
             suggestCursor.SetActive(false);
-            lockCursor.SetActive(true);
         }
 
         private void Unlock()
@@ -182,6 +182,17 @@ namespace UI
 
         private void UpdateLock()
         {
+            // Without this cursor will be displayed when is it behind the camera
+            if (IsLockedObjectBehindTheCamera())
+            {
+                lockCursor.SetActive(false);
+                return;
+            }
+            else
+            {
+                lockCursor.SetActive(true);
+            }
+
             UpdateCursorCoordinates(lockedCelestialBody);
             UpdateCursorSize(lockedCelestialBody);
             UpdateLockText();
@@ -190,11 +201,24 @@ namespace UI
 
         private void UpdateCursorCoordinates(CelestialBody celestialBody)
         {
-            // Suggest this planet
-            Vector3 worldToScreenPoint = player.camera.WorldToScreenPoint(celestialBody.Position);
-            worldToScreenPoint.z /= 10; // If Z coordinate is too big, we don't see the cursor. This reduces it's coordinate
-
+            Vector3 worldToScreenPoint = GetCelestialBodyOnScreenCoordinates(celestialBody);
             transform.position = worldToScreenPoint;
+        }
+
+        private Vector3 GetCelestialBodyOnScreenCoordinates(CelestialBody celestialBody)
+        {
+            Vector3 positionOnScreen = player.camera.WorldToScreenPoint(celestialBody.Position);
+
+            positionOnScreen.z /= 10; // If Z coordinate is too big, we don't see the cursor. This reduces it's coordinate
+
+            return positionOnScreen;
+        }
+
+        private bool IsLockedObjectBehindTheCamera()
+        {
+            Vector3 celestialBodyCoordinates = GetCelestialBodyOnScreenCoordinates(lockedCelestialBody);
+
+            return celestialBodyCoordinates.z < 0;
         }
 
         private void UpdateLockText()
