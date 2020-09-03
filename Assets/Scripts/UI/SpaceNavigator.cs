@@ -5,20 +5,40 @@ namespace UI
 {
     public class SpaceNavigator : MonoBehaviour
     {
-        // Suggest cursor
+        // Cursors
         [SerializeField] private GameObject suggestCursor;
-        
-        // Lock cursor
         [SerializeField] private GameObject lockCursor;
-        [SerializeField] private TextMeshProUGUI lockInformation;
+
+        // Suggest cursor arcs
+        [SerializeField] private GameObject suggesterCursorTopRightArc;
+        [SerializeField] private GameObject suggesterCursorTopLeftArc;
+        [SerializeField] private GameObject suggesterCursorBottomRightArc;
+        [SerializeField] private GameObject suggesterCursorBottomLeftArc;
+
+        // Lock cursor arcs
+        [SerializeField] private GameObject lockCursorTopRightArc;
+        [SerializeField] private GameObject lockCursorTopLeftArc;
+        [SerializeField] private GameObject lockCursorBottomRightArc;
+        [SerializeField] private GameObject lockCursorBottomLeftArc;
+
+        // Lock Arrow masks
+        [SerializeField] private GameObject topVelocityArrowMask;
+        [SerializeField] private GameObject rightVelocityArrowMask;
+        [SerializeField] private GameObject bottomVelocityArrowMask;
+        [SerializeField] private GameObject leftVelocityArrowMask;
+
+        // Lock cursor velocity arrows
         [SerializeField] private GameObject topVelocityArrow;
         [SerializeField] private GameObject rightVelocityArrow;
         [SerializeField] private GameObject bottomVelocityArrow;
         [SerializeField] private GameObject leftVelocityArrow;
 
+        // Lock information
+        [SerializeField] private TextMeshProUGUI lockInformation;
+
         // Linked objects
         [SerializeField] private Player player;
-        
+
         private CelestialBody lockedCelestialBody;
         private float previousDistance;
 
@@ -87,12 +107,56 @@ namespace UI
             if (suggestedCelestialBody != null)
             {
                 UpdateCursorCoordinates(suggestedCelestialBody);
+                UpdateCursorSize(suggestedCelestialBody);
                 suggestCursor.SetActive(true);
             }
             else
             {
                 suggestCursor.SetActive(false);
             }
+        }
+
+        private void UpdateCursorSize(CelestialBody celestialBody)
+        {
+            float coordinateAddition = GetCursorPositionAddition(celestialBody);
+
+            if (IsLocked())
+            {
+                lockCursorTopRightArc.transform.localPosition = new Vector3(coordinateAddition, coordinateAddition, 0);
+                lockCursorTopLeftArc.transform.localPosition = new Vector3(-coordinateAddition, coordinateAddition, 0);
+                lockCursorBottomLeftArc.transform.localPosition = new Vector3(-coordinateAddition, -coordinateAddition, 0);
+                lockCursorBottomRightArc.transform.localPosition = new Vector3(coordinateAddition, -coordinateAddition, 0);
+            }
+            else
+            {
+                suggesterCursorTopRightArc.transform.localPosition = new Vector3(coordinateAddition, coordinateAddition, 0);
+                suggesterCursorTopLeftArc.transform.localPosition = new Vector3(-coordinateAddition, coordinateAddition, 0);
+                suggesterCursorBottomLeftArc.transform.localPosition = new Vector3(-coordinateAddition, -coordinateAddition, 0);
+                suggesterCursorBottomRightArc.transform.localPosition = new Vector3(coordinateAddition, -coordinateAddition, 0);
+            }
+
+            float velocityArrowCoordinate = 1165 + coordinateAddition;
+            topVelocityArrowMask.transform.localPosition = new Vector3(0, velocityArrowCoordinate, 0);
+            leftVelocityArrowMask.transform.localPosition = new Vector3(-velocityArrowCoordinate, 0, 0);
+            bottomVelocityArrowMask.transform.localPosition = new Vector3(0, -velocityArrowCoordinate, 0);
+            rightVelocityArrowMask.transform.localPosition = new Vector3(velocityArrowCoordinate, 0, 0);
+
+            float lockInformationX = 120f + coordinateAddition;
+            lockInformation.transform.localPosition = new Vector3(lockInformationX, 85f, 0f);
+        }
+
+        private float GetCursorPositionAddition(CelestialBody celestialBody)
+        {
+            float distanceDiff = Mathf.Abs((celestialBody.Position - player.Position).magnitude);
+            float addition = 90000f / distanceDiff * celestialBody.radius / 4f;
+
+            float minSizeValue = 6f * celestialBody.radius;
+            if (addition < minSizeValue)
+            {
+                addition = minSizeValue;
+            }
+
+            return addition;
         }
 
         private CelestialBody GetSuggestedCelestialBody()
@@ -119,6 +183,7 @@ namespace UI
         private void UpdateLock()
         {
             UpdateCursorCoordinates(lockedCelestialBody);
+            UpdateCursorSize(lockedCelestialBody);
             UpdateLockText();
             UpdateVelocityArrows();
         }
@@ -131,7 +196,7 @@ namespace UI
 
             transform.position = worldToScreenPoint;
         }
-        
+
         private void UpdateLockText()
         {
             string celestialBodyName = lockedCelestialBody.name;
