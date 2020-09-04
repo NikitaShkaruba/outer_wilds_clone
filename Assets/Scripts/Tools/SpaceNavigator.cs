@@ -142,7 +142,7 @@ namespace Tools
             rightVelocityArrowMask.transform.localPosition = new Vector3(velocityArrowCoordinate, 0, 0);
 
             float lockInformationX = 120f + coordinateAddition;
-            lockInformation.transform.localPosition = new Vector3(lockInformationX, 85f, 0f);
+            lockInformation.transform.localPosition = new Vector3(lockInformationX, 40f, 0f);
         }
 
         private float GetCursorPositionAddition(CelestialBody celestialBody)
