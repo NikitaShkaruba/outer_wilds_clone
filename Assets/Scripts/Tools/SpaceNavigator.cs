@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace UI
+namespace Tools
 {
     public class SpaceNavigator : MonoBehaviour
     {
@@ -164,7 +164,7 @@ namespace UI
             Transform cachedCameraTransform = player.camera.transform;
 
             // Try to find something at the cursor
-            bool foundSomething = Physics.Raycast(cachedCameraTransform.position, cachedCameraTransform.forward, out RaycastHit raycastHit);
+            bool foundSomething = Physics.Raycast(cachedCameraTransform.position, cachedCameraTransform.forward, out RaycastHit raycastHit, player.camera.farClipPlane);
             if (!foundSomething)
             {
                 return null;
@@ -209,7 +209,7 @@ namespace UI
         {
             Vector3 positionOnScreen = player.camera.WorldToScreenPoint(celestialBody.Position);
 
-            positionOnScreen.z /= 10; // If Z coordinate is too big, we don't see the cursor. This reduces it's coordinate
+            positionOnScreen.z = positionOnScreen.z > 0 ? 1 : -1; // If Z coordinate is too big, we don't see the ui. And we need to keep the minus in order to understand if ui is at the back
 
             return positionOnScreen;
         }
