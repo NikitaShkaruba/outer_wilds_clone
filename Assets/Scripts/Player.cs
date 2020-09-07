@@ -5,11 +5,15 @@ public class Player : Body
 {
     public new Camera camera;
 
+    // User input
+    private Vector3 wantedMovement;
+    private bool wantsToJump;
+    
     // Movement
     private const float ThrustersAcceleration = 4000f;
     private const float LegsAcceleration = 3000f;
     private const float MaxLegsSpeed = 12f;
-    private Vector3 wantedMovement;
+    private const float JumpPower = 1200f;
 
     // Ground check
     [SerializeField] private Transform groundCheck;
@@ -48,6 +52,12 @@ public class Player : Body
     {
         Vector3 playerMotion = GetPlayerMotion();
         rigidbody.AddForce(playerMotion);
+
+        if (wantsToJump && IsOnTheGround())
+        {
+            Vector3 jumpMotion = transform.up * JumpPower;
+            rigidbody.AddForce(jumpMotion);
+        }
     }
 
     private Vector3 GetPlayerMotion()
@@ -101,6 +111,9 @@ public class Player : Body
         wantedMovement.x = CalculateDirection(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
         wantedMovement.z = CalculateDirection(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
         wantedMovement.y = CalculateDirection(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
+        
+        // Jump
+        wantsToJump = Input.GetKey(KeyCode.Space);
     }
 
     private void ProcessCameraInput()
