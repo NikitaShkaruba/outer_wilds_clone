@@ -6,10 +6,16 @@ public class Player : Body
     public new Camera camera;
 
     // Movement
-    private const float Speed = 12000f;
-    private float forwardAcceleration;
-    private float sidewaysAcceleration;
-    private float yAcceleration;
+    private const float ThrustersAcceleration = 4000f;
+    private const float LegsAcceleration = 3000f;
+    private const float MaxLegsSpeed = 12f;
+    private Vector3 wantedMovement;
+
+    // Ground check
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundMask;
+    private const float GroundDistance = 0.4f;
+    private CelestialBody maxGravityForceCelestialBody;
 
     // Camera
     private float verticalBodyRotation;
@@ -34,26 +40,67 @@ public class Player : Body
     {
         Move();
         ApplyGravity();
+
+        TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
     }
 
     private void Move()
     {
+        Vector3 playerMotion = GetPlayerMotion();
+        rigidbody.AddForce(playerMotion);
+    }
+
+    private Vector3 GetPlayerMotion()
+    {
         Transform cachedTransform = transform;
 
-        Vector3 playerMotion = cachedTransform.forward * forwardAcceleration +
-                               cachedTransform.right * sidewaysAcceleration +
-                               cachedTransform.up * yAcceleration;
+        Vector3 playerHorizontalMotion = cachedTransform.forward * wantedMovement.x +
+                                         cachedTransform.right * wantedMovement.z;
+        Vector3 playerVerticalMotion = cachedTransform.up * wantedMovement.y;
+
+        if (IsOnTheGround())
+        {
+            Vector3 relativeVelocity = GetRelativeVelocity();
+            if (relativeVelocity.magnitude < MaxLegsSpeed)
+            {
+                // Player uses legs when on the ground
+                playerHorizontalMotion *= LegsAcceleration;
+            }
+            else
+            {
+                // Player can't accelerate as much as he wants :)
+                playerHorizontalMotion = Vector3.zero;
+            }
+        }
+        else
+        {
+            // Player uses thrusters when in space
+            playerHorizontalMotion *= ThrustersAcceleration;
+        }
+
+        // Vertical motion always uses thrusters
+        playerVerticalMotion *= ThrustersAcceleration;
+
+        Vector3 playerMotion = playerHorizontalMotion + playerVerticalMotion;
         playerMotion *= Time.deltaTime;
-        
-        rigidbody.AddForce(playerMotion);
+
+        return playerMotion;
+    }
+
+    private bool IsOnTheGround()
+    {
+        Transform cachedTransform = transform;
+        Vector3 groundCoordinate = cachedTransform.position - cachedTransform.up;
+
+        return Physics.CheckSphere(groundCoordinate, GroundDistance, groundMask);
     }
 
     private void SaveUserMovementInput()
     {
         // Move
-        forwardAcceleration = CalculateMotion(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
-        sidewaysAcceleration = CalculateMotion(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
-        yAcceleration = CalculateMotion(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
+        wantedMovement.x = CalculateDirection(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
+        wantedMovement.z = CalculateDirection(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
+        wantedMovement.y = CalculateDirection(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
     }
 
     private void ProcessCameraInput()
@@ -90,15 +137,15 @@ public class Player : Body
         }
     }
 
-    private static float CalculateMotion(bool oneDirectionKeyPressed, bool otherDirectionKeyPressed)
+    private static float CalculateDirection(bool oneDirectionKeyPressed, bool otherDirectionKeyPressed)
     {
         if (oneDirectionKeyPressed)
         {
-            return Speed;
+            return 1f;
         }
         else if (otherDirectionKeyPressed)
         {
-            return -Speed;
+            return -1f;
         }
 
         return 0f;
@@ -107,7 +154,7 @@ public class Player : Body
     private void ApplyGravity()
     {
         Vector3 maxGravityForce = Vector3.zero;
-        CelestialBody maxGravityForceCelestialBody = null;
+        maxGravityForceCelestialBody = null;
 
         foreach (CelestialBody celestialBody in SolarSystem.CelestialBodies)
         {
@@ -123,10 +170,6 @@ public class Player : Body
 
         if (maxGravityForceCelestialBody != null)
         {
-            TopLeftCornerDebug.AddDebug($"Gravitated towards: {maxGravityForceCelestialBody.name}");
-            TopLeftCornerDebug.AddDebug($"Gravity Magnitude: {maxGravityForce.magnitude}");
-            TopLeftCornerDebug.AddDebug($"Distance to {maxGravityForceCelestialBody.name}: {(maxGravityForceCelestialBody.Position - Position).magnitude}");
-            TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity(maxGravityForceCelestialBody)}");
             RotateTowardsCelestialBody(maxGravityForceCelestialBody);
         }
     }
@@ -151,7 +194,6 @@ public class Player : Body
             return false;
         }
 
-        TopLeftCornerDebug.AddDebug($"Rotating towards {celestialBody.name}");
         return true;
     }
 
@@ -168,25 +210,25 @@ public class Player : Body
         cachedTransform.rotation = cachedTransformRotation;
     }
 
-    private string FormatPlayerVelocity(CelestialBody celestialBody)
+    private string FormatPlayerVelocity()
     {
-        if (celestialBody == null)
-        {
-            return "";
-        }
-
-        Vector3 playerVelocityCached = rigidbody.velocity;
-        Vector3 maxCelestialBodyVelocity = celestialBody.rigidbody.velocity;
-
-        float playerVelocityX = playerVelocityCached.x - maxCelestialBodyVelocity.x;
-        float playerVelocityY = playerVelocityCached.y - maxCelestialBodyVelocity.y;
-        float playerVelocityZ = playerVelocityCached.z - maxCelestialBodyVelocity.z;
+        Vector3 velocity = maxGravityForceCelestialBody == null ? rigidbody.velocity : GetRelativeVelocity();
 
         const string stringFormat = "####0";
-        string playerVelocityXText = playerVelocityX.ToString(stringFormat);
-        string playerVelocityYText = playerVelocityY.ToString(stringFormat);
-        string playerVelocityZText = playerVelocityZ.ToString(stringFormat);
+        string playerVelocityXText = velocity.x.ToString(stringFormat);
+        string playerVelocityYText = velocity.y.ToString(stringFormat);
+        string playerVelocityZText = velocity.z.ToString(stringFormat);
 
         return $"({playerVelocityXText}, {playerVelocityYText}, {playerVelocityZText})";
+    }
+
+    private Vector3 GetRelativeVelocity()
+    {
+        if (maxGravityForceCelestialBody == null)
+        {
+            return Vector3.zero;
+        }
+
+        return rigidbody.velocity - maxGravityForceCelestialBody.rigidbody.velocity;
     }
 }
