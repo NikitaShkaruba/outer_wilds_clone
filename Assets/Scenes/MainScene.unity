@@ -1742,25 +1742,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914601116}
   m_CullTransparentMesh: 0
---- !u!1 &989437672 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6929892783435701065, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
-  m_PrefabInstance: {fileID: 1264013210}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &989437676
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 989437672}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: -1
-  m_Mesh: {fileID: -1477322150731330762, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
 --- !u!1 &997387054
 GameObject:
   m_ObjectHideFlags: 0
@@ -2466,9 +2447,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+--- !u!1 &1264013211 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4636811730283076599, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+  m_PrefabInstance: {fileID: 1264013210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1264013212 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -6334021951409023286, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+  m_PrefabInstance: {fileID: 1264013210}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1264013213 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+  m_PrefabInstance: {fileID: 1264013210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1264013214 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1723952181751345780, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
   m_PrefabInstance: {fileID: 1264013210}
   m_PrefabAsset: {fileID: 0}
 --- !u!54 &1264013215
@@ -2487,6 +2483,37 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!1 &1264013216 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8157512410174741706, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+  m_PrefabInstance: {fileID: 1264013210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1264013217
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264013211}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9999999, y: 1.9999999, z: 0.38259766}
+  m_Center: {x: 0.00012207066, y: -0.00048828195, z: 0.19131406}
+--- !u!65 &1264013218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264013212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9999999, y: 1.9999999, z: 0.38259766}
+  m_Center: {x: 0.00012207066, y: -0.00048828195, z: 0.19131406}
 --- !u!114 &1264013219
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2501,6 +2528,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 1264013215}
   initialVelocity: {x: 65.9814, y: 0, z: 185.1979}
+--- !u!65 &1264013220
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264013214}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9999999, y: 1.9999999, z: 0.38259766}
+  m_Center: {x: 0.00012207066, y: -0.00048828195, z: 0.19131406}
+--- !u!65 &1264013221
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264013216}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.9999999, y: 1.9999999, z: 0.38259766}
+  m_Center: {x: 0.00012207066, y: -0.00048828195, z: 0.19131406}
 --- !u!135 &1371371334
 SphereCollider:
   m_ObjectHideFlags: 0
