@@ -2,7 +2,7 @@
 
 namespace Tools.SpaceShipParts
 {
-    public class PlayerEnteredShipTrigger : MonoBehaviour
+    public class PlayerEntersShipTrigger : MonoBehaviour
     {
         [SerializeField] private SpaceShip spaceShip;
     
