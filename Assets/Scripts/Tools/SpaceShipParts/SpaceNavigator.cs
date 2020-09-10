@@ -1,7 +1,7 @@
 ﻿using TMPro;
 using UnityEngine;
 
-namespace Tools
+namespace Tools.SpaceShipParts
 {
     public class SpaceNavigator : MonoBehaviour
     {

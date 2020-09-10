@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Tools
+namespace Tools.SpaceShipParts
 {
     public class GravityField : MonoBehaviour
     {
