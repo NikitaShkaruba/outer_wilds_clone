@@ -1,4 +1,5 @@
 ﻿using Debug;
+using Tools.SpaceShipParts;
 using UnityEngine;
 
 public class Player : Body
@@ -8,7 +9,7 @@ public class Player : Body
     // User input
     private Vector3 wantedMovement;
     private bool wantsToJump;
-    
+
     // Movement
     private const float ThrustersAcceleration = 4000f;
     private const float LegsAcceleration = 3000f;
@@ -24,6 +25,11 @@ public class Player : Body
     // Camera
     private float verticalBodyRotation;
     private const float MouseSensitivity = 150f;
+
+    // SpaceShip interaction
+    private bool isBuckledUp;
+    private bool isBucklingUp;
+    private SpaceShipChair spaceShipChairToBuckleUp;
 
     public new void Awake()
     {
@@ -42,6 +48,17 @@ public class Player : Body
 
     private void FixedUpdate()
     {
+        if (isBucklingUp)
+        {
+            DoBucklingUpPiece();
+            return;
+        }
+
+        if (isBuckledUp)
+        {
+            return;
+        }
+
         Move();
         ApplyGravity();
 
@@ -111,7 +128,7 @@ public class Player : Body
         wantedMovement.x = CalculateDirection(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
         wantedMovement.z = CalculateDirection(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
         wantedMovement.y = CalculateDirection(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
-        
+
         // Jump
         wantsToJump = Input.GetKey(KeyCode.Space);
     }
@@ -243,5 +260,39 @@ public class Player : Body
         }
 
         return rigidbody.velocity - maxGravityForceCelestialBody.rigidbody.velocity;
+    }
+
+    public void StartBucklingUp(SpaceShipChair spaceShipChair)
+    {
+        isBucklingUp = true;
+        spaceShipChairToBuckleUp = spaceShipChair;
+
+        spaceShipChair.GetComponent<Collider>().enabled = false; // To simulate sitting we emerge in the chair :)
+        GetComponent<Collider>().enabled = false; // To simulate sitting we emerge in the chair :)
+
+        transform.SetParent(spaceShipChair.transform);
+        rigidbody.isKinematic = true;
+    }
+
+    private void DoBucklingUpPiece()
+    {
+        // Move player into the chair
+        Vector3 desiredPosition = new Vector3(0, 0.5f, 1.1f); // A little bit forward and up of the (0,0,0) coordinates of the chair
+        Vector3 positionDifference = desiredPosition - transform.localPosition;
+        Vector3 positionAddition = positionDifference; // difference - is what we should add in order to become the same
+        positionAddition *= 2f; // Speedup the process a bit
+        positionAddition *= Time.deltaTime; // Include physics rendering step
+        transform.localPosition += positionAddition;
+        
+        const float positionCheckThreshold = 0.01f;
+        bool gotToTheChair = Mathf.Abs(positionDifference.x) <= positionCheckThreshold &&
+                             Mathf.Abs(positionDifference.y) <= positionCheckThreshold &&
+                             Mathf.Abs(positionDifference.z) <= positionCheckThreshold;
+        if (gotToTheChair)
+        {
+            isBucklingUp = false;
+            isBuckledUp = true;
+            UnityEngine.Debug.Log("Got into chair");
+        }
     }
 }

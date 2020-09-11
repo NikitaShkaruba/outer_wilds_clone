@@ -216,6 +216,37 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!1 &65556616 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8493015188241380710, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+  m_PrefabInstance: {fileID: 1264013210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &65556617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65556616}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 455d6245d0ffafd469e0510033991348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!64 &65556620
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65556616}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6264831526926562434, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
 --- !u!1 &79301236
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +367,6 @@ GameObject:
   - component: {fileID: 112136143}
   - component: {fileID: 112136145}
   - component: {fileID: 112136144}
-  - component: {fileID: 112136146}
   m_Layer: 5
   m_Name: SuggestedActions
   m_TagString: Untagged
@@ -460,18 +490,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112136142}
   m_CullTransparentMesh: 0
---- !u!114 &112136146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 112136142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cd733e6fd6d49dca404988a8ce8bb44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &124634725
 GameObject:
   m_ObjectHideFlags: 0
@@ -2423,15 +2441,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174294929}
-  m_LocalRotation: {x: 0.52513456, y: -0.48253623, z: -0.45368144, w: 0.5343835}
-  m_LocalPosition: {x: 7604.896, y: 298.544, z: -2506.148}
+  m_LocalRotation: {x: -0, y: -0.6932119, z: -0, w: 0.7207339}
+  m_LocalPosition: {x: 7593.758, y: 298.573, z: -2488.641}
   m_LocalScale: {x: 1, y: 2.195282, z: 1}
   m_Children:
   - {fileID: 13716443}
   - {fileID: 1016522198}
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 7.089, y: -90.994, z: -87.874}
+  m_LocalEulerAnglesHint: {x: 0, y: -87.77, z: 0}
 --- !u!1 &1179095343
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,6 +2649,14 @@ PrefabInstance:
     - target: {fileID: -484552909145596680, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 36980949171833630, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 36980949171833630, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_Name
@@ -3104,7 +3130,7 @@ Transform:
   m_Children:
   - {fileID: 2064904734}
   m_Father: {fileID: 1264013211}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1653068551
 MonoBehaviour:
@@ -3352,7 +3378,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1264013211}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1775140876
 BoxCollider:
@@ -3500,7 +3526,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1264013211}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1794966177
 MonoBehaviour:

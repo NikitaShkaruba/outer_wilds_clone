@@ -80,6 +80,10 @@ namespace UI
             {
                 AddHatchUiActions(hatch);
             }
+            else if (monoBehaviour is SpaceShipChair spaceShipChair)
+            {
+                AddSpaceShipChairUiAction(spaceShipChair);
+            }
         }
 
         private void AddHatchUiActions(Hatch hatch)
@@ -90,6 +94,11 @@ namespace UI
             }
 
             availableActions.Add(new UiAction(KeyCode.E, "open the hatch", hatch.Open));
+        }
+
+        private void AddSpaceShipChairUiAction(SpaceShipChair spaceShipChair)
+        {
+            availableActions.Add(new UiAction(KeyCode.E, "buckle up", () => player.StartBucklingUp(spaceShipChair)));
         }
     }
 }
