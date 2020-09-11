@@ -135,6 +135,11 @@ public class Player : Body
 
     private void ProcessCameraInput()
     {
+        if (isBucklingUp || isBuckledUp)
+        {
+            return;
+        }
+
         float horizontalMouseOffset = Input.GetAxis("Mouse X") * MouseSensitivity * Time.deltaTime;
         float verticalMouseOffset = Input.GetAxis("Mouse Y") * MouseSensitivity * Time.deltaTime;
         bool rotateButtonPressed = Input.GetKey(KeyCode.R);
@@ -283,11 +288,17 @@ public class Player : Body
         positionAddition *= 2f; // Speedup the process a bit
         positionAddition *= Time.deltaTime; // Include physics rendering step
         transform.localPosition += positionAddition;
-        
+
+        // Rotate player body and camera to (0,0,0)
+        transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Unity.BugFixes.TransformBlenderEulerAngles(new Vector3(0, 0, 0))), Time.deltaTime);
+        camera.transform.localRotation = Quaternion.Slerp(camera.transform.localRotation, Quaternion.Euler(0, 0, 0), Time.deltaTime);
+
         const float positionCheckThreshold = 0.01f;
         bool gotToTheChair = Mathf.Abs(positionDifference.x) <= positionCheckThreshold &&
                              Mathf.Abs(positionDifference.y) <= positionCheckThreshold &&
                              Mathf.Abs(positionDifference.z) <= positionCheckThreshold;
+        
+        // Yes, I don't account rotation on purpose
         if (gotToTheChair)
         {
             isBucklingUp = false;
