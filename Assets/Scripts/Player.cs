@@ -27,9 +27,9 @@ public class Player : Body
     private const float MouseSensitivity = 150f;
 
     // SpaceShip interaction
-    private bool isBuckledUp;
-    private bool isBucklingUp;
-    private SpaceShipChair spaceShipChairToBuckleUp;
+    public bool isBuckledUp;
+    public bool buckleUpTransitionGoing;
+    private SpaceShipSeat spaceShipSeatToBuckleUp;
 
     public new void Awake()
     {
@@ -48,7 +48,7 @@ public class Player : Body
 
     private void FixedUpdate()
     {
-        if (isBucklingUp)
+        if (buckleUpTransitionGoing)
         {
             DoBucklingUpPiece();
             return;
@@ -135,7 +135,7 @@ public class Player : Body
 
     private void ProcessCameraInput()
     {
-        if (isBucklingUp || isBuckledUp)
+        if (buckleUpTransitionGoing || isBuckledUp)
         {
             return;
         }
@@ -267,16 +267,30 @@ public class Player : Body
         return rigidbody.velocity - maxGravityForceCelestialBody.rigidbody.velocity;
     }
 
-    public void StartBucklingUp(SpaceShipChair spaceShipChair)
+    public void StartBucklingUp(SpaceShipSeat spaceShipSeat)
     {
-        isBucklingUp = true;
-        spaceShipChairToBuckleUp = spaceShipChair;
-
-        spaceShipChair.GetComponent<Collider>().enabled = false; // To simulate sitting we emerge in the chair :)
-        GetComponent<Collider>().enabled = false; // To simulate sitting we emerge in the chair :)
-
-        transform.SetParent(spaceShipChair.transform);
+        // Change state
+        buckleUpTransitionGoing = true;
+        spaceShipSeatToBuckleUp = spaceShipSeat;
+        transform.SetParent(spaceShipSeat.transform);
+        
+        // Disable movement
         rigidbody.isKinematic = true;
+        rigidbody.detectCollisions = false;
+    }
+
+    public void Unbuckle()
+    {
+        // Enable movement again
+        rigidbody.velocity = spaceShipSeatToBuckleUp.spaceShip.rigidbody.velocity;
+        rigidbody.isKinematic = false;
+        rigidbody.detectCollisions = true;
+        
+        // Change state
+        transform.SetParent(null);
+        isBuckledUp = false;
+        buckleUpTransitionGoing = false; // In case we stopped buckling up during the transition
+        spaceShipSeatToBuckleUp = null;
     }
 
     private void DoBucklingUpPiece()
@@ -297,11 +311,11 @@ public class Player : Body
         bool gotToTheChair = Mathf.Abs(positionDifference.x) <= positionCheckThreshold &&
                              Mathf.Abs(positionDifference.y) <= positionCheckThreshold &&
                              Mathf.Abs(positionDifference.z) <= positionCheckThreshold;
-        
+
         // Yes, I don't account rotation on purpose
         if (gotToTheChair)
         {
-            isBucklingUp = false;
+            buckleUpTransitionGoing = false;
             isBuckledUp = true;
             UnityEngine.Debug.Log("Got into chair");
         }

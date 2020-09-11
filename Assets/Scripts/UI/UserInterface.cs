@@ -22,7 +22,14 @@ namespace UI
         private void ShowAvailableActions()
         {
             availableActions.RemoveAll(action => true);
+            AddRaycastActions();
+            AddStateActions();
 
+            suggestedActionsTextMeshPro.text = CreateSuggestedActionsText();
+        }
+
+        private void AddRaycastActions()
+        {
             Transform cachedPlayerCameraTransform = player.camera.transform;
             const float interactDistance = 2f;
 
@@ -41,8 +48,19 @@ namespace UI
                     AddUiActions(monoBehaviour);
                 }
             }
+        }
 
-            suggestedActionsTextMeshPro.text = CreateSuggestedActionsText();
+        private void AddStateActions()
+        {
+            if (player.isBuckledUp || player.buckleUpTransitionGoing)
+            {
+                AddSpaceShipUiActions();
+            }
+        }
+
+        private void AddSpaceShipUiActions()
+        {
+            availableActions.Add(new UiAction(KeyCode.Q, "Unbuckle", () => player.Unbuckle()));
         }
 
         private string CreateSuggestedActionsText()
@@ -80,9 +98,9 @@ namespace UI
             {
                 AddHatchUiActions(hatch);
             }
-            else if (monoBehaviour is SpaceShipChair spaceShipChair)
+            else if (monoBehaviour is SpaceShipSeat spaceShipSeat)
             {
-                AddSpaceShipChairUiAction(spaceShipChair);
+                AddSpaceShipChairUiAction(spaceShipSeat);
             }
         }
 
@@ -96,9 +114,12 @@ namespace UI
             availableActions.Add(new UiAction(KeyCode.E, "open the hatch", hatch.Open));
         }
 
-        private void AddSpaceShipChairUiAction(SpaceShipChair spaceShipChair)
+        private void AddSpaceShipChairUiAction(SpaceShipSeat spaceShipSeat)
         {
-            availableActions.Add(new UiAction(KeyCode.E, "buckle up", () => player.StartBucklingUp(spaceShipChair)));
+            if (!player.isBuckledUp && !player.buckleUpTransitionGoing)
+            {
+                availableActions.Add(new UiAction(KeyCode.E, "buckle up", () => player.StartBucklingUp(spaceShipSeat)));
+            }
         }
     }
 }
