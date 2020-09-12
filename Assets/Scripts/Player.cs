@@ -2,7 +2,7 @@
 using Tools.SpaceShipParts;
 using UnityEngine;
 
-public class Player : Body
+public class Player : SpaceBody
 {
     public new Camera camera;
 
@@ -21,7 +21,6 @@ public class Player : Body
     // Ground check
     [SerializeField] private LayerMask groundMask;
     private const float GroundDistance = 0.4f;
-    private CelestialBody maxGravityForceCelestialBody;
 
     // Camera
     private float verticalBodyRotation;
@@ -202,68 +201,9 @@ public class Player : Body
         return 0f;
     }
 
-    private void ApplyGravity()
-    {
-        Vector3 maxGravityForce = Vector3.zero;
-        maxGravityForceCelestialBody = null;
-
-        foreach (CelestialBody celestialBody in SolarSystem.CelestialBodies)
-        {
-            Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, celestialBody) / 50f; // Todo: do something with this number
-            rigidbody.AddForce(gravityForce * Time.deltaTime);
-
-            if (ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
-            {
-                maxGravityForce = gravityForce;
-                maxGravityForceCelestialBody = celestialBody;
-            }
-        }
-
-        if (maxGravityForceCelestialBody != null)
-        {
-            RotateTowardsCelestialBody(maxGravityForceCelestialBody);
-        }
-    }
-
-    private bool ShouldRotateTowardsCelestialBody(Vector3 gravityForce, Vector3 maxGravityForce, CelestialBody celestialBody)
-    {
-        // We only rotate to a body with the most gravity force
-        if (gravityForce.magnitude < maxGravityForce.magnitude)
-        {
-            return false;
-        }
-
-        // We only rotate to a body if it is nearby
-        if ((celestialBody.Position - Position).magnitude > 600f)
-        {
-            return false;
-        }
-
-        // We don't rotate to the sun, because it's impossible to land on it
-        if (celestialBody.name == "Sun")
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    private void RotateTowardsCelestialBody(CelestialBody celestialBody)
-    {
-        Transform cachedTransform = transform;
-        Quaternion cachedTransformRotation = cachedTransform.rotation;
-
-        Vector3 gravityForceDirection = (cachedTransform.position - celestialBody.Position).normalized;
-        Vector3 playerUp = cachedTransform.up;
-        Quaternion neededRotation = Quaternion.FromToRotation(playerUp, gravityForceDirection) * cachedTransformRotation;
-
-        cachedTransformRotation = Quaternion.Slerp(cachedTransformRotation, neededRotation, Time.deltaTime);
-        cachedTransform.rotation = cachedTransformRotation;
-    }
-
     private string FormatPlayerVelocity()
     {
-        Vector3 velocity = maxGravityForceCelestialBody == null ? rigidbody.velocity : GetRelativeVelocity();
+        Vector3 velocity = BodyToGravitateTowards == null ? rigidbody.velocity : GetRelativeVelocity();
 
         const string stringFormat = "####0";
         string playerVelocityXText = velocity.x.ToString(stringFormat);
@@ -275,12 +215,12 @@ public class Player : Body
 
     private Vector3 GetRelativeVelocity()
     {
-        if (maxGravityForceCelestialBody == null)
+        if (BodyToGravitateTowards == null)
         {
             return Vector3.zero;
         }
 
-        return rigidbody.velocity - maxGravityForceCelestialBody.rigidbody.velocity;
+        return rigidbody.velocity - BodyToGravitateTowards.rigidbody.velocity;
     }
 
     public void StartBucklingUp(SpaceShipSeat spaceShipSeat)

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Tools
 {
-    public class SpaceShip : Body
+    public class SpaceShip : SpaceBody
     {
         [SerializeField] private GameObject hatchRotator;
         [SerializeField] private GameObject hatchGravityField;
@@ -24,6 +24,7 @@ namespace Tools
         {
             Move();
             Rotate();
+            ApplyGravity();
 
             if (isHatchMoving)
             {
