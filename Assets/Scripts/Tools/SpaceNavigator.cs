@@ -164,20 +164,23 @@ namespace Tools.SpaceShipParts
             Transform cachedCameraTransform = player.camera.transform;
 
             // Try to find something at the cursor
-            bool foundSomething = Physics.Raycast(cachedCameraTransform.position, cachedCameraTransform.forward, out RaycastHit raycastHit, player.camera.farClipPlane);
-            if (!foundSomething)
+            RaycastHit[] raycastHits = Physics.RaycastAll(cachedCameraTransform.position, cachedCameraTransform.forward, player.camera.farClipPlane);
+            if (raycastHits.Length == 0)
             {
                 return null;
             }
 
-            // We only need celestialBody
-            CelestialBody celestialBody = raycastHit.transform.GetComponent<CelestialBody>();
-            if (celestialBody == null)
+            foreach (RaycastHit raycastHit in raycastHits)
             {
-                return null;
+                // We only need celestialBody
+                CelestialBody celestialBody = raycastHit.transform.GetComponent<CelestialBody>();
+                if (celestialBody != null)
+                {
+                    return celestialBody;
+                }
             }
 
-            return celestialBody;
+            return null;
         }
 
         private void UpdateLock()
