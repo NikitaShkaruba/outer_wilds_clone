@@ -1,20 +1,20 @@
 ﻿using UnityEngine;
 
-namespace Tools.SpaceShipParts
+namespace Tools.SpaceShipParts.Triggers
 {
-    public class PlayerExitsShipTrigger : MonoBehaviour
+    public class PlayerEntersShipTrigger : MonoBehaviour
     {
         [SerializeField] private SpaceShip spaceShip;
-    
-        private void OnTriggerExit(Collider other)
+
+        private void OnTriggerEnter(Collider other)
         {
             Player player = other.GetComponent<Player>();
             if (player == null)
             {
                 return;
             }
-        
-            spaceShip.PlayerExitedShip();
+
+            spaceShip.PlayerEnteredShip();
         }
     }
 }

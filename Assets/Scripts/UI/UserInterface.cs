@@ -94,7 +94,7 @@ namespace UI
 
         private void AddUiActions(MonoBehaviour monoBehaviour)
         {
-            if (monoBehaviour is Hatch hatch)
+            if (monoBehaviour is SpaceShipHatch hatch)
             {
                 AddHatchUiActions(hatch);
             }
@@ -104,14 +104,14 @@ namespace UI
             }
         }
 
-        private void AddHatchUiActions(Hatch hatch)
+        private void AddHatchUiActions(SpaceShipHatch spaceShipHatch)
         {
-            if (!hatch.IsClosed)
+            if (!spaceShipHatch.IsClosed)
             {
                 return;
             }
 
-            availableActions.Add(new UiAction(KeyCode.E, "open the hatch", hatch.Open));
+            availableActions.Add(new UiAction(KeyCode.E, "open the hatch", spaceShipHatch.Open));
         }
 
         private void AddSpaceShipChairUiAction(SpaceShipSeat spaceShipSeat)

@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Tools.SpaceShipParts
 {
-    public class Hatch : MonoBehaviour
+    public class SpaceShipHatch : MonoBehaviour
     {
         [SerializeField] private SpaceShip spaceShip;
 

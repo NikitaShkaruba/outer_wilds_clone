@@ -2,7 +2,7 @@
 
 namespace Tools.SpaceShipParts
 {
-    public class GravityField : MonoBehaviour
+    public class SpaceShipGravityField : MonoBehaviour
     {
         private Player pulledPlayer;
 
