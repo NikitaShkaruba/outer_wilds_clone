@@ -7,15 +7,42 @@ namespace Tools
         [SerializeField] private GameObject hatchRotator;
         [SerializeField] private GameObject hatchGravityField;
 
+        // Movement
+        private Vector3 wantedMovement;
+        private const float ThrustersAcceleration = 400000f;
+
+        // Hatch
         public bool isHatchClosed;
         private bool isHatchMoving;
 
         private void FixedUpdate()
         {
+            Move();
+
             if (isHatchMoving)
             {
                 MoveHatch();
             }
+        }
+
+        public void Pilot(Vector3 playerWantedMovement)
+        {
+            wantedMovement = playerWantedMovement;
+        }
+
+        private void Move()
+        {
+            Transform cachedTransform = transform;
+
+            // Get direction
+            Vector3 motion = cachedTransform.forward * wantedMovement.x +
+                             cachedTransform.up * wantedMovement.y +
+                             cachedTransform.right * wantedMovement.z;
+
+            motion *= ThrustersAcceleration; // Add power
+            motion *= Time.deltaTime; // Add physics step           
+
+            rigidbody.AddForce(motion);
         }
 
         public void PlayerEnteredShip()

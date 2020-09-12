@@ -50,11 +50,13 @@ public class Player : Body
         if (buckleUpTransitionGoing)
         {
             DoBucklingUpPiece();
+            PilotSpaceShip();
             return;
         }
 
         if (isBuckledUp)
         {
+            PilotSpaceShip();
             return;
         }
 
@@ -66,7 +68,7 @@ public class Player : Body
 
     private void Move()
     {
-        Vector3 playerMotion = GetPlayerMotion();
+        Vector3 playerMotion = GetBodyMotion();
         rigidbody.AddForce(playerMotion);
 
         if (wantsToJump && IsOnTheGround())
@@ -76,7 +78,12 @@ public class Player : Body
         }
     }
 
-    private Vector3 GetPlayerMotion()
+    private void PilotSpaceShip()
+    {
+        spaceShipSeatToBuckleUp.spaceShip.Pilot(wantedMovement);
+    }
+
+    private Vector3 GetBodyMotion()
     {
         Transform cachedTransform = transform;
 
@@ -272,7 +279,7 @@ public class Player : Body
         buckleUpTransitionGoing = true;
         spaceShipSeatToBuckleUp = spaceShipSeat;
         transform.SetParent(spaceShipSeat.transform);
-        
+
         // Disable movement
         rigidbody.isKinematic = true;
         rigidbody.detectCollisions = false;
@@ -284,7 +291,7 @@ public class Player : Body
         rigidbody.velocity = spaceShipSeatToBuckleUp.spaceShip.rigidbody.velocity;
         rigidbody.isKinematic = false;
         rigidbody.detectCollisions = true;
-        
+
         // Change state
         transform.SetParent(null);
         isBuckledUp = false;
