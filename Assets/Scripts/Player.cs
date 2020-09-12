@@ -25,7 +25,6 @@ public class Player : Body
 
     // Camera
     private float verticalBodyRotation;
-    private const float MouseSensitivity = 150f;
 
     // SpaceShip interaction
     public bool isBuckledUp;
@@ -84,7 +83,7 @@ public class Player : Body
 
     private void PilotSpaceShip()
     {
-        spaceShipSeatToBuckleUp.spaceShip.Pilot(wantedMovement);
+        spaceShipSeatToBuckleUp.spaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
     }
 
     private Vector3 GetBodyMotion()
@@ -158,8 +157,8 @@ public class Player : Body
             return;
         }
 
-        float horizontalMouseOffset = wantedRotation.x * MouseSensitivity * Time.deltaTime;
-        float verticalMouseOffset = wantedRotation.y * MouseSensitivity * Time.deltaTime;
+        float horizontalMouseOffset = wantedRotation.x * GameSettings.MouseSensitivity * Time.deltaTime;
+        float verticalMouseOffset = wantedRotation.y * GameSettings.MouseSensitivity * Time.deltaTime;
 
         verticalBodyRotation -= verticalMouseOffset;
         verticalBodyRotation = Mathf.Clamp(verticalBodyRotation, -90f, 90f); // We don't want our player to roll over with the camera :)

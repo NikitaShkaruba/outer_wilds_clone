@@ -2368,7 +2368,6 @@ MonoBehaviour:
   rigidbody: {fileID: 0}
   initialVelocity: {x: 65.9814, y: 0, z: 185.1979}
   camera: {fileID: 0}
-  groundCheck: {fileID: 1016522198}
   groundMask:
     serializedVersion: 2
     m_Bits: 256
