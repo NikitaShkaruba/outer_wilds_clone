@@ -1,3 +1,4 @@
+using Tools.SpaceShipParts;
 using UnityEngine;
 
 namespace Tools
@@ -6,6 +7,7 @@ namespace Tools
     {
         [SerializeField] private GameObject hatchRotator;
         [SerializeField] private GameObject hatchGravityField;
+        [SerializeField] private SpaceShipAccelerationShowcase accelerationShowcase;
 
         // Player Input
         private Vector3 wantedMovement;
@@ -19,6 +21,11 @@ namespace Tools
         // Hatch
         public bool isHatchClosed;
         private bool isHatchMoving;
+
+        private void Update()
+        {
+            accelerationShowcase.UpdateAcceleration(wantedMovement);
+        }
 
         private void FixedUpdate()
         {
