@@ -17,6 +17,7 @@ namespace Tools
         // Movement
         private const float MoveThrustersAcceleration = 400000f;
         private const float RotationThrustersAcceleration = 1500f;
+        private const float RotationSlowdown = 300000f;
 
         // Hatch
         public bool isHatchClosed;
@@ -78,6 +79,17 @@ namespace Tools
             {
                 rigidbody.AddTorque(transform.up * rotation.x);
             }
+
+            SlowdownRotation();
+        }
+
+        private void SlowdownRotation()
+        {
+            Vector3 torque = -rigidbody.angularVelocity; // Negative axis will slowdown the rotation
+            torque *= RotationSlowdown; // Add more force
+            torque *= Time.deltaTime; // Apply physics step
+
+            rigidbody.AddTorque(torque);
         }
 
         public void PlayerEnteredShip()
