@@ -17,7 +17,6 @@ public class Player : Body
     private const float JumpPower = 1200f;
 
     // Ground check
-    [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
     private const float GroundDistance = 0.4f;
     private CelestialBody maxGravityForceCelestialBody;
