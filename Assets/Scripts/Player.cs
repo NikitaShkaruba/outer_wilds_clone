@@ -8,7 +8,9 @@ public class Player : Body
 
     // User input
     private Vector3 wantedMovement;
+    private Vector2 wantedRotation;
     private bool wantsToJump;
+    private bool wantsToRotateAroundForwardVector;
 
     // Movement
     private const float ThrustersAcceleration = 4000f;
@@ -41,7 +43,8 @@ public class Player : Body
     private void Update()
     {
         SaveUserMovementInput();
-        ProcessCameraInput();
+        SaveUserRotationInput();
+
         ProcessDebugInput();
     }
 
@@ -61,6 +64,7 @@ public class Player : Body
         }
 
         Move();
+        Rotate();
         ApplyGravity();
 
         TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
@@ -139,22 +143,29 @@ public class Player : Body
         wantsToJump = Input.GetKey(KeyCode.Space);
     }
 
-    private void ProcessCameraInput()
+    private void SaveUserRotationInput()
+    {
+        wantedRotation.x = Input.GetAxis("Mouse X");
+        wantedRotation.y = Input.GetAxis("Mouse Y");
+
+        wantsToRotateAroundForwardVector = Input.GetKey(KeyCode.R);
+    }
+
+    private void Rotate()
     {
         if (buckleUpTransitionGoing || isBuckledUp)
         {
             return;
         }
 
-        float horizontalMouseOffset = Input.GetAxis("Mouse X") * MouseSensitivity * Time.deltaTime;
-        float verticalMouseOffset = Input.GetAxis("Mouse Y") * MouseSensitivity * Time.deltaTime;
-        bool rotateButtonPressed = Input.GetKey(KeyCode.R);
+        float horizontalMouseOffset = wantedRotation.x * MouseSensitivity * Time.deltaTime;
+        float verticalMouseOffset = wantedRotation.y * MouseSensitivity * Time.deltaTime;
 
         verticalBodyRotation -= verticalMouseOffset;
         verticalBodyRotation = Mathf.Clamp(verticalBodyRotation, -90f, 90f); // We don't want our player to roll over with the camera :)
         camera.transform.localRotation = Quaternion.Euler(verticalBodyRotation, 0f, 0f);
 
-        if (rotateButtonPressed)
+        if (wantsToRotateAroundForwardVector)
         {
             transform.Rotate(Vector3.forward * -horizontalMouseOffset);
         }
