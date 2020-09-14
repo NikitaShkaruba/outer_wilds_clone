@@ -12,7 +12,7 @@ public class SolarSystem : MonoBehaviour
     public static Vector3 ComputeGravitationalForce(Body firstBody, Body secondBody)
     {
         const float gravitationalConstant = 1000000f;
-        
+
         Vector3 positionsDifference = secondBody.Position - firstBody.Position;
 
         // Newton's law of universal gravitation F = G * (m1 * m2 / r^2)

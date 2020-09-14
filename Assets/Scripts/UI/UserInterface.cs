@@ -22,6 +22,7 @@ namespace UI
         private void ShowAvailableActions()
         {
             availableActions.RemoveAll(action => true);
+
             AddRaycastActions();
             AddStateActions();
 
@@ -94,13 +95,15 @@ namespace UI
 
         private void AddUiActions(MonoBehaviour monoBehaviour)
         {
-            if (monoBehaviour is SpaceShipHatch hatch)
+            switch (monoBehaviour)
             {
-                AddHatchUiActions(hatch);
-            }
-            else if (monoBehaviour is SpaceShipSeat spaceShipSeat)
-            {
-                AddSpaceShipChairUiAction(spaceShipSeat);
+                case SpaceShipHatch hatch:
+                    AddHatchUiActions(hatch);
+                    break;
+
+                case SpaceShipSeat spaceShipSeat:
+                    AddSpaceShipChairUiAction(spaceShipSeat);
+                    break;
             }
         }
 

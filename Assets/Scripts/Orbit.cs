@@ -18,7 +18,7 @@ public class Orbit
     {
         LinkedListNode<Vector3> element = coordinates.First;
         LinkedListNode<Vector3> nextElement = element.Next;
-        
+
         while (nextElement != coordinates.Last && nextElement != null)
         {
             UnityEngine.Debug.DrawLine(element.Value, nextElement.Value, color);
@@ -35,7 +35,7 @@ public class Orbit
         {
             return;
         }
-        
+
         // Add new position
         coordinates.AddLast(celestialBody.Position);
         if (coordinates.Count == MaxLength)

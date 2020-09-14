@@ -12,7 +12,7 @@ namespace Unity
         {
             vector.x += 270;
             vector.y += 180;
-            
+
             return vector;
         }
     }
