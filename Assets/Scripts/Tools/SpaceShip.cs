@@ -129,7 +129,7 @@ namespace Tools
 
             hatchRotator.transform.Rotate(hatchClosingSpeed * Time.deltaTime, 0f, 0f);
 
-            float finalXEuler = isHatchClosed ? 180 : 0;
+            float finalXEuler = isHatchClosed ? -90 : 90;
             Quaternion desiredRotation = Quaternion.Euler(finalXEuler, 0, 0);
 
             float angleDifference = Quaternion.Angle(hatchRotator.transform.localRotation, desiredRotation);
