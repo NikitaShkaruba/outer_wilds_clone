@@ -296,7 +296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultMaterial: {fileID: 2100000, guid: a7c8800d2658ac34585b8972308ce774, type: 2}
   glowMaterial: {fileID: 2100000, guid: a23ed7013b16f244ea11cf3cf53b2549, type: 2}
-  forwardShit: {fileID: 156913929}
 --- !u!1 &79301236
 GameObject:
   m_ObjectHideFlags: 0
@@ -722,11 +721,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 155532207}
   m_CullTransparentMesh: 0
---- !u!1 &156913929 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8108800001225161492, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
-  m_PrefabInstance: {fileID: 1264013210}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &245378003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1022,19 +1016,6 @@ MonoBehaviour:
   name: Ash Twin
   radius: 4
   isStationary: 0
---- !u!135 &374336677
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2409545827850393553}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.50000006
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &374336678
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3020,19 +3001,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9294496, y: 1.8749807, z: 1.9877212}
   m_Center: {x: -0.028057005, y: -2.70857, z: -1.2616714}
---- !u!135 &1371371334
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6497785091208587145}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.499
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1433532231
 GameObject:
   m_ObjectHideFlags: 0
@@ -8740,7 +8708,7 @@ Transform:
   m_GameObject: {fileID: 3964950637624742343}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 545.9839, y: 0, z: -4363.929}
-  m_LocalScale: {x: 300, y: 300, z: 300}
+  m_LocalScale: {x: 75, y: 75, z: 75}
   m_Children: []
   m_Father: {fileID: 1740240192}
   m_RootOrder: 3
@@ -8927,7 +8895,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6497785091208587145}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -7630892198992904530, guid: 7cd7c0a9c0396c140b1caa2969ad67d7, type: 3}
 --- !u!4 &1669486304827205058
 Transform:
   m_ObjectHideFlags: 0
@@ -8937,7 +8905,7 @@ Transform:
   m_GameObject: {fileID: 2409545827850393553}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 979.0541, y: 0, z: -4253.266}
-  m_LocalScale: {x: 300, y: 300, z: 300}
+  m_LocalScale: {x: 75, y: 75, z: 75}
   m_Children: []
   m_Father: {fileID: 1740240192}
   m_RootOrder: 2
@@ -8986,9 +8954,9 @@ GameObject:
   - component: {fileID: 1669486304827205058}
   - component: {fileID: 7669685475905757172}
   - component: {fileID: 374336678}
-  - component: {fileID: 374336677}
   - component: {fileID: 374336676}
   - component: {fileID: 2409545827850393554}
+  - component: {fileID: 2409545827850393555}
   m_Layer: 8
   m_Name: AshTwin
   m_TagString: Untagged
@@ -9015,7 +8983,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 886ae3309988a52408af50c746551fa1, type: 2}
+  - {fileID: 2100000, guid: 2a96948cbab47e148bc6fedac3da44df, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -9037,6 +9005,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &2409545827850393555
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2409545827850393553}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.7291561
+  m_Center: {x: -0.00000005960464, y: 0.00000005960464, z: -0.00000005960464}
 --- !u!198 &2894030844252979720
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -13763,8 +13744,8 @@ GameObject:
   - component: {fileID: 8936842600809044450}
   - component: {fileID: 1719527654}
   - component: {fileID: 1719527653}
-  - component: {fileID: 3964950637624742345}
   - component: {fileID: 3964950637624742344}
+  - component: {fileID: 3964950637624742345}
   m_Layer: 8
   m_Name: EmberTwin
   m_TagString: Untagged
@@ -13791,7 +13772,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 2b9ef3981fb11f343beab792902c2105, type: 2}
+  - {fileID: 2100000, guid: 20a0c1ba5095f82438f163bd317b1129, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13824,8 +13805,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.49999997
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 1.7291561
+  m_Center: {x: -0.00000005960464, y: 0.00000005960464, z: -0.00000005960464}
 --- !u!4 &5831193703712340942
 Transform:
   m_ObjectHideFlags: 0
@@ -13856,8 +13837,8 @@ GameObject:
   - component: {fileID: 1237533850239299500}
   - component: {fileID: 1722956989935347580}
   - component: {fileID: 1722956989935347583}
-  - component: {fileID: 1371371334}
   - component: {fileID: 6497785091208587146}
+  - component: {fileID: 6497785091208587147}
   m_Layer: 8
   m_Name: TimberHearth
   m_TagString: Untagged
@@ -13884,7 +13865,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a6af19f9413004347ac0ddddd819818b, type: 2}
+  - {fileID: 2100000, guid: ef90408df7e0771459dca82160ba3d38, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -13906,6 +13887,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &6497785091208587147
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6497785091208587145}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.7295817
+  m_Center: {x: -1.7763568e-15, y: 0.00000005960466, z: -1.3322676e-15}
 --- !u!199 &6566389394947565856
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -18787,7 +18781,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6566389394984994045}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 19, y: 19, z: 19}
   m_Children: []
@@ -18886,7 +18880,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2409545827850393553}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -7630892198992904530, guid: 7cd7c0a9c0396c140b1caa2969ad67d7, type: 3}
 --- !u!4 &7815888052337235354
 Transform:
   m_ObjectHideFlags: 0
@@ -18894,14 +18888,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6497785091208587145}
-  m_LocalRotation: {x: -0.66031945, y: -0.0912512, z: -0.09500275, w: 0.7393416}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 7604.716, y: 0, z: -2486.928}
-  m_LocalScale: {x: 600, y: 598.566, z: 600.0001}
+  m_LocalScale: {x: 172, y: 172, z: 172}
   m_Children:
   - {fileID: 1847945144}
   m_Father: {fileID: 1740240192}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: -83.586, y: -4.862, z: -10.298}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &8231238779463047965
 Transform:
   m_ObjectHideFlags: 0
@@ -18923,4 +18917,4 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3964950637624742343}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -7630892198992904530, guid: 7cd7c0a9c0396c140b1caa2969ad67d7, type: 3}
