@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : SpaceBody
 {
     public new Camera camera;
+    private new Transform transform;
 
     // User input
     private Vector3 wantedMovement;
@@ -35,6 +36,7 @@ public class Player : SpaceBody
         base.Awake();
 
         camera = GetComponentInChildren<Camera>();
+        transform = GetComponent<Transform>();
         Cursor.lockState = CursorLockMode.Locked;
     }
 
@@ -251,13 +253,16 @@ public class Player : SpaceBody
 
     private void DoBucklingUpPiece()
     {
+        Vector3 transformCachedPosition = transform.localPosition;
+
         // Move player into the chair
         Vector3 desiredPosition = new Vector3(0, 0.5f, 1.1f); // A little bit forward and up of the (0,0,0) coordinates of the chair
-        Vector3 positionDifference = desiredPosition - transform.localPosition;
+        Vector3 positionDifference = desiredPosition - transformCachedPosition;
         Vector3 positionAddition = positionDifference; // difference - is what we should add in order to become the same
         positionAddition *= 2f; // Speedup the process a bit
         positionAddition *= Time.deltaTime; // Include physics rendering step
-        transform.localPosition += positionAddition;
+        transformCachedPosition += positionAddition;
+        transform.localPosition = transformCachedPosition;
 
         // Rotate player body and camera to (0,0,0)
         transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Unity.BugFixes.TransformBlenderEulerAngles(new Vector3(0, 0, 0))), Time.deltaTime);

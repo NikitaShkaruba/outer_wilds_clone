@@ -237,8 +237,8 @@ namespace Tools
         {
             Vector3 velocityDifference = player.rigidbody.velocity - lockedCelestialBody.rigidbody.velocity;
 
-            Vector3 playerEulers = player.transform.rotation.eulerAngles;
-            velocityDifference = Quaternion.Euler(0, 0, -playerEulers.z) * velocityDifference;
+            Vector3 playerEulerAngles = player.transform.rotation.eulerAngles;
+            velocityDifference = Quaternion.Euler(0, 0, -playerEulerAngles.z) * velocityDifference;
 
             rightVelocityArrow.transform.localPosition = new Vector3(GetArrowLocalPosition(velocityDifference.x), 0f, 0f);
             leftVelocityArrow.transform.localPosition = new Vector3(GetArrowLocalPosition(-velocityDifference.x), 0f, 0f);
