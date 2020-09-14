@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Tools
 {
+    // I don't like a lot of inspector fields here, but I'm not sure how to do it better. Don't like initializing everything from the constructor either
     public class SpaceNavigator : MonoBehaviour
     {
         // Cursors

@@ -6,12 +6,18 @@ using UnityEngine;
 
 namespace UI
 {
+    [RequireComponent(typeof(Player))]
     public class UserInterface : MonoBehaviour
     {
-        [SerializeField] private Player player;
+        private Player player;
         [SerializeField] private TextMeshProUGUI suggestedActionsTextMeshPro;
 
         private readonly List<UiAction> availableActions = new List<UiAction>();
+
+        private void Start()
+        {
+            player = GetComponent<Player>();
+        }
 
         private void Update()
         {

@@ -1,8 +1,9 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Body : MonoBehaviour
 {
-    public new Rigidbody rigidbody;
+    [HideInInspector] public new Rigidbody rigidbody;
 
     public Vector3 Position => rigidbody.position;
     public float Mass => rigidbody.mass;

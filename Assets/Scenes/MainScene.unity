@@ -1011,7 +1011,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855eeb2aef9da204e9abb159bd662a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
+  rigidbody: {fileID: 374336678}
   initialVelocity: {x: 232.3592, y: 0, z: 11.1637}
   name: Ash Twin
   radius: 4
@@ -2159,7 +2159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855eeb2aef9da204e9abb159bd662a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
+  rigidbody: {fileID: 1052136277}
   initialVelocity: {x: -374.0645, y: 0, z: 253.4467}
   name: Sun Station
   radius: 2
@@ -2527,7 +2527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9070acdcbda998d45aaa3a58cf0675fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
+  rigidbody: {fileID: 1174294930}
   initialVelocity: {x: 65.9814, y: 0, z: 185.1979}
   camera: {fileID: 0}
   groundMask:
@@ -8560,7 +8560,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855eeb2aef9da204e9abb159bd662a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
+  rigidbody: {fileID: 635168751954510713}
   initialVelocity: {x: 0, y: 0, z: 0}
   name: Sun
   radius: 20
@@ -8723,7 +8723,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 855eeb2aef9da204e9abb159bd662a33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 0}
+  rigidbody: {fileID: 1722956989935347580}
   initialVelocity: {x: 65.9814, y: 0, z: 185.1979}
   name: Timber Hearth
   radius: 7

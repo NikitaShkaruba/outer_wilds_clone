@@ -20,7 +20,7 @@ namespace Tools
         private const float RotationSlowdown = 300000f;
 
         // Hatch
-        public bool isHatchClosed;
+        [HideInInspector] public bool isHatchClosed;
         private bool isHatchMoving;
 
         private void Update()
@@ -57,7 +57,7 @@ namespace Tools
                              cachedTransform.right * wantedMovement.z;
 
             motion *= MoveThrustersAcceleration; // Add power
-            motion *= Time.deltaTime; // Add physics step           
+            motion *= Time.deltaTime; // Add physics step
 
             rigidbody.AddForce(motion);
         }

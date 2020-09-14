@@ -20,23 +20,25 @@ public class Player : SpaceBody
     private const float JumpPower = 1200f;
 
     // Ground check
-    [SerializeField] private LayerMask groundMask;
+    private LayerMask groundMask;
     private const float GroundDistance = 0.4f;
 
     // Camera
     private float verticalBodyRotation;
 
     // SpaceShip interaction
-    public bool isBuckledUp;
-    public bool buckleUpTransitionGoing;
+    [HideInInspector] public bool isBuckledUp;
+    [HideInInspector] public bool buckleUpTransitionGoing;
     private SpaceShipSeat spaceShipSeatToBuckleUp;
 
     public new void Awake()
     {
         base.Awake();
 
-        camera = GetComponentInChildren<Camera>();
         transform = GetComponent<Transform>();
+
+        groundMask = LayerMask.NameToLayer("Planets");
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 

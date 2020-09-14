@@ -5,16 +5,10 @@ namespace Debug
 {
     public class TopLeftCornerDebug : MonoBehaviour
     {
-        private TextMeshProUGUI textMeshPro;
+        [SerializeField] private TextMeshProUGUI textMeshPro;
 
         public bool isHidden;
         private static string additionalDebug;
-
-        // Start is called before the first frame update
-        private void Start()
-        {
-            textMeshPro = GetComponent<TextMeshProUGUI>();
-        }
 
         private void FixedUpdate()
         {
