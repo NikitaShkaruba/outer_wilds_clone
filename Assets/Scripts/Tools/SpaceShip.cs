@@ -3,11 +3,13 @@ using UnityEngine;
 
 namespace Tools
 {
+    [RequireComponent(typeof(SpaceShipThrusters))]
     public class SpaceShip : SpaceBody
     {
         [SerializeField] private GameObject hatchRotator;
         [SerializeField] private GameObject hatchGravityField;
         [SerializeField] private SpaceShipAccelerationShowcase accelerationShowcase;
+        private SpaceShipThrusters thrusters;
 
         // Player Input
         private Vector3 wantedMovement;
@@ -23,9 +25,17 @@ namespace Tools
         [HideInInspector] public bool isHatchClosed;
         private bool isHatchMoving;
 
+        private new void Awake()
+        {
+            base.Awake();
+
+            thrusters = GetComponent<SpaceShipThrusters>();
+        }
+
         private void Update()
         {
             accelerationShowcase.UpdateAcceleration(wantedMovement);
+            thrusters.Fire(wantedMovement);
         }
 
         private void FixedUpdate()
