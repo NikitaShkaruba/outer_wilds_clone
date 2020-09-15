@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Helpers;
 using UnityEngine;
 
 namespace Tools.SpaceShipParts
@@ -24,9 +25,9 @@ namespace Tools.SpaceShipParts
 
         private void Update()
         {
-            LightDirection(acceleration.x, "Back", "Front");
-            LightDirection(acceleration.z, "Left", "Right");
-            LightDirection(acceleration.y, "Bottom", "Top", FullPower); // Yes, main game has FullPower too
+            LightDirection(acceleration.x, Directions.Back, Directions.Front);
+            LightDirection(acceleration.z, Directions.Left, Directions.Right);
+            LightDirection(acceleration.y, Directions.Bottom, Directions.Top, FullPower); // Yes, main game has FullPower too
         }
 
         private void LightDirection(float accelerationValue, string positiveDirectionName, string negativeDirectionName, int forcedMinPower = 0)
