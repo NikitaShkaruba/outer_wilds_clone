@@ -20,8 +20,7 @@ public class Player : SpaceBody
     private const float JumpPower = 1200f;
 
     // Ground check
-    private LayerMask groundMask;
-    private const float GroundDistance = 0.4f;
+    private LayerMask groundCheckLayerMask;
 
     // Camera
     private float verticalBodyRotation;
@@ -37,7 +36,7 @@ public class Player : SpaceBody
 
         transform = GetComponent<Transform>();
 
-        groundMask = LayerMask.NameToLayer("Planets");
+        groundCheckLayerMask = LayerMask.GetMask("Planets");
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -128,10 +127,9 @@ public class Player : SpaceBody
 
     private bool IsOnTheGround()
     {
-        Transform cachedTransform = transform;
-        Vector3 groundCoordinate = cachedTransform.position - cachedTransform.up;
+        const float distanceFromBodyCenterToGround = 1.5f;
 
-        return Physics.CheckSphere(groundCoordinate, GroundDistance, groundMask);
+        return Physics.Raycast(transform.position, -transform.up, distanceFromBodyCenterToGround, groundCheckLayerMask);
     }
 
     private void SaveUserMovementInput()
