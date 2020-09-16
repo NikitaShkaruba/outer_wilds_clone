@@ -254,6 +254,8 @@ public class Player : SpaceBody
     private void DoBucklingUpPiece()
     {
         Vector3 transformCachedPosition = transform.localPosition;
+        Quaternion cachedTransformRotation = transform.localRotation;
+        Quaternion cachedCameraTransformRotation = camera.transform.localRotation;
 
         // Move player into the chair
         Vector3 desiredPosition = new Vector3(0, 0.5f, 1.1f); // A little bit forward and up of the (0,0,0) coordinates of the chair
@@ -264,21 +266,31 @@ public class Player : SpaceBody
         transformCachedPosition += positionAddition;
         transform.localPosition = transformCachedPosition;
 
-        // Rotate player body and camera to (0,0,0)
-        transform.localRotation = Quaternion.Slerp(transform.localRotation, Quaternion.Euler(Unity.BugFixes.TransformBlenderEulerAngles(new Vector3(0, 0, 0))), Time.deltaTime);
-        camera.transform.localRotation = Quaternion.Slerp(camera.transform.localRotation, Quaternion.Euler(0, 0, 0), Time.deltaTime);
+        // Rotate player body to (0,0,0)
+        Quaternion wantedTransformRotation = Quaternion.Euler(Unity.BugFixes.TransformBlenderEulerAngles(new Vector3(0, 0, 0)));
+        cachedTransformRotation = Quaternion.Slerp(cachedTransformRotation, wantedTransformRotation, Time.deltaTime);
+        transform.localRotation = cachedTransformRotation;
 
+        // Rotate player camera to (0,0,0)
+        Quaternion wantedCameraRotation = Quaternion.Euler(0, 0, 0);
+        cachedCameraTransformRotation = Quaternion.Slerp(cachedCameraTransformRotation, wantedCameraRotation, Time.deltaTime);
+        camera.transform.localRotation = cachedCameraTransformRotation;
+
+        // Check that everything is positioned properly
         const float positionCheckThreshold = 0.01f;
-        bool gotToTheChair = Mathf.Abs(positionDifference.x) <= positionCheckThreshold &&
-                             Mathf.Abs(positionDifference.y) <= positionCheckThreshold &&
-                             Mathf.Abs(positionDifference.z) <= positionCheckThreshold;
+        bool movedToTheChair = Mathf.Abs(positionDifference.x) <= positionCheckThreshold &&
+                               Mathf.Abs(positionDifference.y) <= positionCheckThreshold &&
+                               Mathf.Abs(positionDifference.z) <= positionCheckThreshold;
 
-        // Yes, I don't account rotation on purpose
-        if (gotToTheChair)
+        // Check that everything is rotated properly
+        const float rotationCheckThreshold = 0.00001f;
+        bool transformRotatedProperly = 1 - Mathf.Abs(Quaternion.Dot(cachedTransformRotation, wantedTransformRotation)) < rotationCheckThreshold;
+        bool cameraRotatedProperly = 1 - Mathf.Abs(Quaternion.Dot(cachedCameraTransformRotation, wantedCameraRotation)) < rotationCheckThreshold;
+
+        if (movedToTheChair && transformRotatedProperly && cameraRotatedProperly)
         {
             buckleUpTransitionGoing = false;
             isBuckledUp = true;
-            UnityEngine.Debug.Log("Got into chair");
         }
     }
 }
