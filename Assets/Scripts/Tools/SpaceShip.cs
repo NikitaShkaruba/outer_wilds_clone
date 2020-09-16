@@ -4,6 +4,7 @@ using UnityEngine;
 namespace Tools
 {
     [RequireComponent(typeof(SpaceShipThrusters))]
+    [RequireComponent(typeof(SpaceShipFlashlight))]
     public class SpaceShip : SpaceBody
     {
         [SerializeField] private GameObject hatchRotator;
@@ -25,11 +26,15 @@ namespace Tools
         [HideInInspector] public bool isHatchClosed;
         private bool isHatchMoving;
 
+        // Flashlight
+        [SerializeField] private SpaceShipFlashlight flashlight;
+
         private new void Awake()
         {
             base.Awake();
 
             thrusters = GetComponent<SpaceShipThrusters>();
+            flashlight = GetComponent<SpaceShipFlashlight>();
         }
 
         private void Update()
@@ -158,6 +163,11 @@ namespace Tools
             {
                 hatchGravityField.SetActive(false);
             }
+        }
+
+        public void ToggleFlashlight()
+        {
+            flashlight.Toggle();
         }
     }
 }

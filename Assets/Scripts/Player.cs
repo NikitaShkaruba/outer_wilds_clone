@@ -1,4 +1,5 @@
 ﻿using Debug;
+using Tools;
 using Tools.SpaceShipParts;
 using UnityEngine;
 
@@ -28,7 +29,7 @@ public class Player : SpaceBody
     // SpaceShip interaction
     [HideInInspector] public bool isBuckledUp;
     [HideInInspector] public bool buckleUpTransitionGoing;
-    private SpaceShipSeat spaceShipSeatToBuckleUp;
+    [HideInInspector] public SpaceShip pilotedSpaceShip;
 
     public new void Awake()
     {
@@ -85,7 +86,7 @@ public class Player : SpaceBody
 
     private void PilotSpaceShip()
     {
-        spaceShipSeatToBuckleUp.spaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
+        pilotedSpaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
     }
 
     private Vector3 GetBodyMotion()
@@ -229,7 +230,7 @@ public class Player : SpaceBody
     {
         // Change state
         buckleUpTransitionGoing = true;
-        spaceShipSeatToBuckleUp = spaceShipSeat;
+        pilotedSpaceShip = spaceShipSeat.spaceShip;
         transform.SetParent(spaceShipSeat.transform);
 
         // Disable movement
@@ -240,7 +241,7 @@ public class Player : SpaceBody
     public void Unbuckle()
     {
         // Enable movement again
-        rigidbody.velocity = spaceShipSeatToBuckleUp.spaceShip.rigidbody.velocity;
+        rigidbody.velocity = pilotedSpaceShip.rigidbody.velocity;
         rigidbody.isKinematic = false;
         rigidbody.detectCollisions = true;
 
@@ -248,7 +249,7 @@ public class Player : SpaceBody
         transform.SetParent(null);
         isBuckledUp = false;
         buckleUpTransitionGoing = false; // In case we stopped buckling up during the transition
-        spaceShipSeatToBuckleUp = null;
+        pilotedSpaceShip = null;
     }
 
     private void DoBucklingUpPiece()
