@@ -16,8 +16,7 @@ public class Player : SpaceBody
 
     // Movement
     private const float ThrustersAcceleration = 4000f;
-    private const float LegsAcceleration = 3000f;
-    private const float MaxLegsSpeed = 12f;
+    private const float LegsAcceleration = 10f;
     private const float JumpPower = 1200f;
 
     // Ground check
@@ -70,26 +69,10 @@ public class Player : SpaceBody
         ApplyGravity();
 
         TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
+        TopLeftCornerDebug.AddDebug("IsOnTheGround = " + IsOnTheGround());
     }
 
     private void Move()
-    {
-        Vector3 playerMotion = GetBodyMotion();
-        rigidbody.AddForce(playerMotion);
-
-        if (wantsToJump && IsOnTheGround())
-        {
-            Vector3 jumpMotion = transform.up * JumpPower;
-            rigidbody.AddForce(jumpMotion);
-        }
-    }
-
-    private void PilotSpaceShip()
-    {
-        pilotedSpaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
-    }
-
-    private Vector3 GetBodyMotion()
     {
         Transform cachedTransform = transform;
 
@@ -99,31 +82,33 @@ public class Player : SpaceBody
 
         if (IsOnTheGround())
         {
-            Vector3 relativeVelocity = GetRelativeVelocity();
-            if (relativeVelocity.magnitude < MaxLegsSpeed)
+            Vector3 playerPositionAddition = playerHorizontalMotion;
+            playerPositionAddition *= LegsAcceleration;
+            playerPositionAddition *= Time.deltaTime;
+
+            // Movement by foot with AddForce is buggy, so for now this will work.
+            rigidbody.MovePosition(rigidbody.position + playerPositionAddition);
+
+            if (wantsToJump)
             {
-                // Player uses legs when on the ground
-                playerHorizontalMotion *= LegsAcceleration;
-            }
-            else
-            {
-                // Player can't accelerate as much as he wants :)
-                playerHorizontalMotion = Vector3.zero;
+                Vector3 jumpMotion = transform.up * JumpPower;
+
+                rigidbody.AddForce(jumpMotion);
             }
         }
         else
         {
-            // Player uses thrusters when in space
-            playerHorizontalMotion *= ThrustersAcceleration;
+            Vector3 thrustersForce = playerHorizontalMotion + playerVerticalMotion;
+            thrustersForce *= ThrustersAcceleration;
+            thrustersForce *= Time.deltaTime;
+
+            rigidbody.AddForce(thrustersForce);
         }
+    }
 
-        // Vertical motion always uses thrusters
-        playerVerticalMotion *= ThrustersAcceleration;
-
-        Vector3 playerMotion = playerHorizontalMotion + playerVerticalMotion;
-        playerMotion *= Time.deltaTime;
-
-        return playerMotion;
+    private void PilotSpaceShip()
+    {
+        pilotedSpaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
     }
 
     private bool IsOnTheGround()
