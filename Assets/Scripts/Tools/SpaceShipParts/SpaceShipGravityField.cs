@@ -6,6 +6,8 @@ namespace Tools.SpaceShipParts
     {
         private Player pulledPlayer;
 
+        public float pullPower;
+
         private void FixedUpdate()
         {
             if (pulledPlayer == null)
@@ -15,9 +17,8 @@ namespace Tools.SpaceShipParts
 
             Transform cachedTransform = transform;
 
-            Vector3 force = cachedTransform.position - pulledPlayer.Position; // Pull towards the center
-            force += cachedTransform.up * 8f; // Pull up
-            force *= 1000f; // Add more power
+            Vector3 force = cachedTransform.up; // Pull up
+            force *= pullPower; // Add power
             force *= Time.deltaTime; // Scale with physics step
 
             pulledPlayer.rigidbody.AddForce(force);

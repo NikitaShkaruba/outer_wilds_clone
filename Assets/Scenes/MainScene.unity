@@ -1282,6 +1282,7 @@ MonoBehaviour:
   name: Ash Twin
   radius: 4
   isStationary: 0
+  spaceBodiesGravityScale: 0.3
 --- !u!54 &374336678
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1296,7 +1297,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!1 &410261172
 GameObject:
@@ -2516,8 +2517,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1740240192}
-  - {fileID: 1174294935}
   - {fileID: 1264013211}
+  - {fileID: 1174294935}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2708,6 +2709,7 @@ MonoBehaviour:
   name: Sun Station
   radius: 2
   isStationary: 0
+  spaceBodiesGravityScale: 0.1
 --- !u!136 &1052136274
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2785,7 +2787,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!1 &1054755840
 GameObject:
@@ -3114,7 +3116,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 1174294930}
   initialVelocity: {x: 65.9814, y: 0, z: 185.1979}
+  gravityScale: 1
   camera: {fileID: 13716447}
+  thrustersPower: 1000
+  moveSpeed: 7
+  jumpPower: 50
   isBuckledUp: 0
   buckleUpTransitionGoing: 0
   pilotedSpaceShip: {fileID: 0}
@@ -3187,14 +3193,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174294929}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 7594.865, y: 301.619, z: -2488.602}
-  m_LocalScale: {x: 1, y: 1.8, z: 1}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -7.566996e-10, w: 0.7071067}
+  m_LocalPosition: {x: 7603.44, y: 298.5, z: -2482.47}
+  m_LocalScale: {x: 1, y: 1.8000002, z: 1}
   m_Children:
   - {fileID: 13716443}
   - {fileID: 1016522198}
   m_Father: {fileID: 963006180}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1179095343
 GameObject:
@@ -3346,7 +3352,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 297.18
+      value: 297.18002
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3370,7 +3376,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3420,6 +3426,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2cc9f53fab6a9e74589bf76a83b8a0fa, type: 2}
+    - target: {fileID: -7685080585081659198, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -7668522134621327735, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -3568,6 +3578,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3181452503744645242, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -3076112777792182963, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -3584,6 +3598,18 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -2151490867040775535, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2079334309535623054, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1971067298829977255, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -1956717505975394199, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -3595,6 +3621,10 @@ PrefabInstance:
     - target: {fileID: -1915582936440586366, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1615047665912115768, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -1373986720432769865, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_Enabled
@@ -3708,6 +3738,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2448734117451779196, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2548939165976449727, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0.7138618
@@ -3768,6 +3802,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3198896233827727512, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3532773409507972124, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -3816,6 +3854,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 215066040df94d14f96cce240a1fbf9e, type: 2}
+    - target: {fileID: 7391293104903087478, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7672225645620420960, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -3876,7 +3918,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 200
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 2
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -3920,11 +3962,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 1264013215}
   initialVelocity: {x: 65.9814, y: 0, z: 185.1979}
+  gravityScale: 80
   hatchRotator: {fileID: 622387086}
   hatchGravityField: {fileID: 1653068549}
   accelerationShowcase: {fileID: 1264013216}
+  movementThrustersPower: 300000
+  rotationThrustersPower: 500
   isHatchClosed: 0
-  flashlight: {fileID: 0}
 --- !u!1 &1264013220 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3552508628417112377, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
@@ -4610,6 +4654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00876604f53ff3d418ea3a0409236dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pullPower: 2000
 --- !u!136 &1653068552
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4750,6 +4795,7 @@ MonoBehaviour:
   name: Ember Twin
   radius: 4
   isStationary: 0
+  spaceBodiesGravityScale: 0.3
 --- !u!54 &1719527654
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4764,7 +4810,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!1 &1735424184 stripped
 GameObject:
@@ -10295,6 +10341,7 @@ MonoBehaviour:
   name: Sun
   radius: 20
   isStationary: 1
+  spaceBodiesGravityScale: 1
 --- !u!54 &635168751954510713
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -10309,7 +10356,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!108 &635168752032151032
 Light:
@@ -10439,7 +10486,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &1722956989935347583
 MonoBehaviour:
@@ -10458,6 +10505,7 @@ MonoBehaviour:
   name: Timber Hearth
   radius: 7
   isStationary: 0
+  spaceBodiesGravityScale: 1
 --- !u!1 &2409545827850393553
 GameObject:
   m_ObjectHideFlags: 0

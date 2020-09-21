@@ -24,6 +24,18 @@ namespace Debug
         private static void ResetDebug()
         {
             additionalDebug = "";
+            AddDefaultDebug();
+        }
+
+        private static void AddDefaultDebug()
+        {
+            float secondsSinceStart = Time.time;
+            const int secondsInMinute = 60;
+
+            int minutesSinceStart = (int) secondsSinceStart / secondsInMinute;
+            int seconds = (int) secondsSinceStart - secondsInMinute * minutesSinceStart;
+
+            AddDebug($"Time: {minutesSinceStart:D2}:{seconds:D2}");
         }
     }
 }

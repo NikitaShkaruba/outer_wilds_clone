@@ -8,6 +8,8 @@ public class CelestialBody : Body
     // I want the Sun to always be at 0, 0, 0. I can do it with moving sun, but it will ease the numbers
     public bool isStationary;
 
+    public float spaceBodiesGravityScale;
+
     // Nested objects
     private Orbit orbit;
 
@@ -39,7 +41,7 @@ public class CelestialBody : Body
                 continue;
             }
 
-            Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, otherCelestialBody);
+            Vector3 gravityForce = SolarSystem.ComputeCelestialBodyGravitationalForce(this, otherCelestialBody);
             rigidbody.AddForce(gravityForce); // Todo: add multiplication with Time.deltaTime
         }
     }

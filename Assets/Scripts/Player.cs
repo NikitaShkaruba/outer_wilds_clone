@@ -15,9 +15,9 @@ public class Player : SpaceBody
     private bool wantsToRotateAroundForwardVector;
 
     // Movement
-    private const float ThrustersAcceleration = 4000f;
-    private const float LegsAcceleration = 10f;
-    private const float JumpPower = 1200f;
+    [SerializeField] private float thrustersPower;
+    [SerializeField] private float moveSpeed;
+    [SerializeField] private float jumpPower;
 
     // Ground check
     private LayerMask groundCheckLayerMask;
@@ -83,7 +83,7 @@ public class Player : SpaceBody
         if (IsOnTheGround())
         {
             Vector3 playerPositionAddition = playerHorizontalMotion;
-            playerPositionAddition *= LegsAcceleration;
+            playerPositionAddition *= moveSpeed;
             playerPositionAddition *= Time.deltaTime;
 
             // Movement by foot with AddForce is buggy, so for now this will work.
@@ -91,7 +91,7 @@ public class Player : SpaceBody
 
             if (wantsToJump)
             {
-                Vector3 jumpMotion = transform.up * JumpPower;
+                Vector3 jumpMotion = transform.up * jumpPower;
 
                 rigidbody.AddForce(jumpMotion);
             }
@@ -99,7 +99,7 @@ public class Player : SpaceBody
         else
         {
             Vector3 thrustersForce = playerHorizontalMotion + playerVerticalMotion;
-            thrustersForce *= ThrustersAcceleration;
+            thrustersForce *= thrustersPower;
             thrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(thrustersForce);

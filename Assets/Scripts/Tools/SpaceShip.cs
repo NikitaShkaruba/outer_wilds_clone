@@ -18,16 +18,15 @@ namespace Tools
         private bool wantsToRotateAroundForwardVector;
 
         // Movement
-        private const float MoveThrustersAcceleration = 400000f;
-        private const float RotationThrustersAcceleration = 1500f;
-        private const float RotationSlowdown = 300000f;
+        [SerializeField] private float movementThrustersPower;
+        [SerializeField] private float rotationThrustersPower;
 
         // Hatch
         [HideInInspector] public bool isHatchClosed;
         private bool isHatchMoving;
 
         // Flashlight
-        [SerializeField] private SpaceShipFlashlight flashlight;
+        private SpaceShipFlashlight flashlight;
 
         private new void Awake()
         {
@@ -71,7 +70,7 @@ namespace Tools
                              cachedTransform.up * wantedMovement.y +
                              cachedTransform.right * wantedMovement.z;
 
-            motion *= MoveThrustersAcceleration; // Add power
+            motion *= movementThrustersPower; // Add power
             motion *= Time.deltaTime; // Add physics step
 
             rigidbody.AddForce(motion);
@@ -80,7 +79,7 @@ namespace Tools
         private void Rotate()
         {
             Vector2 rotation = wantedRotation; // Get direction
-            rotation *= RotationThrustersAcceleration; // Add more force
+            rotation *= rotationThrustersPower; // Add more force
             rotation *= GameSettings.MouseSensitivity; // Apply mouse sensitivity settings
             rotation *= Time.deltaTime; // Include physics step
 
@@ -94,17 +93,6 @@ namespace Tools
             {
                 rigidbody.AddTorque(transform.up * rotation.x);
             }
-
-            SlowdownRotation();
-        }
-
-        private void SlowdownRotation()
-        {
-            Vector3 torque = -rigidbody.angularVelocity; // Negative axis will slowdown the rotation
-            torque *= RotationSlowdown; // Add more force
-            torque *= Time.deltaTime; // Apply physics step
-
-            rigidbody.AddTorque(torque);
         }
 
         public void PlayerEnteredShip()

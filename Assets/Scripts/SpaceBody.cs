@@ -4,6 +4,8 @@ public class SpaceBody : Body
 {
     protected CelestialBody BodyToGravitateTowards;
 
+    public float gravityScale;
+
     protected void ApplyGravity()
     {
         Vector3 maxGravityForce = Vector3.zero;
@@ -11,7 +13,7 @@ public class SpaceBody : Body
 
         foreach (CelestialBody celestialBody in SolarSystem.CelestialBodies)
         {
-            Vector3 gravityForce = SolarSystem.ComputeGravitationalForce(this, celestialBody) / 50f; // Todo: do something with this number
+            Vector3 gravityForce = SolarSystem.ComputeSpaceBodyGravitationalForce(this, celestialBody);
             rigidbody.AddForce(gravityForce * Time.deltaTime);
 
             if (ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
