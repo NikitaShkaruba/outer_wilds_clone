@@ -2302,6 +2302,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -3377994245467361348, guid: 706a40ac85c38254dbb036d4aef7dd07, type: 3}
   m_PrefabInstance: {fileID: 1264013210}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &867942026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 867942025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c64350ee19484291b46ef26597cef999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spaceShip: {fileID: 1264013219}
 --- !u!64 &867942029
 MeshCollider:
   m_ObjectHideFlags: 0
