@@ -26,13 +26,13 @@ namespace Tools.SpaceShipParts
 
         private void OnTriggerEnter(Collider other)
         {
-            Player player = other.GetComponent<Player>();
-            if (player == null)
+            Player collidedPlayer = other.GetComponent<Player>();
+            if (collidedPlayer == null)
             {
                 return;
             }
 
-            pulledPlayer = player;
+            pulledPlayer = collidedPlayer;
         }
 
         private void OnTriggerExit(Collider other)
