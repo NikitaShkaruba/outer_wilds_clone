@@ -36,7 +36,7 @@ public class Player : SpaceBody
 
         transform = GetComponent<Transform>();
 
-        groundCheckLayerMask = LayerMask.GetMask("Planets");
+        groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -69,7 +69,7 @@ public class Player : SpaceBody
         ApplyGravity();
 
         TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
-        TopLeftCornerDebug.AddDebug("IsOnTheGround = " + IsOnTheGround());
+        TopLeftCornerDebug.AddDebug("IsOnTheGround = " + IsGrounded());
     }
 
     private void Move()
@@ -80,7 +80,7 @@ public class Player : SpaceBody
                                          cachedTransform.right * wantedMovement.z;
         Vector3 playerVerticalMotion = cachedTransform.up * wantedMovement.y;
 
-        if (IsOnTheGround())
+        if (IsGrounded())
         {
             Vector3 playerPositionAddition = playerHorizontalMotion;
             playerPositionAddition *= moveSpeed;
@@ -111,7 +111,7 @@ public class Player : SpaceBody
         pilotedSpaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
     }
 
-    private bool IsOnTheGround()
+    private bool IsGrounded()
     {
         const float distanceFromBodyCenterToGround = 1.5f;
 
