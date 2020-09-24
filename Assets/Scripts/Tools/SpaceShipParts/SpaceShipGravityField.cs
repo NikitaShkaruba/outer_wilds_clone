@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Cinemachine.Utility;
+using UnityEngine;
 
 namespace Tools.SpaceShipParts
 {
@@ -15,8 +16,13 @@ namespace Tools.SpaceShipParts
             }
 
             Transform cachedTransform = transform;
+            Vector3 cachedTransformUp = cachedTransform.up;
 
-            Vector3 force = cachedTransform.up; // Pull up
+            Vector3 positionDifference = cachedTransform.position - collidedPlayer.Position;
+            Vector3 directionToCenter = positionDifference.ProjectOntoPlane(cachedTransformUp);
+
+            Vector3 force = directionToCenter; // Pull towards the center
+            force += cachedTransformUp; // Pull up
             force *= pullPower; // Add power
             force *= Time.fixedDeltaTime; // Scale with physics step
 
