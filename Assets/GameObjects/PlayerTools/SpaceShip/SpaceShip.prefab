@@ -11077,7 +11077,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightSource: {fileID: 3987797951698153686}
   interfaceIndicatorRenderer: {fileID: 7494430636020993626}
-  lightBulbRenderer: {fileID: 0}
+  lightBulbRenderer: {fileID: 925730928490953365}
   nonLightedMaterial: {fileID: 2100000, guid: e859809bae4bf454593c97893c30c46d, type: 2}
   lightedMaterial: {fileID: 2100000, guid: 215066040df94d14f96cce240a1fbf9e, type: 2}
 --- !u!1 &4298201865740115059
