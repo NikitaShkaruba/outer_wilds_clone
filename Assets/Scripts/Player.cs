@@ -223,17 +223,19 @@ public class Player : SpaceBody
 
     private void WasteFuel()
     {
-        if (leftFuelPercentage <= 0)
+        if (leftFuelPercentage > 0)
         {
-            return;
+            leftFuelPercentage -= fuelDepletionSpeed;
         }
-
-        leftFuelPercentage -= fuelDepletionSpeed;
+        else if (leftOxygenPercentage > 0)
+        {
+            leftOxygenPercentage -= fuelDepletionSpeed;
+        }
     }
 
     private bool HasFuel()
     {
-        return leftFuelPercentage > 0f;
+        return leftFuelPercentage > 0f || leftOxygenPercentage > 0f;
     }
 
     private void FadeScreen()
