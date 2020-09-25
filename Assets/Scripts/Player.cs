@@ -228,7 +228,10 @@ public class Player : SpaceBody
 
     public void FillOxygenTanks()
     {
-        leftOxygenPercentage += oxygenFillSpeed;
+        if (leftOxygenPercentage < 100f)
+        {
+            leftOxygenPercentage += oxygenFillSpeed;
+        }
     }
 
     private void WasteFuel(float multiplier = 1f)
