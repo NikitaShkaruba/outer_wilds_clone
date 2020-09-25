@@ -42,6 +42,7 @@ public class Player : SpaceBody
     [SerializeField] private SpaceSuitBar superFuelBar;
     [SerializeField] private float superFuelDepletionSpeed;
     [SerializeField] private float superFuelRestorationSpeed;
+    [SerializeField] private float superFuelPowerMultiplier;
     private float leftSuperFuelPercentage = 100f;
 
     // Suit oxygen
@@ -138,12 +139,12 @@ public class Player : SpaceBody
             WasteFuel();
         }
 
-        float superFuelModifier = 1f;
+        float superFuelMultiplier = 1f;
         if (wantedMovement.y > 0f && jumpButtonPressed)
         {
             if (leftSuperFuelPercentage > 0)
             {
-                superFuelModifier = 2f;
+                superFuelMultiplier = superFuelPowerMultiplier;
                 leftSuperFuelPercentage -= superFuelDepletionSpeed;
             }
         }
@@ -152,6 +153,7 @@ public class Player : SpaceBody
             if (leftSuperFuelPercentage < 100f && HasFuel())
             {
                 leftSuperFuelPercentage += superFuelRestorationSpeed;
+                WasteFuel(superFuelPowerMultiplier);
             }
         }
 
@@ -160,7 +162,7 @@ public class Player : SpaceBody
             // You can always use vertical thrusters
             Vector3 verticalThrustersForce = playerVerticalMotion;
             verticalThrustersForce *= thrustersPower;
-            verticalThrustersForce *= superFuelModifier;
+            verticalThrustersForce *= superFuelMultiplier;
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
@@ -223,15 +225,17 @@ public class Player : SpaceBody
         }
     }
 
-    private void WasteFuel()
+    private void WasteFuel(float multiplier = 1f)
     {
+        float depletionSpeed = fuelDepletionSpeed * multiplier;
+
         if (leftFuelPercentage > 0)
         {
-            leftFuelPercentage -= fuelDepletionSpeed;
+            leftFuelPercentage -= depletionSpeed;
         }
         else if (leftOxygenPercentage > 0)
         {
-            leftOxygenPercentage -= fuelDepletionSpeed;
+            leftOxygenPercentage -= depletionSpeed;
         }
     }
 
