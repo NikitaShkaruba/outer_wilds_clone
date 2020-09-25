@@ -11,13 +11,19 @@ public class Player : SpaceBody
     // User input
     private Vector3 wantedMovement;
     private Vector2 wantedRotation;
-    private bool wantsToJump;
-    private bool wantsToRotateAroundForwardVector;
+    private bool jumpButtonPressed;
 
     // Movement
     [SerializeField] private float thrustersPower;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private float jumpPower;
+    private bool wantsToRotateAroundForwardVector;
+
+    // Jump
+    private float acceleratedJumpPower;
+    [SerializeField] private float jumpPowerAccelerationPerTick;
+    [SerializeField] private float maxJumpPower;
+    [SerializeField] private float playerShrinkOnJumpSpeed;
+    private Vector3? scaleBeforeJumpShrinking;
 
     // Ground check
     private LayerMask groundCheckLayerMask;
@@ -89,12 +95,7 @@ public class Player : SpaceBody
             // Movement by foot with AddForce is buggy, so for now this will work.
             rigidbody.MovePosition(rigidbody.position + playerPositionAddition);
 
-            if (wantsToJump)
-            {
-                Vector3 jumpMotion = transform.up * jumpPower;
-
-                rigidbody.AddForce(jumpMotion);
-            }
+            ProcessJumpLogic();
         }
         else
         {
@@ -111,6 +112,37 @@ public class Player : SpaceBody
         verticalThrustersForce *= Time.deltaTime;
 
         rigidbody.AddForce(verticalThrustersForce);
+    }
+
+    private void ProcessJumpLogic()
+    {
+        if (jumpButtonPressed && acceleratedJumpPower <= maxJumpPower)
+        {
+            // Remember original scale
+            if (scaleBeforeJumpShrinking == null)
+            {
+                scaleBeforeJumpShrinking = transform.localScale;
+            }
+
+            // Shrink player a bit
+            transform.localScale -= new Vector3(0, playerShrinkOnJumpSpeed, 0);
+
+            // Accelerate jump power
+            acceleratedJumpPower += jumpPowerAccelerationPerTick;
+        }
+        else if (!jumpButtonPressed && acceleratedJumpPower > 0f)
+        {
+            // Resize player back
+            System.Diagnostics.Debug.Assert(scaleBeforeJumpShrinking != null, nameof(scaleBeforeJumpShrinking) + " != null");
+            transform.localScale = (Vector3) scaleBeforeJumpShrinking;
+
+            // Add jump force
+            Vector3 jumpMotion = transform.up * acceleratedJumpPower;
+            rigidbody.AddForce(jumpMotion);
+
+            acceleratedJumpPower = 0f;
+            scaleBeforeJumpShrinking = null;
+        }
     }
 
     private void PilotSpaceShip()
@@ -133,7 +165,7 @@ public class Player : SpaceBody
         wantedMovement.y = CalculateDirection(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
 
         // Jump
-        wantsToJump = Input.GetKey(KeyCode.Space);
+        jumpButtonPressed = Input.GetKey(KeyCode.Space);
     }
 
     private void SaveUserRotationInput()
