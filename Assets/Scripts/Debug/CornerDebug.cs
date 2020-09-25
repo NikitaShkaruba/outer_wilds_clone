@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Debug
 {
-    public class TopLeftCornerDebug : MonoBehaviour
+    public class CornerDebug : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI textMeshPro;
 

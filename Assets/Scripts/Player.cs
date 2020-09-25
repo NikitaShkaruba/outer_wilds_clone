@@ -74,8 +74,8 @@ public class Player : SpaceBody
         Rotate();
         ApplyGravity();
 
-        TopLeftCornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
-        TopLeftCornerDebug.AddDebug("IsOnTheGround = " + IsGrounded());
+        CornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
+        CornerDebug.AddDebug("IsOnTheGround = " + IsGrounded());
     }
 
     private void Move()
@@ -209,8 +209,8 @@ public class Player : SpaceBody
 
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            TopLeftCornerDebug topLeftCornerDebug2 = FindObjectOfType<TopLeftCornerDebug>();
-            topLeftCornerDebug2.isHidden = !topLeftCornerDebug2.isHidden;
+            CornerDebug cornerDebug = FindObjectOfType<CornerDebug>();
+            cornerDebug.isHidden = !cornerDebug.isHidden;
         }
     }
 
