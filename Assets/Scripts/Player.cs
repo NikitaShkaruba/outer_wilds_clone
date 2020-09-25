@@ -98,12 +98,19 @@ public class Player : SpaceBody
         }
         else
         {
-            Vector3 thrustersForce = playerHorizontalMotion + playerVerticalMotion;
-            thrustersForce *= thrustersPower;
-            thrustersForce *= Time.deltaTime;
+            Vector3 horizontalThrustersForce = playerHorizontalMotion;
+            horizontalThrustersForce *= thrustersPower;
+            horizontalThrustersForce *= Time.deltaTime;
 
-            rigidbody.AddForce(thrustersForce);
+            rigidbody.AddForce(horizontalThrustersForce);
         }
+
+        // You can always use vertical thrusters
+        Vector3 verticalThrustersForce = playerVerticalMotion;
+        verticalThrustersForce *= thrustersPower;
+        verticalThrustersForce *= Time.deltaTime;
+
+        rigidbody.AddForce(verticalThrustersForce);
     }
 
     private void PilotSpaceShip()
