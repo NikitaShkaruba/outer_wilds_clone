@@ -267,7 +267,7 @@ MonoBehaviour:
   initialVelocity: {x: 0, y: 0, z: 0}
   gravityScale: 1
   camera: {fileID: 5385065599560136047}
-  thrustersPower: 1000
+  thrustersPower: 500
   moveSpeed: 7
   jumpPowerAccelerationPerTick: 50
   maxJumpPower: 400
@@ -275,6 +275,7 @@ MonoBehaviour:
   isBuckledUp: 0
   buckleUpTransitionGoing: 0
   pilotedSpaceShip: {fileID: 0}
+  superFuelBar: {fileID: 0}
 --- !u!114 &5385065600682438436
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -37,9 +37,9 @@ public class Player : SpaceBody
     [HideInInspector] public bool buckleUpTransitionGoing;
     [HideInInspector] public SpaceShip pilotedSpaceShip;
 
-    // Suit Status
+    // Suit super fuel
     [SerializeField] private SpaceSuitBar superFuelBar;
-    private float superFuelPercentage = 100f;
+    private float leftSuperFuelPercentage = 100f;
 
     public new void Awake()
     {
@@ -112,27 +112,29 @@ public class Player : SpaceBody
             rigidbody.AddForce(horizontalThrustersForce);
         }
 
-
-        if (playerVerticalMotion.magnitude > 0f)
+        float superFuelModifier = 1f;
+        if (wantedMovement.y > 0f && jumpButtonPressed)
         {
-            if (superFuelPercentage > 0)
+            if (leftSuperFuelPercentage > 0)
             {
-                // You can always use vertical thrusters
-                Vector3 verticalThrustersForce = playerVerticalMotion;
-                verticalThrustersForce *= thrustersPower;
-                verticalThrustersForce *= Time.deltaTime;
-                rigidbody.AddForce(verticalThrustersForce);
-
-                superFuelPercentage -= 1f;
+                superFuelModifier = 2f;
+                leftSuperFuelPercentage -= 1f;
             }
         }
         else
         {
-            if (superFuelPercentage < 100f)
+            if (leftSuperFuelPercentage < 100f)
             {
-                superFuelPercentage += 1f;
+                leftSuperFuelPercentage += 1f;
             }
         }
+
+        // You can always use vertical thrusters
+        Vector3 verticalThrustersForce = playerVerticalMotion;
+        verticalThrustersForce *= thrustersPower;
+        verticalThrustersForce *= superFuelModifier;
+        verticalThrustersForce *= Time.deltaTime;
+        rigidbody.AddForce(verticalThrustersForce);
     }
 
     private void ProcessJumpLogic()
@@ -168,7 +170,7 @@ public class Player : SpaceBody
 
     private void UpdateSpaceSuitIndicators()
     {
-        superFuelBar.UpdatePercentage(superFuelPercentage);
+        superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
     }
 
     private void PilotSpaceShip()
