@@ -152,7 +152,7 @@ public class Player : SpaceBody
 
     private bool IsGrounded()
     {
-        const float distanceFromBodyCenterToGround = 1.5f;
+        const float distanceFromBodyCenterToGround = 1.1f;
 
         return Physics.Raycast(transform.position, -transform.up, distanceFromBodyCenterToGround, groundCheckLayerMask);
     }
