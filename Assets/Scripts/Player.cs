@@ -45,7 +45,12 @@ public class Player : SpaceBody
     // Suit oxygen
     [SerializeField] private SpaceSuitBar oxygenBar;
     private float leftOxygenPercentage = 100f;
-    [SerializeField] private float oxygenDepletionSpeed = 0.01f;
+    [SerializeField] private float oxygenDepletionSpeed;
+
+    // Suit fuel
+    [SerializeField] private SpaceSuitBar fuelBar;
+    private float leftFuelPercentage = 100f;
+    [SerializeField] private float fuelDepletionSpeed;
 
     // Health
     private bool isDead;
@@ -121,13 +126,14 @@ public class Player : SpaceBody
 
             ProcessJumpLogic();
         }
-        else
+        else if (HasFuel())
         {
             Vector3 horizontalThrustersForce = playerHorizontalMotion;
             horizontalThrustersForce *= thrustersPower;
             horizontalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(horizontalThrustersForce);
+            WasteFuel();
         }
 
         float superFuelModifier = 1f;
@@ -141,18 +147,23 @@ public class Player : SpaceBody
         }
         else
         {
-            if (leftSuperFuelPercentage < 100f)
+            if (leftSuperFuelPercentage < 100f && HasFuel())
             {
                 leftSuperFuelPercentage += 1f;
             }
         }
 
-        // You can always use vertical thrusters
-        Vector3 verticalThrustersForce = playerVerticalMotion;
-        verticalThrustersForce *= thrustersPower;
-        verticalThrustersForce *= superFuelModifier;
-        verticalThrustersForce *= Time.deltaTime;
-        rigidbody.AddForce(verticalThrustersForce);
+        if (!Mathf.Approximately(wantedMovement.y, 0f) && HasFuel())
+        {
+            // You can always use vertical thrusters
+            Vector3 verticalThrustersForce = playerVerticalMotion;
+            verticalThrustersForce *= thrustersPower;
+            verticalThrustersForce *= superFuelModifier;
+            verticalThrustersForce *= Time.deltaTime;
+
+            rigidbody.AddForce(verticalThrustersForce);
+            WasteFuel();
+        }
     }
 
     private void ProcessJumpLogic()
@@ -188,8 +199,9 @@ public class Player : SpaceBody
 
     private void UpdateSpaceSuitIndicators()
     {
-        superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
         oxygenBar.UpdatePercentage(leftOxygenPercentage);
+        fuelBar.UpdatePercentage(leftFuelPercentage);
+        superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
     }
 
     private void PilotSpaceShip()
@@ -207,6 +219,21 @@ public class Player : SpaceBody
         {
             isDead = true;
         }
+    }
+
+    private void WasteFuel()
+    {
+        if (leftFuelPercentage <= 0)
+        {
+            return;
+        }
+
+        leftFuelPercentage -= fuelDepletionSpeed;
+    }
+
+    private bool HasFuel()
+    {
+        return leftFuelPercentage > 0f;
     }
 
     private void FadeScreen()
