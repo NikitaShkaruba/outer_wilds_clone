@@ -40,6 +40,8 @@ public class Player : SpaceBody
 
     // Suit super fuel
     [SerializeField] private SpaceSuitBar superFuelBar;
+    [SerializeField] private float superFuelDepletionSpeed;
+    [SerializeField] private float superFuelRestorationSpeed;
     private float leftSuperFuelPercentage = 100f;
 
     // Suit oxygen
@@ -142,14 +144,14 @@ public class Player : SpaceBody
             if (leftSuperFuelPercentage > 0)
             {
                 superFuelModifier = 2f;
-                leftSuperFuelPercentage -= 1f;
+                leftSuperFuelPercentage -= superFuelDepletionSpeed;
             }
         }
         else
         {
             if (leftSuperFuelPercentage < 100f && HasFuel())
             {
-                leftSuperFuelPercentage += 1f;
+                leftSuperFuelPercentage += superFuelRestorationSpeed;
             }
         }
 

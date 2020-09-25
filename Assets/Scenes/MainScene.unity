@@ -3541,6 +3541,14 @@ PrefabInstance:
       propertyPath: fuelBar
       value: 
       objectReference: {fileID: 362438395}
+    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
+      propertyPath: superFuelDepletionSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
+      propertyPath: superFuelRestorationSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438436, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: suggestedActionsTextMeshPro
       value: 
