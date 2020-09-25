@@ -49,6 +49,7 @@ public class Player : SpaceBody
     [SerializeField] private SpaceSuitBar oxygenBar;
     private float leftOxygenPercentage = 100f;
     [SerializeField] private float oxygenDepletionSpeed;
+    [SerializeField] private float oxygenFillSpeed;
 
     // Suit fuel
     [SerializeField] private SpaceSuitBar fuelBar;
@@ -223,6 +224,11 @@ public class Player : SpaceBody
         {
             isDead = true;
         }
+    }
+
+    public void FillOxygenTanks()
+    {
+        leftOxygenPercentage += oxygenFillSpeed;
     }
 
     private void WasteFuel(float multiplier = 1f)
