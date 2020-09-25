@@ -57,6 +57,8 @@ public class Player : SpaceBody
     [SerializeField] private float fuelDepletionSpeed;
 
     // Health
+    [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
+    private float healthPercentage = 100f;
     private bool isDead;
     [SerializeField] private Image deathBlackFadeImage;
 
@@ -207,6 +209,7 @@ public class Player : SpaceBody
         oxygenBar.UpdatePercentage(leftOxygenPercentage);
         fuelBar.UpdatePercentage(leftFuelPercentage);
         superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
+        healthIndicator.UpdatePercentage(healthPercentage);
     }
 
     private void PilotSpaceShip()
@@ -251,6 +254,16 @@ public class Player : SpaceBody
     private bool HasFuel()
     {
         return leftFuelPercentage > 0f || leftOxygenPercentage > 0f;
+    }
+
+    public void Hurt(float healthPercentageToRemove)
+    {
+        healthPercentage = Mathf.Clamp(healthPercentage - healthPercentageToRemove, 0f, 100f);
+
+        if (Mathf.Approximately(healthPercentage, 0f))
+        {
+            isDead = true;
+        }
     }
 
     private void FadeScreen()
