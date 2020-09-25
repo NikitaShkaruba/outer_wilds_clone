@@ -141,7 +141,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &57950700
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3445,6 +3445,10 @@ PrefabInstance:
       propertyPath: superFuelBar
       value: 
       objectReference: {fileID: 1870237814}
+    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
+      propertyPath: oxygenBar
+      value: 
+      objectReference: {fileID: 57950703}
     - target: {fileID: 5385065600682438436, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: suggestedActionsTextMeshPro
       value: 

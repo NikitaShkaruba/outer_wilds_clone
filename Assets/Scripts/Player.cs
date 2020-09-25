@@ -41,6 +41,14 @@ public class Player : SpaceBody
     [SerializeField] private SpaceSuitBar superFuelBar;
     private float leftSuperFuelPercentage = 100f;
 
+    // Suit oxygen
+    [SerializeField] private SpaceSuitBar oxygenBar;
+    private float leftOxygenPercentage = 100f;
+    [SerializeField] private float oxygenDepletionSpeed = 0.01f;
+
+    // Health
+    private bool isDead;
+
     public new void Awake()
     {
         base.Awake();
@@ -63,6 +71,13 @@ public class Player : SpaceBody
 
     private void FixedUpdate()
     {
+        ApplyGravity();
+
+        if (isDead)
+        {
+            return;
+        }
+
         if (buckleUpTransitionGoing)
         {
             DoBucklingUpPiece();
@@ -78,7 +93,7 @@ public class Player : SpaceBody
 
         Move();
         Rotate();
-        ApplyGravity();
+        BreatheOxygen();
 
         CornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
         CornerDebug.AddDebug("IsOnTheGround = " + IsGrounded());
@@ -171,11 +186,24 @@ public class Player : SpaceBody
     private void UpdateSpaceSuitIndicators()
     {
         superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
+        oxygenBar.UpdatePercentage(leftOxygenPercentage);
     }
 
     private void PilotSpaceShip()
     {
         pilotedSpaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
+    }
+
+    private void BreatheOxygen()
+    {
+        if (leftOxygenPercentage > 0)
+        {
+            leftOxygenPercentage -= oxygenDepletionSpeed;
+        }
+        else
+        {
+            isDead = true;
+        }
     }
 
     private bool IsGrounded()
