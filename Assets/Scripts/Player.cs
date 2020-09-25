@@ -3,6 +3,7 @@ using Tools;
 using Tools.SpaceShipParts;
 using Tools.SpaceSuit;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : SpaceBody
 {
@@ -48,6 +49,7 @@ public class Player : SpaceBody
 
     // Health
     private bool isDead;
+    [SerializeField] private Image deathBlackFadeImage;
 
     public new void Awake()
     {
@@ -75,6 +77,7 @@ public class Player : SpaceBody
 
         if (isDead)
         {
+            FadeScreen();
             return;
         }
 
@@ -204,6 +207,14 @@ public class Player : SpaceBody
         {
             isDead = true;
         }
+    }
+
+    private void FadeScreen()
+    {
+        Color nextDeathBlackFadeImage = deathBlackFadeImage.color;
+        nextDeathBlackFadeImage.a += 0.01f;
+
+        deathBlackFadeImage.color = nextDeathBlackFadeImage;
     }
 
     private bool IsGrounded()
