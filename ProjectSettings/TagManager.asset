@@ -41,3 +41,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BonfireParticles
+    uniqueID: 2788668699
+    locked: 0
