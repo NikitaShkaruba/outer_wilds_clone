@@ -53,12 +53,14 @@ public class Player : SpaceBody
 
     // Suit fuel
     [SerializeField] private SpaceSuitBar fuelBar;
-    private float leftFuelPercentage = 100f;
+    private const float MaxLeftFuelPercentage = 100f;
+    public float leftFuelPercentage = MaxLeftFuelPercentage;
     [SerializeField] private float fuelDepletionSpeed;
 
     // Health
     [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
-    private float healthPercentage = 100f;
+    private const float MaxHealthPercentage = 100f;
+    public float healthPercentage = MaxHealthPercentage;
     private bool isDead;
     [SerializeField] private Image deathBlackFadeImage;
 
@@ -256,6 +258,11 @@ public class Player : SpaceBody
         return leftFuelPercentage > 0f || leftOxygenPercentage > 0f;
     }
 
+    public bool IsFuelTankFull()
+    {
+        return Mathf.Approximately(leftFuelPercentage, MaxLeftFuelPercentage);
+    }
+
     public void Hurt(float healthPercentageToRemove)
     {
         healthPercentage = Mathf.Clamp(healthPercentage - healthPercentageToRemove, 0f, 100f);
@@ -264,6 +271,11 @@ public class Player : SpaceBody
         {
             isDead = true;
         }
+    }
+
+    public bool IsFullyHealthy()
+    {
+        return Mathf.Approximately(healthPercentage, MaxHealthPercentage);
     }
 
     private void FadeScreen()
@@ -298,6 +310,19 @@ public class Player : SpaceBody
         wantedRotation.y = Input.GetAxis("Mouse Y");
 
         wantsToRotateAroundForwardVector = Input.GetKey(KeyCode.R);
+    }
+
+    public void RefillStocksFromShip()
+    {
+        if (!IsFullyHealthy())
+        {
+            healthPercentage = MaxHealthPercentage;
+        }
+
+        if (!IsFuelTankFull())
+        {
+            leftFuelPercentage = MaxLeftFuelPercentage;
+        }
     }
 
     private void Rotate()

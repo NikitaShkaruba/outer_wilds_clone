@@ -1095,63 +1095,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 410261172}
   m_CullTransparentMesh: 0
---- !u!1001 &447719278
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 543450652478154865}
-    m_Modifications:
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.284
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.113
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.533
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.012984017
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.71248007
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.011708164
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.70147455
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_RootOrder
-      value: 13
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3840596255364306528, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8159172915190614273, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
-      propertyPath: m_Name
-      value: MiniTree
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a3ccb06f6bb3cdd4ebe10d51af6f10d5, type: 3}
 --- !u!1 &490944619
 GameObject:
   m_ObjectHideFlags: 0
@@ -8650,33 +8593,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1701022290}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
-      propertyPath: oxygenDepletionSpeed
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
-      propertyPath: fuelDepletionSpeed
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: fuelBar
       value: 
       objectReference: {fileID: 362438395}
-    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
-      propertyPath: superFuelDepletionSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
-      propertyPath: superFuelRestorationSpeed
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
-      propertyPath: superFuelPowerMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
-      propertyPath: oxygenFillSpeed
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: healthIndicator
       value: 

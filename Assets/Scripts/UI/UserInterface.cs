@@ -111,6 +111,10 @@ namespace UI
                 case SpaceShipSeat spaceShipSeat:
                     AddSpaceShipChairUiAction(spaceShipSeat);
                     break;
+
+                case SpaceShipHealthAndFuelStation _:
+                    AddSpaceShipHealthAndFuelRefillStation();
+                    break;
             }
         }
 
@@ -130,6 +134,34 @@ namespace UI
             {
                 availableActions.Add(new UiAction(KeyCode.E, "buckle up", () => player.StartBucklingUp(spaceShipSeat)));
             }
+        }
+
+        private void AddSpaceShipHealthAndFuelRefillStation()
+        {
+            string actionDescription = CreateSpaceShipHealthAndFuelRefillStationActionDescription();
+            if (actionDescription.Equals(""))
+            {
+                return;
+            }
+
+            availableActions.Add(new UiAction(KeyCode.E, actionDescription, () => player.RefillStocksFromShip()));
+        }
+
+        private string CreateSpaceShipHealthAndFuelRefillStationActionDescription()
+        {
+            List<string> actions = new List<string>();
+
+            if (!player.IsFullyHealthy())
+            {
+                actions.Add("Use Medkit");
+            }
+
+            if (!player.IsFuelTankFull())
+            {
+                actions.Add("Refuel Jetpack");
+            }
+
+            return string.Join(" and ", actions);
         }
     }
 }
