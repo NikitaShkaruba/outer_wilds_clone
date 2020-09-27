@@ -15,8 +15,8 @@ namespace Tools.SpaceSuit
 
         public void UpdatePercentage(float healthPercentage)
         {
-            const float maxColorValue = 256f;
-            float otherColorValues = 0.0001f * healthPercentage * maxColorValue;
+            const float maxColorValue = 1f;
+            float otherColorValues = 0.01f * healthPercentage * maxColorValue;
 
             image.color = new Color(maxColorValue, otherColorValues, otherColorValues);
         }
