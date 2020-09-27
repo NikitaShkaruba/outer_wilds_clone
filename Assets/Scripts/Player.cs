@@ -66,6 +66,11 @@ public class Player : SpaceBody
     private bool isDead;
     [SerializeField] private Image deathBlackFadeImage;
 
+    // You are taking damage text
+    [SerializeField] private GameObject youAreTakingDamageText;
+    [SerializeField] private float hideYouAreTakingDamageTextTimer;
+    [SerializeField] private float hideYouAreTakingDamageTextTimerTime;
+
     private bool healthAndFuelRefilling;
 
     public new void Awake()
@@ -85,6 +90,7 @@ public class Player : SpaceBody
         SaveUserRotationInput();
 
         UpdateSpaceSuitIndicators();
+        UpdateYouAreTakingDamageText();
 
         if (healthAndFuelRefilling)
         {
@@ -224,6 +230,21 @@ public class Player : SpaceBody
         healthIndicator.UpdatePercentage(healthPercentage);
     }
 
+    private void UpdateYouAreTakingDamageText()
+    {
+        if (hideYouAreTakingDamageTextTimer < 0 && !youAreTakingDamageText.activeSelf)
+        {
+            return;
+        }
+
+        hideYouAreTakingDamageTextTimer -= Time.fixedDeltaTime;
+
+        if (hideYouAreTakingDamageTextTimer < 0)
+        {
+            youAreTakingDamageText.SetActive(false);
+        }
+    }
+
     private void PilotSpaceShip()
     {
         pilotedSpaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
@@ -281,6 +302,9 @@ public class Player : SpaceBody
         {
             isDead = true;
         }
+
+        youAreTakingDamageText.SetActive(true);
+        hideYouAreTakingDamageTextTimer = hideYouAreTakingDamageTextTimerTime;
     }
 
     public bool IsFullyHealthy()

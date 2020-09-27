@@ -290,6 +290,9 @@ MonoBehaviour:
   healthRefillSpeed: 7
   healthPercentage: 100
   deathBlackFadeImage: {fileID: 0}
+  youAreTakingDamageText: {fileID: 0}
+  hideYouAreTakingDamageTextTimer: 0
+  hideYouAreTakingDamageTextTimerTime: 0.1
 --- !u!114 &5385065600682438436
 MonoBehaviour:
   m_ObjectHideFlags: 0
