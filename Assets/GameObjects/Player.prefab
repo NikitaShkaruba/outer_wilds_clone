@@ -283,8 +283,12 @@ MonoBehaviour:
   oxygenDepletionSpeed: 0.01
   oxygenFillSpeed: 0.5
   fuelBar: {fileID: 0}
+  fuelRefillSpeed: 2
+  leftFuelPercentage: 100
   fuelDepletionSpeed: 0.01
   healthIndicator: {fileID: 0}
+  healthRefillSpeed: 7
+  healthPercentage: 100
   deathBlackFadeImage: {fileID: 0}
 --- !u!114 &5385065600682438436
 MonoBehaviour:

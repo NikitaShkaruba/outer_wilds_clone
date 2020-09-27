@@ -144,7 +144,7 @@ namespace UI
                 return;
             }
 
-            availableActions.Add(new UiAction(KeyCode.E, actionDescription, () => player.RefillStocksFromShip()));
+            availableActions.Add(new UiAction(KeyCode.E, actionDescription, () => player.StartRefillingStocksFromShip()));
         }
 
         private string CreateSpaceShipHealthAndFuelRefillStationActionDescription()
