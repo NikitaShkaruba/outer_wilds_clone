@@ -276,6 +276,16 @@ MonoBehaviour:
   buckleUpTransitionGoing: 0
   pilotedSpaceShip: {fileID: 0}
   superFuelBar: {fileID: 0}
+  superFuelDepletionSpeed: 1
+  superFuelRestorationSpeed: 0.4
+  superFuelPowerMultiplier: 2
+  oxygenBar: {fileID: 0}
+  oxygenDepletionSpeed: 0.01
+  oxygenFillSpeed: 0.5
+  fuelBar: {fileID: 0}
+  fuelDepletionSpeed: 0.01
+  healthIndicator: {fileID: 0}
+  deathBlackFadeImage: {fileID: 0}
 --- !u!114 &5385065600682438436
 MonoBehaviour:
   m_ObjectHideFlags: 0
