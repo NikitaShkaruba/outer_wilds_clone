@@ -1,4 +1,4 @@
-namespace Helpers
+namespace Common
 {
     public static class Directions
     {
