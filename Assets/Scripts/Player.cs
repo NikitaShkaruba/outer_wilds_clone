@@ -1,10 +1,11 @@
-﻿using Debug;
-using Meta;
-using Tools;
-using Tools.SpaceShipParts;
-using Tools.SpaceSuit;
+﻿using Common;
+using PlayerTools;
+using PlayerTools.SpaceShipParts;
+using PlayerTools.SpaceSuit;
+using UI.Debug;
 using UnityEngine;
 using UnityEngine.UI;
+using Universe;
 
 public class Player : SpaceBody
 {
@@ -486,7 +487,7 @@ public class Player : SpaceBody
         transform.localPosition = transformCachedPosition;
 
         // Rotate player body to (0,0,0)
-        Quaternion wantedTransformRotation = Quaternion.Euler(Unity.BugFixes.TransformBlenderEulerAngles(new Vector3(0, 0, 0)));
+        Quaternion wantedTransformRotation = Quaternion.Euler(BlenderBugFixes.TransformBlenderEulerAngles(new Vector3(0, 0, 0)));
         cachedTransformRotation = Quaternion.Slerp(cachedTransformRotation, wantedTransformRotation, Time.deltaTime);
         transform.localRotation = cachedTransformRotation;
 
