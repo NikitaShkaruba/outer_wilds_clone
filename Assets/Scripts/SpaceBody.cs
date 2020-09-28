@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class SpaceBody : Body
+public abstract class SpaceBody : Body
 {
     protected CelestialBody BodyToGravitateTowards;
 

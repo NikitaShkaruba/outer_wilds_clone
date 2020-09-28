@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-public class Body : MonoBehaviour
+public abstract class Body : MonoBehaviour
 {
     [HideInInspector] public new Rigidbody rigidbody;
 
