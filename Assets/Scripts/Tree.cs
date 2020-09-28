@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
+[RequireComponent(typeof(Collider))]
 public class Tree : MonoBehaviour
 {
     private void OnTriggerStay(Collider other)
