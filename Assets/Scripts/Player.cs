@@ -70,13 +70,13 @@ public class Player : SpaceBody
     [SerializeField] private float oxygenDepletionSpeed;
     [SerializeField] private float oxygenRefillSpeed;
     [SerializeField] private SpaceSuitBar oxygenBar;
-    private GasTank oxygenTank;
+    private Tank oxygenTank;
 
     [Header("Jetpack fuel")]
     [SerializeField] private float fuelDepletionSpeed;
     [SerializeField] private float fuelRefillSpeed;
     [SerializeField] private SpaceSuitBar fuelBar;
-    private GasTank fuelTank;
+    private Tank fuelTank;
     public bool IsFuelTankFull => fuelTank.IsFull;
 
     // Properties
@@ -92,8 +92,8 @@ public class Player : SpaceBody
         Cursor.lockState = CursorLockMode.Locked;
 
         damageable = new Damageable(100f);
-        fuelTank = new GasTank();
-        oxygenTank = new GasTank();
+        fuelTank = new Tank();
+        oxygenTank = new Tank();
     }
 
     private void Update()
@@ -169,7 +169,7 @@ public class Player : SpaceBody
             horizontalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(horizontalThrustersForce);
-            WastePropellant();
+            DepletePropellant();
         }
 
         float superFuelMultiplier = 1f;
@@ -186,7 +186,7 @@ public class Player : SpaceBody
             if (leftSuperFuelPercentage < 100f && HasPropellant())
             {
                 leftSuperFuelPercentage += superFuelRestorationSpeed;
-                WastePropellant(superFuelPowerMultiplier);
+                DepletePropellant(superFuelPowerMultiplier);
             }
         }
 
@@ -199,7 +199,7 @@ public class Player : SpaceBody
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
-            WastePropellant();
+            DepletePropellant();
         }
     }
 
@@ -266,7 +266,7 @@ public class Player : SpaceBody
     {
         if (!oxygenTank.IsEmpty)
         {
-            oxygenTank.Waste(oxygenDepletionSpeed);
+            oxygenTank.Deplete(oxygenDepletionSpeed);
         }
         else
         {
@@ -278,21 +278,21 @@ public class Player : SpaceBody
     {
         if (!oxygenTank.IsFull)
         {
-            oxygenTank.Refuel(oxygenRefillSpeed);
+            oxygenTank.Fill(oxygenRefillSpeed);
         }
     }
 
-    private void WastePropellant(float multiplier = 1f)
+    private void DepletePropellant(float multiplier = 1f)
     {
         float depletionSpeed = fuelDepletionSpeed * multiplier;
 
         if (!fuelTank.IsEmpty)
         {
-            fuelTank.Waste(depletionSpeed);
+            fuelTank.Deplete(depletionSpeed);
         }
         else if (!oxygenTank.IsEmpty)
         {
-            oxygenTank.Waste(depletionSpeed);
+            oxygenTank.Deplete(depletionSpeed);
         }
     }
 
@@ -356,7 +356,7 @@ public class Player : SpaceBody
     private void RefillHealthAndFuel()
     {
         damageable.Heal(healthRefillSpeed);
-        fuelTank.Refuel(fuelRefillSpeed);
+        fuelTank.Fill(fuelRefillSpeed);
 
         if (damageable.HasFullHealthPoints && fuelTank.IsFull)
         {
