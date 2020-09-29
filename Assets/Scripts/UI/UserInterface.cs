@@ -151,7 +151,7 @@ namespace UI
         {
             List<string> actions = new List<string>();
 
-            if (!player.IsFullyHealthy())
+            if (!player.HasFullHealthPoints)
             {
                 actions.Add("Use Medkit");
             }

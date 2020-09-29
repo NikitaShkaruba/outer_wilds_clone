@@ -1,4 +1,5 @@
 ﻿using Common;
+using PlayerLogic;
 using PlayerTools;
 using PlayerTools.SpaceShipParts;
 using PlayerTools.SpaceSuit;
@@ -60,13 +61,10 @@ public class Player : SpaceBody
     public float leftFuelPercentage = MaxLeftFuelPercentage;
     [SerializeField] private float fuelDepletionSpeed;
 
-    // Health
     [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
-    private const float MaxHealthPercentage = 100f;
-    public float healthRefillSpeed;
-    public float healthPercentage = MaxHealthPercentage;
-    private bool isDead;
     [SerializeField] private Image deathBlackFadeImage;
+    private bool isDead;
+    public float healthRefillSpeed;
 
     // You are taking damage text
     [SerializeField] private GameObject youAreTakingDamageText;
@@ -74,6 +72,12 @@ public class Player : SpaceBody
     [SerializeField] private float hideYouAreTakingDamageTextTimerTime;
 
     private bool healthAndFuelRefilling;
+
+    // Humble object components
+    private Damageable damageable;
+
+    // Properties
+    public bool HasFullHealthPoints => damageable.HasFullHealthPoints;
 
     public new void Awake()
     {
@@ -84,6 +88,8 @@ public class Player : SpaceBody
         groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
 
         Cursor.lockState = CursorLockMode.Locked;
+
+        damageable = new Damageable(100f);
     }
 
     private void Update()
@@ -229,7 +235,7 @@ public class Player : SpaceBody
         oxygenBar.UpdatePercentage(leftOxygenPercentage);
         fuelBar.UpdatePercentage(leftFuelPercentage);
         superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
-        healthIndicator.UpdatePercentage(healthPercentage);
+        healthIndicator.UpdatePercentage(damageable.HealthPoints);
     }
 
     private void UpdateYouAreTakingDamageText()
@@ -298,20 +304,15 @@ public class Player : SpaceBody
 
     public void Hurt(float healthPercentageToRemove)
     {
-        healthPercentage = Mathf.Clamp(healthPercentage - healthPercentageToRemove, 0f, 100f);
+        damageable.Damage(healthPercentageToRemove);
 
-        if (Mathf.Approximately(healthPercentage, 0f))
+        if (damageable.HasNoHealthPoints)
         {
             isDead = true;
         }
 
         youAreTakingDamageText.SetActive(true);
         hideYouAreTakingDamageTextTimer = hideYouAreTakingDamageTextTimerTime;
-    }
-
-    public bool IsFullyHealthy()
-    {
-        return Mathf.Approximately(healthPercentage, MaxHealthPercentage);
     }
 
     private void FadeScreen()
@@ -355,17 +356,14 @@ public class Player : SpaceBody
 
     private void RefillHealthAndFuel()
     {
-        if (!IsFullyHealthy())
-        {
-            healthPercentage = Mathf.Clamp(healthPercentage + healthRefillSpeed, 0, MaxHealthPercentage);
-        }
+        damageable.Heal(healthRefillSpeed);
 
         if (!IsFuelTankFull())
         {
             leftFuelPercentage = Mathf.Clamp(leftFuelPercentage + fuelRefillSpeed, 0, MaxLeftFuelPercentage);
         }
 
-        if (IsFullyHealthy() && IsFuelTankFull())
+        if (damageable.HasFullHealthPoints && IsFuelTankFull())
         {
             healthAndFuelRefilling = false;
         }
