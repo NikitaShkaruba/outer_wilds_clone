@@ -48,20 +48,8 @@ public class Player : SpaceBody
     [SerializeField] private float superFuelPowerMultiplier;
     private float leftSuperFuelPercentage = 100f;
 
-    // Suit oxygen
-    [SerializeField] private SpaceSuitBar oxygenBar;
-    [SerializeField] private float oxygenDepletionSpeed;
-    [SerializeField] private float oxygenFillSpeed;
-
-    // Suit fuel
-    [SerializeField] private SpaceSuitBar fuelBar;
-    [SerializeField] private float fuelRefillSpeed;
-    [SerializeField] private float fuelDepletionSpeed;
-
-    [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
     [SerializeField] private Image deathBlackFadeImage;
     private bool isDead;
-    public float healthRefillSpeed;
 
     // You are taking damage text
     [SerializeField] private GameObject youAreTakingDamageText;
@@ -70,14 +58,28 @@ public class Player : SpaceBody
 
     private bool healthAndFuelRefilling;
 
-    // Humble object components
+    // ----- Refactoring ----
+
+    [Header("Health")]
+    [SerializeField] private float healthRefillSpeed;
+    [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
     private Damageable damageable;
-    private GasTank fuelTank;
+    public bool HasFullHealthPoints => damageable.HasFullHealthPoints;
+
+    [Header("Oxygen")]
+    [SerializeField] private float oxygenDepletionSpeed;
+    [SerializeField] private float oxygenRefillSpeed;
+    [SerializeField] private SpaceSuitBar oxygenBar;
     private GasTank oxygenTank;
 
-    // Properties
-    public bool HasFullHealthPoints => damageable.HasFullHealthPoints;
+    [Header("Jetpack fuel")]
+    [SerializeField] private float fuelDepletionSpeed;
+    [SerializeField] private float fuelRefillSpeed;
+    [SerializeField] private SpaceSuitBar fuelBar;
+    private GasTank fuelTank;
     public bool IsFuelTankFull => fuelTank.IsFull;
+
+    // Properties
 
     public new void Awake()
     {
@@ -276,7 +278,7 @@ public class Player : SpaceBody
     {
         if (!oxygenTank.IsFull)
         {
-            oxygenTank.Refuel(oxygenFillSpeed);
+            oxygenTank.Refuel(oxygenRefillSpeed);
         }
     }
 
