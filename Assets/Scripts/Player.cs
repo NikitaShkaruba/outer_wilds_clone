@@ -50,7 +50,6 @@ public class Player : SpaceBody
 
     // Suit oxygen
     [SerializeField] private SpaceSuitBar oxygenBar;
-    private float leftOxygenPercentage = 100f;
     [SerializeField] private float oxygenDepletionSpeed;
     [SerializeField] private float oxygenFillSpeed;
 
@@ -74,6 +73,7 @@ public class Player : SpaceBody
     // Humble object components
     private Damageable damageable;
     private GasTank fuelTank;
+    private GasTank oxygenTank;
 
     // Properties
     public bool HasFullHealthPoints => damageable.HasFullHealthPoints;
@@ -91,6 +91,7 @@ public class Player : SpaceBody
 
         damageable = new Damageable(100f);
         fuelTank = new GasTank();
+        oxygenTank = new GasTank();
     }
 
     private void Update()
@@ -233,7 +234,7 @@ public class Player : SpaceBody
 
     private void UpdateSpaceSuitIndicators()
     {
-        oxygenBar.UpdatePercentage(leftOxygenPercentage);
+        oxygenBar.UpdatePercentage(oxygenTank.FilledPercentage);
         fuelBar.UpdatePercentage(fuelTank.FilledPercentage);
         superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
         healthIndicator.UpdatePercentage(damageable.HealthPoints);
@@ -261,9 +262,9 @@ public class Player : SpaceBody
 
     private void BreatheOxygen()
     {
-        if (leftOxygenPercentage > 0)
+        if (!oxygenTank.IsEmpty)
         {
-            leftOxygenPercentage -= oxygenDepletionSpeed;
+            oxygenTank.Waste(oxygenDepletionSpeed);
         }
         else
         {
@@ -273,9 +274,9 @@ public class Player : SpaceBody
 
     public void FillOxygenTanks()
     {
-        if (leftOxygenPercentage < 100f)
+        if (!oxygenTank.IsFull)
         {
-            leftOxygenPercentage += oxygenFillSpeed;
+            oxygenTank.Refuel(oxygenFillSpeed);
         }
     }
 
@@ -287,15 +288,15 @@ public class Player : SpaceBody
         {
             fuelTank.Waste(depletionSpeed);
         }
-        else if (leftOxygenPercentage > 0)
+        else if (!oxygenTank.IsEmpty)
         {
-            leftOxygenPercentage -= depletionSpeed;
+            oxygenTank.Waste(depletionSpeed);
         }
     }
 
     private bool HasPropellant()
     {
-        return !fuelTank.IsEmpty || leftOxygenPercentage > 0f;
+        return !fuelTank.IsEmpty || !oxygenTank.IsEmpty;
     }
 
     public void Hurt(float healthPercentageToRemove)
