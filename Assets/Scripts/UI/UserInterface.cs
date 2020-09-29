@@ -156,7 +156,7 @@ namespace UI
                 actions.Add("Use Medkit");
             }
 
-            if (!player.IsFuelTankFull())
+            if (!player.IsFuelTankFull)
             {
                 actions.Add("Refuel Jetpack");
             }

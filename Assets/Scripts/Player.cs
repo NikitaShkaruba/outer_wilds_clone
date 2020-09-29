@@ -56,9 +56,7 @@ public class Player : SpaceBody
 
     // Suit fuel
     [SerializeField] private SpaceSuitBar fuelBar;
-    private const float MaxLeftFuelPercentage = 100f;
-    public float fuelRefillSpeed;
-    public float leftFuelPercentage = MaxLeftFuelPercentage;
+    [SerializeField] private float fuelRefillSpeed;
     [SerializeField] private float fuelDepletionSpeed;
 
     [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
@@ -75,9 +73,11 @@ public class Player : SpaceBody
 
     // Humble object components
     private Damageable damageable;
+    private GasTank fuelTank;
 
     // Properties
     public bool HasFullHealthPoints => damageable.HasFullHealthPoints;
+    public bool IsFuelTankFull => fuelTank.IsFull;
 
     public new void Awake()
     {
@@ -90,6 +90,7 @@ public class Player : SpaceBody
         Cursor.lockState = CursorLockMode.Locked;
 
         damageable = new Damageable(100f);
+        fuelTank = new GasTank();
     }
 
     private void Update()
@@ -158,14 +159,14 @@ public class Player : SpaceBody
 
             ProcessJumpLogic();
         }
-        else if (HasFuel())
+        else if (HasPropellant())
         {
             Vector3 horizontalThrustersForce = playerHorizontalMotion;
             horizontalThrustersForce *= thrustersPower;
             horizontalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(horizontalThrustersForce);
-            WasteFuel();
+            WastePropellant();
         }
 
         float superFuelMultiplier = 1f;
@@ -179,14 +180,14 @@ public class Player : SpaceBody
         }
         else
         {
-            if (leftSuperFuelPercentage < 100f && HasFuel())
+            if (leftSuperFuelPercentage < 100f && HasPropellant())
             {
                 leftSuperFuelPercentage += superFuelRestorationSpeed;
-                WasteFuel(superFuelPowerMultiplier);
+                WastePropellant(superFuelPowerMultiplier);
             }
         }
 
-        if (!Mathf.Approximately(wantedMovement.y, 0f) && HasFuel())
+        if (!Mathf.Approximately(wantedMovement.y, 0f) && HasPropellant())
         {
             // You can always use vertical thrusters
             Vector3 verticalThrustersForce = playerVerticalMotion;
@@ -195,7 +196,7 @@ public class Player : SpaceBody
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
-            WasteFuel();
+            WastePropellant();
         }
     }
 
@@ -233,7 +234,7 @@ public class Player : SpaceBody
     private void UpdateSpaceSuitIndicators()
     {
         oxygenBar.UpdatePercentage(leftOxygenPercentage);
-        fuelBar.UpdatePercentage(leftFuelPercentage);
+        fuelBar.UpdatePercentage(fuelTank.FilledPercentage);
         superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
         healthIndicator.UpdatePercentage(damageable.HealthPoints);
     }
@@ -278,13 +279,13 @@ public class Player : SpaceBody
         }
     }
 
-    private void WasteFuel(float multiplier = 1f)
+    private void WastePropellant(float multiplier = 1f)
     {
         float depletionSpeed = fuelDepletionSpeed * multiplier;
 
-        if (leftFuelPercentage > 0)
+        if (!fuelTank.IsEmpty)
         {
-            leftFuelPercentage -= depletionSpeed;
+            fuelTank.Waste(depletionSpeed);
         }
         else if (leftOxygenPercentage > 0)
         {
@@ -292,14 +293,9 @@ public class Player : SpaceBody
         }
     }
 
-    private bool HasFuel()
+    private bool HasPropellant()
     {
-        return leftFuelPercentage > 0f || leftOxygenPercentage > 0f;
-    }
-
-    public bool IsFuelTankFull()
-    {
-        return Mathf.Approximately(leftFuelPercentage, MaxLeftFuelPercentage);
+        return !fuelTank.IsEmpty || leftOxygenPercentage > 0f;
     }
 
     public void Hurt(float healthPercentageToRemove)
@@ -357,13 +353,9 @@ public class Player : SpaceBody
     private void RefillHealthAndFuel()
     {
         damageable.Heal(healthRefillSpeed);
+        fuelTank.Refuel(fuelRefillSpeed);
 
-        if (!IsFuelTankFull())
-        {
-            leftFuelPercentage = Mathf.Clamp(leftFuelPercentage + fuelRefillSpeed, 0, MaxLeftFuelPercentage);
-        }
-
-        if (damageable.HasFullHealthPoints && IsFuelTankFull())
+        if (damageable.HasFullHealthPoints && fuelTank.IsFull)
         {
             healthAndFuelRefilling = false;
         }
