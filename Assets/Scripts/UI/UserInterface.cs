@@ -151,12 +151,12 @@ namespace UI
         {
             List<string> actions = new List<string>();
 
-            if (!player.HasFullHealthPoints)
+            if (!player.WantsToHealUp)
             {
                 actions.Add("Use Medkit");
             }
 
-            if (!player.IsFuelTankFull)
+            if (!player.WantsToRefillFuelTank)
             {
                 actions.Add("Refuel Jetpack");
             }

@@ -2,8 +2,8 @@
 using PlayerLogic;
 using PlayerTools;
 using PlayerTools.SpaceShipParts;
-using PlayerTools.SpaceSuit;
 using UI.Debug;
+using UI.SpaceSuitStatus;
 using UnityEngine;
 using UnityEngine.UI;
 using Universe;
@@ -15,7 +15,6 @@ public class Player : SpaceBody
     private new Transform transform;
 
     // Movement
-    [SerializeField] private float thrustersPower;
     [SerializeField] private float moveSpeed;
 
     // Jump
@@ -44,38 +43,27 @@ public class Player : SpaceBody
     [SerializeField] private float hideYouAreTakingDamageTextTimer;
     [SerializeField] private float hideYouAreTakingDamageTextTimerTime;
 
-    // ----- Refactoring ----
+    // UI which needs refactoring
+    [SerializeField] private SpaceSuitBar oxygenBar;
+    [SerializeField] private SpaceSuitBar fuelBar;
+    [SerializeField] private SpaceSuitBar superFuelBar;
+    [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
+
+    public bool WantsToRefillFuelTank => spaceSuit.FuelTank.IsFull;
+    public bool WantsToHealUp => damageable.HasFullHealthPoints;
+    private bool IsDead => damageable.HasNoHealthPoints || !hasSomethingToBreathe;
+    private bool hasSomethingToBreathe = true;
+
+    private bool healthAndFuelRefilling;
 
     [Header("Health")]
     [SerializeField] private float healthRefillSpeed;
-    [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
-    private Damageable damageable;
-    public bool HasFullHealthPoints => damageable.HasFullHealthPoints;
 
-    [Header("Oxygen")]
-    [SerializeField] private float oxygenDepletionSpeed;
-    [SerializeField] private float oxygenRefillSpeed;
-    [SerializeField] private SpaceSuitBar oxygenBar;
-    private Tank oxygenTank;
+    // ----- Refactored ----
 
-    [Header("Jetpack fuel")]
-    [SerializeField] private float fuelDepletionSpeed;
-    [SerializeField] private float fuelRefillSpeed;
-    [SerializeField] private SpaceSuitBar fuelBar;
-    private Tank fuelTank;
-    public bool IsFuelTankFull => fuelTank.IsFull;
-
-    [Header("Jetpack super-fuel")]
-    [SerializeField] private float superFuelDepletionSpeed;
-    [SerializeField] private float superFuelRestorationSpeed;
-    [SerializeField] private float superFuelPowerMultiplier;
-    [SerializeField] private SpaceSuitBar superFuelBar;
-    private Tank superFuelTank;
-
-    // Ungrouped
     private PlayerInput playerInput;
-    private bool IsDead => damageable.HasNoHealthPoints || oxygenTank.IsEmpty;
-    private bool healthAndFuelRefilling;
+    private Damageable damageable;
+    private SpaceSuit spaceSuit;
 
     public new void Awake()
     {
@@ -86,12 +74,8 @@ public class Player : SpaceBody
 
         groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
 
-        Cursor.lockState = CursorLockMode.Locked;
-
         damageable = new Damageable(100f);
-        oxygenTank = new Tank();
-        fuelTank = new Tank();
-        superFuelTank = new Tank();
+        spaceSuit = new SpaceSuit();
     }
 
     private void Update()
@@ -108,6 +92,7 @@ public class Player : SpaceBody
     private void FixedUpdate()
     {
         ApplyGravity();
+        spaceSuit.Tick();
 
         if (IsDead)
         {
@@ -149,50 +134,27 @@ public class Player : SpaceBody
             Vector3 playerPositionAddition = playerHorizontalMotion;
             playerPositionAddition *= moveSpeed;
             playerPositionAddition *= Time.deltaTime;
-
-            // Movement by foot with AddForce is buggy, so for now this will work.
-            rigidbody.MovePosition(rigidbody.position + playerPositionAddition);
+            rigidbody.MovePosition(rigidbody.position + playerPositionAddition); // Movement by foot with AddForce is buggy, so for now this will work.
 
             ProcessJumpLogic();
         }
-        else if (HasPropellant())
-        {
-            Vector3 horizontalThrustersForce = playerHorizontalMotion;
-            horizontalThrustersForce *= thrustersPower;
-            horizontalThrustersForce *= Time.deltaTime;
-
-            rigidbody.AddForce(horizontalThrustersForce);
-            DepletePropellant();
-        }
-
-        float superFuelMultiplier = 1f;
-        if (playerInput.movement.y > 0f && playerInput.jump)
-        {
-            if (!superFuelTank.IsEmpty)
-            {
-                superFuelMultiplier = superFuelPowerMultiplier;
-                superFuelTank.Deplete(superFuelDepletionSpeed);
-            }
-        }
         else
         {
-            if (!superFuelTank.IsFull && HasPropellant())
-            {
-                // Fill superFuelTank with propellant 
-                DepletePropellant();
-                superFuelTank.Fill(superFuelRestorationSpeed);
-            }
+            Vector3 horizontalThrustersForce = playerHorizontalMotion;
+            horizontalThrustersForce *= spaceSuit.FireHorizontalThrusters();
+            horizontalThrustersForce *= Time.deltaTime;
+            rigidbody.AddForce(horizontalThrustersForce);
         }
 
-        if (!Mathf.Approximately(playerInput.movement.y, 0f) && HasPropellant())
+        if (!Mathf.Approximately(playerInput.movement.y, 0f))
         {
+            bool useSuperFuel = playerInput.movement.y > 0f && playerInput.jump;
+
             Vector3 verticalThrustersForce = playerVerticalMotion;
-            verticalThrustersForce *= thrustersPower;
-            verticalThrustersForce *= superFuelMultiplier;
+            verticalThrustersForce *= spaceSuit.FireVerticalThrusters(useSuperFuel);
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
-            DepletePropellant();
         }
     }
 
@@ -229,9 +191,9 @@ public class Player : SpaceBody
 
     private void UpdateSpaceSuitIndicators()
     {
-        oxygenBar.UpdatePercentage(oxygenTank.FilledPercentage);
-        fuelBar.UpdatePercentage(fuelTank.FilledPercentage);
-        superFuelBar.UpdatePercentage(superFuelTank.FilledPercentage);
+        oxygenBar.UpdatePercentage(spaceSuit.OxygenTank.FilledPercentage);
+        fuelBar.UpdatePercentage(spaceSuit.FuelTank.FilledPercentage);
+        superFuelBar.UpdatePercentage(spaceSuit.SuperFuelTank.FilledPercentage);
         healthIndicator.UpdatePercentage(damageable.HealthPoints);
     }
 
@@ -257,37 +219,12 @@ public class Player : SpaceBody
 
     private void BreatheOxygen()
     {
-        if (!oxygenTank.IsEmpty)
-        {
-            oxygenTank.Deplete(oxygenDepletionSpeed);
-        }
+        hasSomethingToBreathe = spaceSuit.GiveOxygenToBreathe();
     }
 
     public void FillOxygenTanks()
     {
-        if (!oxygenTank.IsFull)
-        {
-            oxygenTank.Fill(oxygenRefillSpeed);
-        }
-    }
-
-    private void DepletePropellant(float multiplier = 1f)
-    {
-        float depletionSpeed = fuelDepletionSpeed * multiplier;
-
-        if (!fuelTank.IsEmpty)
-        {
-            fuelTank.Deplete(depletionSpeed);
-        }
-        else if (!oxygenTank.IsEmpty)
-        {
-            oxygenTank.Deplete(depletionSpeed);
-        }
-    }
-
-    private bool HasPropellant()
-    {
-        return !fuelTank.IsEmpty || !oxygenTank.IsEmpty;
+        spaceSuit.FillOxygenTank();
     }
 
     public void Hurt(float healthPercentageToRemove)
@@ -321,9 +258,9 @@ public class Player : SpaceBody
     private void RefillHealthAndFuel()
     {
         damageable.Heal(healthRefillSpeed);
-        fuelTank.Fill(fuelRefillSpeed);
+        spaceSuit.FillFuelTank();
 
-        if (damageable.HasFullHealthPoints && fuelTank.IsFull)
+        if (damageable.HasFullHealthPoints && spaceSuit.FuelTank.IsFull)
         {
             healthAndFuelRefilling = false;
         }

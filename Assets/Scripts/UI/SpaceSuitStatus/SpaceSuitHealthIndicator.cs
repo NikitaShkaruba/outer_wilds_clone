@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace PlayerTools.SpaceSuit
+namespace UI.SpaceSuitStatus
 {
     [RequireComponent(typeof(Image))]
     public class SpaceSuitHealthIndicator : MonoBehaviour

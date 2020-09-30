@@ -14,7 +14,7 @@ namespace UI.Debug
 
         private void Awake()
         {
-            playerInput.onCornerDebugToggle += Toggle;
+            playerInput.OnCornerDebugToggle += Toggle;
         }
 
         private void FixedUpdate()

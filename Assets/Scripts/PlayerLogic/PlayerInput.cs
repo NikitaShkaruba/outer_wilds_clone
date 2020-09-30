@@ -17,7 +17,12 @@ namespace PlayerLogic
         [Header("Dev")]
         public bool toggleCornerDebug;
         public bool toggleCursorLock;
-        public event Action onCornerDebugToggle;
+        public event Action OnCornerDebugToggle;
+
+        private void Awake()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
 
         private void Update()
         {
@@ -60,16 +65,21 @@ namespace PlayerLogic
             alternativeRotate = Input.GetKey(KeyCode.R);
         }
 
+        /**
+         * I don't use Input.GetKeyDown, because I want those keys to be present in the inspector
+         */
         private void ProcessDebugInput()
         {
-            toggleCornerDebug = Input.GetKeyDown(KeyCode.F1);
-            if (toggleCornerDebug)
+            bool previousToggleCornerDebug = toggleCornerDebug;
+            toggleCornerDebug = Input.GetKey(KeyCode.F1);
+            if (!previousToggleCornerDebug && toggleCornerDebug)
             {
-                onCornerDebugToggle?.Invoke();
+                OnCornerDebugToggle?.Invoke();
             }
 
-            toggleCursorLock = Input.GetKeyDown(KeyCode.F2);
-            if (toggleCursorLock)
+            bool previousToggleCursorLock = toggleCursorLock;
+            toggleCursorLock = Input.GetKey(KeyCode.F2);
+            if (!previousToggleCursorLock && toggleCursorLock)
             {
                 // Let's handle it right there. I have no need for a class right now
                 Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
