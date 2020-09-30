@@ -56,8 +56,6 @@ public class Player : SpaceBody
     [SerializeField] private float hideYouAreTakingDamageTextTimer;
     [SerializeField] private float hideYouAreTakingDamageTextTimerTime;
 
-    private bool healthAndFuelRefilling;
-
     // ----- Refactoring ----
 
     [Header("Health")]
@@ -79,7 +77,8 @@ public class Player : SpaceBody
     private Tank fuelTank;
     public bool IsFuelTankFull => fuelTank.IsFull;
 
-    // Properties
+    // Ungrouped
+    private bool healthAndFuelRefilling;
 
     public new void Awake()
     {
