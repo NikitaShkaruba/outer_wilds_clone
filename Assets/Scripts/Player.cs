@@ -8,20 +8,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using Universe;
 
+[RequireComponent(typeof(PlayerInput))]
 public class Player : SpaceBody
 {
     public new Camera camera;
     private new Transform transform;
 
-    // User input
-    private Vector3 wantedMovement;
-    private Vector2 wantedRotation;
-    private bool jumpButtonPressed;
-
     // Movement
     [SerializeField] private float thrustersPower;
     [SerializeField] private float moveSpeed;
-    private bool wantsToRotateAroundForwardVector;
 
     // Jump
     private float acceleratedJumpPower;
@@ -41,6 +36,7 @@ public class Player : SpaceBody
     [HideInInspector] public bool buckleUpTransitionGoing;
     [HideInInspector] public SpaceShip pilotedSpaceShip;
 
+    // Death screen
     [SerializeField] private Image deathBlackFadeImage;
 
     // You are taking damage text
@@ -77,6 +73,7 @@ public class Player : SpaceBody
     private Tank superFuelTank;
 
     // Ungrouped
+    private PlayerInput playerInput;
     private bool IsDead => damageable.HasNoHealthPoints || oxygenTank.IsEmpty;
     private bool healthAndFuelRefilling;
 
@@ -85,6 +82,7 @@ public class Player : SpaceBody
         base.Awake();
 
         transform = GetComponent<Transform>();
+        playerInput = GetComponent<PlayerInput>();
 
         groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
 
@@ -98,9 +96,6 @@ public class Player : SpaceBody
 
     private void Update()
     {
-        SaveUserMovementInput();
-        SaveUserRotationInput();
-
         UpdateSpaceSuitIndicators();
         UpdateYouAreTakingDamageText();
 
@@ -108,8 +103,6 @@ public class Player : SpaceBody
         {
             RefillHealthAndFuel();
         }
-
-        ProcessDebugInput();
     }
 
     private void FixedUpdate()
@@ -147,9 +140,9 @@ public class Player : SpaceBody
     {
         Transform cachedTransform = transform;
 
-        Vector3 playerHorizontalMotion = cachedTransform.forward * wantedMovement.x +
-                                         cachedTransform.right * wantedMovement.z;
-        Vector3 playerVerticalMotion = cachedTransform.up * wantedMovement.y;
+        Vector3 playerHorizontalMotion = cachedTransform.forward * playerInput.movement.x +
+                                         cachedTransform.right * playerInput.movement.z;
+        Vector3 playerVerticalMotion = cachedTransform.up * playerInput.movement.y;
 
         if (IsGrounded())
         {
@@ -173,7 +166,7 @@ public class Player : SpaceBody
         }
 
         float superFuelMultiplier = 1f;
-        if (wantedMovement.y > 0f && jumpButtonPressed)
+        if (playerInput.movement.y > 0f && playerInput.jump)
         {
             if (!superFuelTank.IsEmpty)
             {
@@ -191,7 +184,7 @@ public class Player : SpaceBody
             }
         }
 
-        if (!Mathf.Approximately(wantedMovement.y, 0f) && HasPropellant())
+        if (!Mathf.Approximately(playerInput.movement.y, 0f) && HasPropellant())
         {
             Vector3 verticalThrustersForce = playerVerticalMotion;
             verticalThrustersForce *= thrustersPower;
@@ -205,7 +198,7 @@ public class Player : SpaceBody
 
     private void ProcessJumpLogic()
     {
-        if (jumpButtonPressed && acceleratedJumpPower <= maxJumpPower)
+        if (playerInput.jump && acceleratedJumpPower <= maxJumpPower)
         {
             // Remember original scale
             if (scaleBeforeJumpShrinking == null)
@@ -219,7 +212,7 @@ public class Player : SpaceBody
             // Accelerate jump power
             acceleratedJumpPower += jumpPowerAccelerationPerTick;
         }
-        else if (!jumpButtonPressed && acceleratedJumpPower > 0f)
+        else if (!playerInput.jump && acceleratedJumpPower > 0f)
         {
             // Resize player back
             System.Diagnostics.Debug.Assert(scaleBeforeJumpShrinking != null, nameof(scaleBeforeJumpShrinking) + " != null");
@@ -259,7 +252,7 @@ public class Player : SpaceBody
 
     private void PilotSpaceShip()
     {
-        pilotedSpaceShip.Pilot(wantedMovement, wantedRotation, wantsToRotateAroundForwardVector);
+        pilotedSpaceShip.Pilot(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
     }
 
     private void BreatheOxygen()
@@ -320,25 +313,6 @@ public class Player : SpaceBody
         return Physics.Raycast(transform.position, -transform.up, distanceFromBodyCenterToGround, groundCheckLayerMask);
     }
 
-    private void SaveUserMovementInput()
-    {
-        // Move
-        wantedMovement.x = CalculateDirection(Input.GetKey(KeyCode.W), Input.GetKey(KeyCode.S));
-        wantedMovement.z = CalculateDirection(Input.GetKey(KeyCode.D), Input.GetKey(KeyCode.A));
-        wantedMovement.y = CalculateDirection(Input.GetKey(KeyCode.LeftShift), Input.GetKey(KeyCode.LeftControl));
-
-        // Jump
-        jumpButtonPressed = Input.GetKey(KeyCode.Space);
-    }
-
-    private void SaveUserRotationInput()
-    {
-        wantedRotation.x = Input.GetAxis("Mouse X");
-        wantedRotation.y = Input.GetAxis("Mouse Y");
-
-        wantsToRotateAroundForwardVector = Input.GetKey(KeyCode.R);
-    }
-
     public void StartRefillingStocksFromShip()
     {
         healthAndFuelRefilling = true;
@@ -362,14 +336,14 @@ public class Player : SpaceBody
             return;
         }
 
-        float horizontalMouseOffset = wantedRotation.x * GameSettings.MouseSensitivity * Time.deltaTime;
-        float verticalMouseOffset = wantedRotation.y * GameSettings.MouseSensitivity * Time.deltaTime;
+        float horizontalMouseOffset = playerInput.rotation.x * GameSettings.MouseSensitivity * Time.deltaTime;
+        float verticalMouseOffset = playerInput.rotation.y * GameSettings.MouseSensitivity * Time.deltaTime;
 
         verticalBodyRotation -= verticalMouseOffset;
         verticalBodyRotation = Mathf.Clamp(verticalBodyRotation, -90f, 90f); // We don't want our player to roll over with the camera :)
         camera.transform.localRotation = Quaternion.Euler(verticalBodyRotation, 0f, 0f);
 
-        if (wantsToRotateAroundForwardVector)
+        if (playerInput.alternativeRotate)
         {
             transform.Rotate(Vector3.forward * -horizontalMouseOffset);
         }
@@ -377,34 +351,6 @@ public class Player : SpaceBody
         {
             transform.Rotate(Vector3.up * horizontalMouseOffset);
         }
-    }
-
-    private static void ProcessDebugInput()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            Cursor.lockState = Cursor.lockState == CursorLockMode.Locked ? CursorLockMode.None : CursorLockMode.Locked;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F2))
-        {
-            CornerDebug cornerDebug = FindObjectOfType<CornerDebug>();
-            cornerDebug.isHidden = !cornerDebug.isHidden;
-        }
-    }
-
-    private static float CalculateDirection(bool oneDirectionKeyPressed, bool otherDirectionKeyPressed)
-    {
-        if (oneDirectionKeyPressed)
-        {
-            return 1f;
-        }
-        else if (otherDirectionKeyPressed)
-        {
-            return -1f;
-        }
-
-        return 0f;
     }
 
     private string FormatPlayerVelocity()

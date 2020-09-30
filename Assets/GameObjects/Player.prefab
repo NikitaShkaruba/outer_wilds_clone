@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 5385065600682438434}
   - component: {fileID: 5385065598913815213}
   - component: {fileID: 5385065600682438435}
+  - component: {fileID: 7281722163792596008}
   - component: {fileID: 5385065600682438436}
   - component: {fileID: 5385065600682438437}
   - component: {fileID: 5385065600682438438}
@@ -275,24 +276,38 @@ MonoBehaviour:
   isBuckledUp: 0
   buckleUpTransitionGoing: 0
   pilotedSpaceShip: {fileID: 0}
-  superFuelBar: {fileID: 0}
-  superFuelDepletionSpeed: 1
-  superFuelRestorationSpeed: 0.4
-  superFuelPowerMultiplier: 2
-  oxygenBar: {fileID: 0}
-  oxygenDepletionSpeed: 0.01
-  oxygenFillSpeed: 0.5
-  fuelBar: {fileID: 0}
-  fuelRefillSpeed: 2
-  leftFuelPercentage: 100
-  fuelDepletionSpeed: 0.01
-  healthIndicator: {fileID: 0}
-  healthRefillSpeed: 7
-  healthPercentage: 100
   deathBlackFadeImage: {fileID: 0}
   youAreTakingDamageText: {fileID: 0}
   hideYouAreTakingDamageTextTimer: 0
   hideYouAreTakingDamageTextTimerTime: 0.1
+  healthRefillSpeed: 7
+  healthIndicator: {fileID: 0}
+  oxygenDepletionSpeed: 0.01
+  oxygenRefillSpeed: 0
+  oxygenBar: {fileID: 0}
+  fuelDepletionSpeed: 0.01
+  fuelRefillSpeed: 2
+  fuelBar: {fileID: 0}
+  superFuelDepletionSpeed: 1
+  superFuelRestorationSpeed: 0.4
+  superFuelPowerMultiplier: 2
+  superFuelBar: {fileID: 0}
+--- !u!114 &7281722163792596008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5385065600682438433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd5d0303495417381eb740a4d6381d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {x: 0, y: 0, z: 0}
+  jump: 0
+  rotation: {x: 0, y: 0}
+  alternativeRotate: 0
 --- !u!114 &5385065600682438436
 MonoBehaviour:
   m_ObjectHideFlags: 0
