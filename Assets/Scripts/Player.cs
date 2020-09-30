@@ -49,7 +49,6 @@ public class Player : SpaceBody
     private float leftSuperFuelPercentage = 100f;
 
     [SerializeField] private Image deathBlackFadeImage;
-    private bool isDead;
 
     // You are taking damage text
     [SerializeField] private GameObject youAreTakingDamageText;
@@ -78,6 +77,7 @@ public class Player : SpaceBody
     public bool IsFuelTankFull => fuelTank.IsFull;
 
     // Ungrouped
+    private bool IsDead => damageable.HasNoHealthPoints || oxygenTank.IsEmpty;
     private bool healthAndFuelRefilling;
 
     public new void Awake()
@@ -115,7 +115,7 @@ public class Player : SpaceBody
     {
         ApplyGravity();
 
-        if (isDead)
+        if (IsDead)
         {
             FadeScreen();
             return;
@@ -267,10 +267,6 @@ public class Player : SpaceBody
         {
             oxygenTank.Deplete(oxygenDepletionSpeed);
         }
-        else
-        {
-            isDead = true;
-        }
     }
 
     public void FillOxygenTanks()
@@ -303,11 +299,6 @@ public class Player : SpaceBody
     public void Hurt(float healthPercentageToRemove)
     {
         damageable.Damage(healthPercentageToRemove);
-
-        if (damageable.HasNoHealthPoints)
-        {
-            isDead = true;
-        }
 
         youAreTakingDamageText.SetActive(true);
         hideYouAreTakingDamageTextTimer = hideYouAreTakingDamageTextTimerTime;
