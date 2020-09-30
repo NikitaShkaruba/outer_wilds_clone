@@ -41,13 +41,6 @@ public class Player : SpaceBody
     [HideInInspector] public bool buckleUpTransitionGoing;
     [HideInInspector] public SpaceShip pilotedSpaceShip;
 
-    // Suit super fuel
-    [SerializeField] private SpaceSuitBar superFuelBar;
-    [SerializeField] private float superFuelDepletionSpeed;
-    [SerializeField] private float superFuelRestorationSpeed;
-    [SerializeField] private float superFuelPowerMultiplier;
-    private float leftSuperFuelPercentage = 100f;
-
     [SerializeField] private Image deathBlackFadeImage;
 
     // You are taking damage text
@@ -76,6 +69,13 @@ public class Player : SpaceBody
     private Tank fuelTank;
     public bool IsFuelTankFull => fuelTank.IsFull;
 
+    [Header("Jetpack super-fuel")]
+    [SerializeField] private float superFuelDepletionSpeed;
+    [SerializeField] private float superFuelRestorationSpeed;
+    [SerializeField] private float superFuelPowerMultiplier;
+    [SerializeField] private SpaceSuitBar superFuelBar;
+    private Tank superFuelTank;
+
     // Ungrouped
     private bool IsDead => damageable.HasNoHealthPoints || oxygenTank.IsEmpty;
     private bool healthAndFuelRefilling;
@@ -91,8 +91,9 @@ public class Player : SpaceBody
         Cursor.lockState = CursorLockMode.Locked;
 
         damageable = new Damageable(100f);
-        fuelTank = new Tank();
         oxygenTank = new Tank();
+        fuelTank = new Tank();
+        superFuelTank = new Tank();
     }
 
     private void Update()
@@ -174,24 +175,24 @@ public class Player : SpaceBody
         float superFuelMultiplier = 1f;
         if (wantedMovement.y > 0f && jumpButtonPressed)
         {
-            if (leftSuperFuelPercentage > 0)
+            if (!superFuelTank.IsEmpty)
             {
                 superFuelMultiplier = superFuelPowerMultiplier;
-                leftSuperFuelPercentage -= superFuelDepletionSpeed;
+                superFuelTank.Deplete(superFuelDepletionSpeed);
             }
         }
         else
         {
-            if (leftSuperFuelPercentage < 100f && HasPropellant())
+            if (!superFuelTank.IsFull && HasPropellant())
             {
-                leftSuperFuelPercentage += superFuelRestorationSpeed;
-                DepletePropellant(superFuelPowerMultiplier);
+                // Fill superFuelTank with propellant 
+                DepletePropellant();
+                superFuelTank.Fill(superFuelRestorationSpeed);
             }
         }
 
         if (!Mathf.Approximately(wantedMovement.y, 0f) && HasPropellant())
         {
-            // You can always use vertical thrusters
             Vector3 verticalThrustersForce = playerVerticalMotion;
             verticalThrustersForce *= thrustersPower;
             verticalThrustersForce *= superFuelMultiplier;
@@ -237,7 +238,7 @@ public class Player : SpaceBody
     {
         oxygenBar.UpdatePercentage(oxygenTank.FilledPercentage);
         fuelBar.UpdatePercentage(fuelTank.FilledPercentage);
-        superFuelBar.UpdatePercentage(leftSuperFuelPercentage);
+        superFuelBar.UpdatePercentage(superFuelTank.FilledPercentage);
         healthIndicator.UpdatePercentage(damageable.HealthPoints);
     }
 
