@@ -44,10 +44,7 @@ public class Player : SpaceBody
 
     // UI which needs refactoring
 
-    public bool WantsToRefillFuelTank => !SpaceSuit.IsFuelTankFull;
-    public bool WantsToHealUp => Damageable.HasFullHealthPoints;
     private bool IsDead => Damageable.HasNoHealthPoints || !hasSomethingToBreathe;
-    private bool hasSomethingToBreathe = true;
 
     private bool healthAndFuelRefilling;
 
@@ -59,6 +56,11 @@ public class Player : SpaceBody
     private PlayerInput playerInput;
     public Damageable Damageable;
     public SpaceSuit SpaceSuit;
+
+    private bool hasSomethingToBreathe = true;
+
+    public bool WantsToRefillFuelTank => !SpaceSuit.IsFuelTankFull;
+    public bool WantsToHealUp => Damageable.HasFullHealthPoints;
 
     public new void Awake()
     {
