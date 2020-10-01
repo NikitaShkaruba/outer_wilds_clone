@@ -11,9 +11,10 @@ namespace PlayerLogic
         private readonly float minHealthPoints;
 
         public bool HasFullHealthPoints => Mathf.Approximately(healthPoints, maxHealthPoints);
-        public bool HasNoHealthPoints => Mathf.Approximately(healthPoints, minHealthPoints);
+        private bool IsDead => Mathf.Approximately(healthPoints, minHealthPoints);
 
         public event Action<float> OnHealthPointsChange;
+        public event Action OnDeath;
 
         public Damageable(float maxHealthPoints)
         {
@@ -36,7 +37,13 @@ namespace PlayerLogic
         private void UpdateHealthPoints(float newHealthPoints)
         {
             healthPoints = Mathf.Clamp(newHealthPoints, minHealthPoints, maxHealthPoints);
+
             OnHealthPointsChange?.Invoke(newHealthPoints);
+
+            if (IsDead)
+            {
+                OnDeath?.Invoke();
+            }
         }
     }
 }

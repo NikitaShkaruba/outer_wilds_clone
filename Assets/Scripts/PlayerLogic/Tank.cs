@@ -14,7 +14,7 @@ namespace PlayerLogic
         public bool IsEmpty => Mathf.Approximately(filledPercentage, MinFillPercentage);
 
         // Events
-        public event Action<float> FillPercentageChanged;
+        public event Action<float> OnFillPercentageChanged;
 
         public void Deplete(float percentage)
         {
@@ -29,7 +29,7 @@ namespace PlayerLogic
         private void UpdateFilledPercentage(float newFilledPercentage)
         {
             filledPercentage = Mathf.Clamp(newFilledPercentage, MinFillPercentage, MaxFillPercentage);
-            FillPercentageChanged?.Invoke(filledPercentage);
+            OnFillPercentageChanged?.Invoke(filledPercentage);
         }
     }
 }

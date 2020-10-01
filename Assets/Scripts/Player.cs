@@ -1,10 +1,10 @@
-﻿using Common;
+﻿using System;
+using Common;
 using PlayerLogic;
 using PlayerTools;
 using PlayerTools.SpaceShipParts;
 using UI.Debug;
 using UnityEngine;
-using UnityEngine.UI;
 using Universe;
 
 [RequireComponent(typeof(PlayerInput))]
@@ -34,17 +34,12 @@ public class Player : SpaceBody
     [HideInInspector] public bool buckleUpTransitionGoing;
     [HideInInspector] public SpaceShip pilotedSpaceShip;
 
-    // Death screen
-    [SerializeField] private Image deathBlackFadeImage;
-
     // You are taking damage text
     [SerializeField] private GameObject youAreTakingDamageText;
     [SerializeField] private float hideYouAreTakingDamageTextTimer;
     [SerializeField] private float hideYouAreTakingDamageTextTimerTime;
 
     // UI which needs refactoring
-
-    private bool IsDead => Damageable.HasNoHealthPoints || !hasSomethingToBreathe;
 
     private bool healthAndFuelRefilling;
 
@@ -58,9 +53,13 @@ public class Player : SpaceBody
     public SpaceSuit SpaceSuit;
 
     private bool hasSomethingToBreathe = true;
+    private bool isDead;
 
     public bool WantsToRefillFuelTank => !SpaceSuit.IsFuelTankFull;
     public bool WantsToHealUp => Damageable.HasFullHealthPoints;
+
+    // Ui Events
+    public event Action OnDeath;
 
     public new void Awake()
     {
@@ -73,6 +72,13 @@ public class Player : SpaceBody
 
         Damageable = new Damageable(100f);
         SpaceSuit = new SpaceSuit();
+
+        Damageable.OnDeath += Die;
+    }
+
+    public void OnDestroy()
+    {
+        Damageable.OnDeath -= Die;
     }
 
     private void Update()
@@ -85,14 +91,19 @@ public class Player : SpaceBody
         }
     }
 
+    private void Die()
+    {
+        isDead = true;
+        OnDeath?.Invoke();
+    }
+
     private void FixedUpdate()
     {
         ApplyGravity();
         SpaceSuit.Tick();
 
-        if (IsDead)
+        if (isDead)
         {
-            FadeScreen();
             return;
         }
 
@@ -208,6 +219,12 @@ public class Player : SpaceBody
     private void BreatheOxygen()
     {
         hasSomethingToBreathe = SpaceSuit.GiveOxygenToBreathe();
+
+        if (!hasSomethingToBreathe)
+        {
+            // Todo: add little delay (player can survive without oxygen for 30 seconds or so)
+            Die();
+        }
     }
 
     public void FillOxygenTanks()
@@ -221,14 +238,6 @@ public class Player : SpaceBody
 
         youAreTakingDamageText.SetActive(true);
         hideYouAreTakingDamageTextTimer = hideYouAreTakingDamageTextTimerTime;
-    }
-
-    private void FadeScreen()
-    {
-        Color nextDeathBlackFadeImage = deathBlackFadeImage.color;
-        nextDeathBlackFadeImage.a += 0.01f;
-
-        deathBlackFadeImage.color = nextDeathBlackFadeImage;
     }
 
     private bool IsGrounded()

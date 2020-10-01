@@ -40,16 +40,16 @@ namespace PlayerTools
             fuelTank = new Tank();
             superFuelTank = new Tank();
 
-            oxygenTank.FillPercentageChanged += InvokeOnOxygenTankFillPercentageChanged;
-            fuelTank.FillPercentageChanged += InvokeOnFuelTankFillPercentageChanged;
-            superFuelTank.FillPercentageChanged += InvokeOnSuperFuelTankFillPercentageChanged;
+            oxygenTank.OnFillPercentageChanged += InvokeOnOxygenTankOnFillPercentageChanged;
+            fuelTank.OnFillPercentageChanged += InvokeOnFuelTankOnFillPercentageChanged;
+            superFuelTank.OnFillPercentageChanged += InvokeOnSuperFuelTankOnFillPercentageChanged;
         }
 
         ~SpaceSuit()
         {
-            oxygenTank.FillPercentageChanged -= InvokeOnOxygenTankFillPercentageChanged;
-            fuelTank.FillPercentageChanged -= InvokeOnFuelTankFillPercentageChanged;
-            superFuelTank.FillPercentageChanged -= InvokeOnSuperFuelTankFillPercentageChanged;
+            oxygenTank.OnFillPercentageChanged -= InvokeOnOxygenTankOnFillPercentageChanged;
+            fuelTank.OnFillPercentageChanged -= InvokeOnFuelTankOnFillPercentageChanged;
+            superFuelTank.OnFillPercentageChanged -= InvokeOnSuperFuelTankOnFillPercentageChanged;
         }
 
         public void Tick()
@@ -141,19 +141,19 @@ namespace PlayerTools
             superFuelTank.Fill(SuperFuelRestorationSpeed);
         }
 
-        private void InvokeOnSuperFuelTankFillPercentageChanged(float percentage)
+        private void InvokeOnOxygenTankOnFillPercentageChanged(float percentage)
         {
-            OnSuperFuelTankFillPercentageChanged?.Invoke(percentage);
+            OnOxygenTankFillPercentageChanged?.Invoke(percentage);
         }
 
-        private void InvokeOnFuelTankFillPercentageChanged(float percentage)
+        private void InvokeOnFuelTankOnFillPercentageChanged(float percentage)
         {
             OnFuelTankFillPercentageChanged?.Invoke(percentage);
         }
 
-        private void InvokeOnOxygenTankFillPercentageChanged(float percentage)
+        private void InvokeOnSuperFuelTankOnFillPercentageChanged(float percentage)
         {
-            OnOxygenTankFillPercentageChanged?.Invoke(percentage);
+            OnSuperFuelTankFillPercentageChanged?.Invoke(percentage);
         }
     }
 }

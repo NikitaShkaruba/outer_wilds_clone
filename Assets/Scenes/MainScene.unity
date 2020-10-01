@@ -733,7 +733,6 @@ GameObject:
   - component: {fileID: 305504718}
   - component: {fileID: 305504720}
   - component: {fileID: 305504719}
-  - component: {fileID: 305504721}
   m_Layer: 5
   m_Name: Health
   m_TagString: Untagged
@@ -798,19 +797,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 305504717}
   m_CullTransparentMesh: 0
---- !u!114 &305504721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 305504717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5600a77dfa7e5a54083f9456352904c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  image: {fileID: 0}
 --- !u!1 &331711161
 GameObject:
   m_ObjectHideFlags: 0
@@ -3061,8 +3047,9 @@ GameObject:
   - component: {fileID: 1701022289}
   - component: {fileID: 1701022291}
   - component: {fileID: 1701022290}
+  - component: {fileID: 1701022292}
   m_Layer: 5
-  m_Name: DeathBlackFade
+  m_Name: DeathScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3125,6 +3112,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701022288}
   m_CullTransparentMesh: 0
+--- !u!114 &1701022292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701022288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cacbbc2bcd245b88ec8a695cee186c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1174294931}
 --- !u!1 &1701928081
 GameObject:
   m_ObjectHideFlags: 0
@@ -8742,7 +8742,7 @@ PrefabInstance:
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: healthIndicator
       value: 
-      objectReference: {fileID: 305504721}
+      objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: YouAreTakingDamageText
       value: 
