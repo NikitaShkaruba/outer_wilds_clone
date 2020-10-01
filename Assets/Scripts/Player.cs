@@ -34,11 +34,6 @@ public class Player : SpaceBody
     [HideInInspector] public bool buckleUpTransitionGoing;
     [HideInInspector] public SpaceShip pilotedSpaceShip;
 
-    // You are taking damage text
-    [SerializeField] private GameObject youAreTakingDamageText;
-    [SerializeField] private float hideYouAreTakingDamageTextTimer;
-    [SerializeField] private float hideYouAreTakingDamageTextTimerTime;
-
     // UI which needs refactoring
 
     private bool healthAndFuelRefilling;
@@ -83,8 +78,6 @@ public class Player : SpaceBody
 
     private void Update()
     {
-        UpdateYouAreTakingDamageText();
-
         if (healthAndFuelRefilling)
         {
             RefillHealthAndFuel();
@@ -196,21 +189,6 @@ public class Player : SpaceBody
         }
     }
 
-    private void UpdateYouAreTakingDamageText()
-    {
-        if (hideYouAreTakingDamageTextTimer < 0 && !youAreTakingDamageText.activeSelf)
-        {
-            return;
-        }
-
-        hideYouAreTakingDamageTextTimer -= Time.fixedDeltaTime;
-
-        if (hideYouAreTakingDamageTextTimer < 0)
-        {
-            youAreTakingDamageText.SetActive(false);
-        }
-    }
-
     private void PilotSpaceShip()
     {
         pilotedSpaceShip.Pilot(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
@@ -235,9 +213,6 @@ public class Player : SpaceBody
     public void Hurt(float healthPercentageToRemove)
     {
         Damageable.Damage(healthPercentageToRemove);
-
-        youAreTakingDamageText.SetActive(true);
-        hideYouAreTakingDamageTextTimer = hideYouAreTakingDamageTextTimerTime;
     }
 
     private bool IsGrounded()

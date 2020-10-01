@@ -14,6 +14,7 @@ namespace PlayerLogic
         private bool IsDead => Mathf.Approximately(healthPoints, minHealthPoints);
 
         public event Action<float> OnHealthPointsChange;
+        public event Action OnTakingDamage;
         public event Action OnDeath;
 
         public Damageable(float maxHealthPoints)
@@ -27,6 +28,7 @@ namespace PlayerLogic
         public void Damage(float newHealthPoints)
         {
             UpdateHealthPoints(healthPoints - newHealthPoints);
+            OnTakingDamage?.Invoke();
         }
 
         public void Heal(float newHealthPoints)
