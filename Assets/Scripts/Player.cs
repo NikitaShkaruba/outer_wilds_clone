@@ -3,7 +3,6 @@ using PlayerLogic;
 using PlayerTools;
 using PlayerTools.SpaceShipParts;
 using UI.Debug;
-using UI.SpaceSuitStatus;
 using UnityEngine;
 using UnityEngine.UI;
 using Universe;
@@ -44,14 +43,10 @@ public class Player : SpaceBody
     [SerializeField] private float hideYouAreTakingDamageTextTimerTime;
 
     // UI which needs refactoring
-    [SerializeField] private SpaceSuitBar oxygenBar;
-    [SerializeField] private SpaceSuitBar fuelBar;
-    [SerializeField] private SpaceSuitBar superFuelBar;
-    [SerializeField] private SpaceSuitHealthIndicator healthIndicator;
 
-    public bool WantsToRefillFuelTank => spaceSuit.FuelTank.IsFull;
-    public bool WantsToHealUp => damageable.HasFullHealthPoints;
-    private bool IsDead => damageable.HasNoHealthPoints || !hasSomethingToBreathe;
+    public bool WantsToRefillFuelTank => !SpaceSuit.IsFuelTankFull;
+    public bool WantsToHealUp => Damageable.HasFullHealthPoints;
+    private bool IsDead => Damageable.HasNoHealthPoints || !hasSomethingToBreathe;
     private bool hasSomethingToBreathe = true;
 
     private bool healthAndFuelRefilling;
@@ -62,8 +57,8 @@ public class Player : SpaceBody
     // ----- Refactored ----
 
     private PlayerInput playerInput;
-    private Damageable damageable;
-    private SpaceSuit spaceSuit;
+    public Damageable Damageable;
+    public SpaceSuit SpaceSuit;
 
     public new void Awake()
     {
@@ -74,13 +69,12 @@ public class Player : SpaceBody
 
         groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
 
-        damageable = new Damageable(100f);
-        spaceSuit = new SpaceSuit();
+        Damageable = new Damageable(100f);
+        SpaceSuit = new SpaceSuit();
     }
 
     private void Update()
     {
-        UpdateSpaceSuitIndicators();
         UpdateYouAreTakingDamageText();
 
         if (healthAndFuelRefilling)
@@ -92,7 +86,7 @@ public class Player : SpaceBody
     private void FixedUpdate()
     {
         ApplyGravity();
-        spaceSuit.Tick();
+        SpaceSuit.Tick();
 
         if (IsDead)
         {
@@ -141,7 +135,7 @@ public class Player : SpaceBody
         else
         {
             Vector3 horizontalThrustersForce = playerHorizontalMotion;
-            horizontalThrustersForce *= spaceSuit.FireHorizontalThrusters();
+            horizontalThrustersForce *= SpaceSuit.FireHorizontalThrusters();
             horizontalThrustersForce *= Time.deltaTime;
             rigidbody.AddForce(horizontalThrustersForce);
         }
@@ -151,7 +145,7 @@ public class Player : SpaceBody
             bool useSuperFuel = playerInput.movement.y > 0f && playerInput.jump;
 
             Vector3 verticalThrustersForce = playerVerticalMotion;
-            verticalThrustersForce *= spaceSuit.FireVerticalThrusters(useSuperFuel);
+            verticalThrustersForce *= SpaceSuit.FireVerticalThrusters(useSuperFuel);
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
@@ -189,14 +183,6 @@ public class Player : SpaceBody
         }
     }
 
-    private void UpdateSpaceSuitIndicators()
-    {
-        oxygenBar.UpdatePercentage(spaceSuit.OxygenTank.FilledPercentage);
-        fuelBar.UpdatePercentage(spaceSuit.FuelTank.FilledPercentage);
-        superFuelBar.UpdatePercentage(spaceSuit.SuperFuelTank.FilledPercentage);
-        healthIndicator.UpdatePercentage(damageable.HealthPoints);
-    }
-
     private void UpdateYouAreTakingDamageText()
     {
         if (hideYouAreTakingDamageTextTimer < 0 && !youAreTakingDamageText.activeSelf)
@@ -219,17 +205,17 @@ public class Player : SpaceBody
 
     private void BreatheOxygen()
     {
-        hasSomethingToBreathe = spaceSuit.GiveOxygenToBreathe();
+        hasSomethingToBreathe = SpaceSuit.GiveOxygenToBreathe();
     }
 
     public void FillOxygenTanks()
     {
-        spaceSuit.FillOxygenTank();
+        SpaceSuit.FillOxygenTank();
     }
 
     public void Hurt(float healthPercentageToRemove)
     {
-        damageable.Damage(healthPercentageToRemove);
+        Damageable.Damage(healthPercentageToRemove);
 
         youAreTakingDamageText.SetActive(true);
         hideYouAreTakingDamageTextTimer = hideYouAreTakingDamageTextTimerTime;
@@ -257,10 +243,10 @@ public class Player : SpaceBody
 
     private void RefillHealthAndFuel()
     {
-        damageable.Heal(healthRefillSpeed);
-        spaceSuit.FillFuelTank();
+        Damageable.Heal(healthRefillSpeed);
+        SpaceSuit.FillFuelTank();
 
-        if (damageable.HasFullHealthPoints && spaceSuit.FuelTank.IsFull)
+        if (Damageable.HasFullHealthPoints && SpaceSuit.IsFuelTankFull)
         {
             healthAndFuelRefilling = false;
         }

@@ -134,7 +134,6 @@ GameObject:
   - component: {fileID: 57950700}
   - component: {fileID: 57950702}
   - component: {fileID: 57950701}
-  - component: {fileID: 57950703}
   m_Layer: 5
   m_Name: BarFiller
   m_TagString: Untagged
@@ -199,18 +198,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 57950699}
   m_CullTransparentMesh: 0
---- !u!114 &57950703
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 57950699}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 119b3074ecc94916be3bd2781afd76ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &79301236
 GameObject:
   m_ObjectHideFlags: 0
@@ -823,6 +810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5600a77dfa7e5a54083f9456352904c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  image: {fileID: 0}
 --- !u!1 &331711161
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,7 +856,6 @@ GameObject:
   - component: {fileID: 362438392}
   - component: {fileID: 362438394}
   - component: {fileID: 362438393}
-  - component: {fileID: 362438395}
   m_Layer: 5
   m_Name: BarFiller
   m_TagString: Untagged
@@ -933,18 +920,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362438391}
   m_CullTransparentMesh: 0
---- !u!114 &362438395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 362438391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 119b3074ecc94916be3bd2781afd76ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &373527935
 GameObject:
   m_ObjectHideFlags: 0
@@ -1548,8 +1523,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 665722520}
+  - component: {fileID: 665722521}
   m_Layer: 5
-  m_Name: SuitStatus
+  m_Name: SpaceSuitStatus
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1578,6 +1554,23 @@ RectTransform:
   m_AnchoredPosition: {x: 150, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &665722521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 665722519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 119b3074ecc94916be3bd2781afd76ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthIndicatorImage: {fileID: 305504719}
+  oxygenBarFillerImage: {fileID: 57950701}
+  fuelBarFillerImage: {fileID: 362438393}
+  superFuelBarFillerImage: {fileID: 1870237812}
+  player: {fileID: 1174294931}
 --- !u!1 &741968777
 GameObject:
   m_ObjectHideFlags: 0
@@ -8169,7 +8162,6 @@ GameObject:
   - component: {fileID: 1870237811}
   - component: {fileID: 1870237813}
   - component: {fileID: 1870237812}
-  - component: {fileID: 1870237814}
   m_Layer: 5
   m_Name: BarFiller
   m_TagString: Untagged
@@ -8234,18 +8226,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1870237810}
   m_CullTransparentMesh: 0
---- !u!114 &1870237814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1870237810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 119b3074ecc94916be3bd2781afd76ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1996002663 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 7e7bede174623044e839cb40dcc6c98a, type: 3}
@@ -8746,11 +8726,11 @@ PrefabInstance:
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: superFuelBar
       value: 
-      objectReference: {fileID: 1870237814}
+      objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: oxygenBar
       value: 
-      objectReference: {fileID: 57950703}
+      objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: deathBlackFadeImage
       value: 
@@ -8758,7 +8738,7 @@ PrefabInstance:
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: fuelBar
       value: 
-      objectReference: {fileID: 362438395}
+      objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: healthIndicator
       value: 

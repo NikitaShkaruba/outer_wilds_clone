@@ -1,3 +1,4 @@
+using System;
 using PlayerLogic;
 
 namespace PlayerTools
@@ -5,17 +6,17 @@ namespace PlayerTools
     public class SpaceSuit
     {
         // Oxygen
-        public readonly Tank OxygenTank;
+        private readonly Tank oxygenTank;
         private const float OxygenDepletionSpeed = 0.01f;
         private const float OxygenRefillSpeed = 0.5f;
 
         // Fuel
-        public readonly Tank FuelTank;
+        private readonly Tank fuelTank;
         private const float FuelDepletionSpeed = 0.01f;
         private const float FuelRefillSpeed = 2f;
 
         // Super-Fuel
-        public readonly Tank SuperFuelTank;
+        private readonly Tank superFuelTank;
         private const float SuperFuelDepletionSpeed = 1f;
         private const float SuperFuelRestorationSpeed = 0.4f;
         private const float SuperFuelPowerMultiplier = 2f;
@@ -25,16 +26,35 @@ namespace PlayerTools
         private const float ThrustersPower = 500f;
         private const float NoThrustersPower = 0f;
 
+        // Handy properties
+        public bool IsFuelTankFull => fuelTank.IsFull;
+
+        // UI events
+        public event Action<float> OnOxygenTankFillPercentageChanged;
+        public event Action<float> OnFuelTankFillPercentageChanged;
+        public event Action<float> OnSuperFuelTankFillPercentageChanged;
+
         public SpaceSuit()
         {
-            OxygenTank = new Tank();
-            FuelTank = new Tank();
-            SuperFuelTank = new Tank();
+            oxygenTank = new Tank();
+            fuelTank = new Tank();
+            superFuelTank = new Tank();
+
+            oxygenTank.FillPercentageChanged += InvokeOnOxygenTankFillPercentageChanged;
+            fuelTank.FillPercentageChanged += InvokeOnFuelTankFillPercentageChanged;
+            superFuelTank.FillPercentageChanged += InvokeOnSuperFuelTankFillPercentageChanged;
+        }
+
+        ~SpaceSuit()
+        {
+            oxygenTank.FillPercentageChanged -= InvokeOnOxygenTankFillPercentageChanged;
+            fuelTank.FillPercentageChanged -= InvokeOnFuelTankFillPercentageChanged;
+            superFuelTank.FillPercentageChanged -= InvokeOnSuperFuelTankFillPercentageChanged;
         }
 
         public void Tick()
         {
-            if (!isUsingSuperFuel && !SuperFuelTank.IsFull && HasPropellant())
+            if (!isUsingSuperFuel && !superFuelTank.IsFull && HasPropellant())
             {
                 FillSuperFuelTank();
             }
@@ -42,12 +62,12 @@ namespace PlayerTools
 
         public bool GiveOxygenToBreathe()
         {
-            if (OxygenTank.IsEmpty)
+            if (oxygenTank.IsEmpty)
             {
                 return false;
             }
 
-            OxygenTank.Deplete(OxygenDepletionSpeed);
+            oxygenTank.Deplete(OxygenDepletionSpeed);
 
             return true;
         }
@@ -60,7 +80,7 @@ namespace PlayerTools
                 return NoThrustersPower;
             }
 
-            if (!useSuperFuel || SuperFuelTank.IsEmpty)
+            if (!useSuperFuel || superFuelTank.IsEmpty)
             {
                 isUsingSuperFuel = false;
                 DepletePropellant();
@@ -69,7 +89,7 @@ namespace PlayerTools
             }
 
             DepletePropellant();
-            SuperFuelTank.Deplete(SuperFuelDepletionSpeed);
+            superFuelTank.Deplete(SuperFuelDepletionSpeed);
             isUsingSuperFuel = true;
 
             return SuperFuelPowerMultiplier * ThrustersPower;
@@ -89,28 +109,28 @@ namespace PlayerTools
 
         public void FillFuelTank()
         {
-            FuelTank.Fill(FuelRefillSpeed);
+            fuelTank.Fill(FuelRefillSpeed);
         }
 
         public void FillOxygenTank()
         {
-            OxygenTank.Fill(OxygenRefillSpeed);
+            oxygenTank.Fill(OxygenRefillSpeed);
         }
 
         private bool HasPropellant()
         {
-            return !FuelTank.IsEmpty || !OxygenTank.IsEmpty;
+            return !fuelTank.IsEmpty || !oxygenTank.IsEmpty;
         }
 
         private void DepletePropellant()
         {
-            if (!FuelTank.IsEmpty)
+            if (!fuelTank.IsEmpty)
             {
-                FuelTank.Deplete(FuelDepletionSpeed);
+                fuelTank.Deplete(FuelDepletionSpeed);
             }
-            else if (!OxygenTank.IsEmpty)
+            else if (!oxygenTank.IsEmpty)
             {
-                OxygenTank.Deplete(OxygenDepletionSpeed);
+                oxygenTank.Deplete(OxygenDepletionSpeed);
             }
         }
 
@@ -118,7 +138,22 @@ namespace PlayerTools
         {
             DepletePropellant();
 
-            SuperFuelTank.Fill(SuperFuelRestorationSpeed);
+            superFuelTank.Fill(SuperFuelRestorationSpeed);
+        }
+
+        private void InvokeOnSuperFuelTankFillPercentageChanged(float percentage)
+        {
+            OnSuperFuelTankFillPercentageChanged?.Invoke(percentage);
+        }
+
+        private void InvokeOnFuelTankFillPercentageChanged(float percentage)
+        {
+            OnFuelTankFillPercentageChanged?.Invoke(percentage);
+        }
+
+        private void InvokeOnOxygenTankFillPercentageChanged(float percentage)
+        {
+            OnOxygenTankFillPercentageChanged?.Invoke(percentage);
         }
     }
 }

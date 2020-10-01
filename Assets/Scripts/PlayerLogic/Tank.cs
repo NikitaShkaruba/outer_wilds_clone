@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace PlayerLogic
@@ -7,24 +8,28 @@ namespace PlayerLogic
         private const float MaxFillPercentage = 100f;
         private const float MinFillPercentage = 0f;
 
-        public float FilledPercentage = MaxFillPercentage;
+        private float filledPercentage = MaxFillPercentage;
 
-        public bool IsFull => Mathf.Approximately(FilledPercentage, MaxFillPercentage);
-        public bool IsEmpty => Mathf.Approximately(FilledPercentage, MinFillPercentage);
+        public bool IsFull => Mathf.Approximately(filledPercentage, MaxFillPercentage);
+        public bool IsEmpty => Mathf.Approximately(filledPercentage, MinFillPercentage);
+
+        // Events
+        public event Action<float> FillPercentageChanged;
 
         public void Deplete(float percentage)
         {
-            UpdateFilledPercentage(FilledPercentage - percentage);
+            UpdateFilledPercentage(filledPercentage - percentage);
         }
 
         public void Fill(float percentage)
         {
-            UpdateFilledPercentage(FilledPercentage + percentage);
+            UpdateFilledPercentage(filledPercentage + percentage);
         }
 
         private void UpdateFilledPercentage(float newFilledPercentage)
         {
-            FilledPercentage = Mathf.Clamp(newFilledPercentage, MinFillPercentage, MaxFillPercentage);
+            filledPercentage = Mathf.Clamp(newFilledPercentage, MinFillPercentage, MaxFillPercentage);
+            FillPercentageChanged?.Invoke(filledPercentage);
         }
     }
 }
