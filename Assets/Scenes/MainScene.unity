@@ -2453,6 +2453,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1141159264 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3987797952050055266, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+  m_PrefabInstance: {fileID: 3987797950786832321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4065f9273ba24bceb94ba78ab8c1e951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1141159266 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3987797952050055275, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+  m_PrefabInstance: {fileID: 3987797950786832321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1259895e32804800bdf47747bcb9699d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1161687488
 GameObject:
   m_ObjectHideFlags: 0
@@ -8753,6 +8775,14 @@ PrefabInstance:
       propertyPath: playerEntersShipTrigger
       value: 
       objectReference: {fileID: 757932792}
+    - target: {fileID: 3987797952050055266, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+      propertyPath: thrusters
+      value: 
+      objectReference: {fileID: 1141159266}
+    - target: {fileID: 3987797952050055275, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+      propertyPath: spaceShip
+      value: 
+      objectReference: {fileID: 1141159264}
     - target: {fileID: 4293875249225954570, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
       propertyPath: m_Name
       value: SpaceShip

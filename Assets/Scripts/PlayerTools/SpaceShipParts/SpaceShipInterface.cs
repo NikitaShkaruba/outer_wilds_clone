@@ -5,16 +5,16 @@ namespace PlayerTools.SpaceShipParts
     public class SpaceShipInterface : MonoBehaviour
     {
         [SerializeField] private SpaceShip spaceShip;
-        [SerializeField] private SpaceShipFlashlight spaceShipFlashlight;
 
-        public void PilotShip(Vector3 playerInputMovement, Vector2 playerInputRotation, bool playerInputAlternativeRotate)
+        public void PilotShip(Vector3 wantedAcceleration, Vector2 wantedRotation, bool alternativeRotationEnabled)
         {
-            spaceShip.Pilot(playerInputMovement, playerInputRotation, playerInputAlternativeRotate);
+            spaceShip.thrusters.UpdateInput(wantedAcceleration, wantedRotation, alternativeRotationEnabled);
+            spaceShip.accelerationShowcase.UpdateInput(wantedAcceleration);
         }
 
         public void ToggleFlashlight()
         {
-            spaceShipFlashlight.Toggle();
+            spaceShip.flashlight.Toggle();
         }
     }
 }

@@ -30,6 +30,11 @@ namespace PlayerTools.SpaceShipParts
             LightDirection(acceleration.y, Directions.Bottom, Directions.Top, FullPower); // Yes, main game has FullPower too
         }
 
+        public void UpdateInput(Vector3 updatedAcceleration)
+        {
+            acceleration = updatedAcceleration;
+        }
+
         private void LightDirection(float accelerationValue, string positiveDirectionName, string negativeDirectionName, int forcedMinPower = 0)
         {
             int selectedPower = acceleration.x != 0 && acceleration.z != 0 ? PartPower : FullPower;
@@ -67,11 +72,6 @@ namespace PlayerTools.SpaceShipParts
                     powerStepsRenderers[directionTransform.name][accelerationPowerIndex] = directionTransform.GetChild(accelerationPowerIndex).GetComponent<Renderer>();
                 }
             }
-        }
-
-        public void UpdateAcceleration(Vector3 updatedAcceleration)
-        {
-            acceleration = updatedAcceleration;
         }
 
         private void LightUpDirection(string directionName, int lightedPower)
