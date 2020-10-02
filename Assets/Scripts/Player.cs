@@ -13,11 +13,6 @@ public class Player : SpaceBody
     public new Camera camera;
     private new Transform transform;
 
-    [SerializeField] private float moveSpeed = 7f;
-
-    // Ground check
-    private LayerMask groundCheckLayerMask;
-
     // Camera
     private float verticalBodyRotation;
 
@@ -30,6 +25,7 @@ public class Player : SpaceBody
 
     private PlayerInput playerInput;
     public Damageable Damageable;
+    private Leggable leggable;
     private Jumpable jumpable;
     public SpaceSuit SpaceSuit;
 
@@ -52,11 +48,11 @@ public class Player : SpaceBody
         playerInput = GetComponent<PlayerInput>();
 
         Damageable = new Damageable(100f);
+        leggable = new Leggable(this);
         jumpable = new Jumpable();
         SpaceSuit = new SpaceSuit();
 
         scaleBeforeJumpShrink = transform.localScale;
-        groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
 
         Damageable.OnDeath += Die;
     }
@@ -100,7 +96,7 @@ public class Player : SpaceBody
         BreatheOxygen();
 
         CornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
-        CornerDebug.AddDebug("IsOnTheGround = " + IsGrounded());
+        CornerDebug.AddDebug("IsOnTheGround = " + leggable.IsGrounded());
     }
 
     private void Move()
@@ -111,10 +107,10 @@ public class Player : SpaceBody
                                          cachedTransform.right * playerInput.movement.z;
         Vector3 playerVerticalMotion = cachedTransform.up * playerInput.movement.y;
 
-        if (IsGrounded())
+        if (leggable.IsGrounded())
         {
             Vector3 playerPositionAddition = playerHorizontalMotion;
-            playerPositionAddition *= moveSpeed;
+            playerPositionAddition *= Leggable.Run();
             playerPositionAddition *= Time.deltaTime;
             rigidbody.MovePosition(rigidbody.position + playerPositionAddition); // Movement by foot with AddForce is buggy, so for now this will work.
 
@@ -177,13 +173,6 @@ public class Player : SpaceBody
     public void Hurt(float healthPercentageToRemove)
     {
         Damageable.Damage(healthPercentageToRemove);
-    }
-
-    private bool IsGrounded()
-    {
-        const float distanceFromBodyCenterToGround = 1.1f;
-
-        return Physics.Raycast(transform.position, -transform.up, distanceFromBodyCenterToGround, groundCheckLayerMask);
     }
 
     private void Rotate()
