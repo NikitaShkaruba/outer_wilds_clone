@@ -32,10 +32,6 @@ public class Player : SpaceBody
     private bool hasSomethingToBreathe = true;
     private bool isDead;
 
-    // Jump animation
-    private Vector3 scaleBeforeJumpShrink;
-    [SerializeField] private float playerJumpShrinkSpeed;
-
     // Ui Events
     public event Action OnDeath;
 
@@ -48,10 +44,8 @@ public class Player : SpaceBody
 
         Damageable = new Damageable(100f);
         leggable = new Leggable(this);
-        jumpable = new Jumpable();
+        jumpable = new Jumpable(this);
         SpaceSuit = new SpaceSuit();
-
-        scaleBeforeJumpShrink = transform.localScale;
 
         Damageable.OnDeath += Die;
     }
@@ -99,32 +93,13 @@ public class Player : SpaceBody
                                          cachedTransform.right * playerInput.movement.z;
         Vector3 playerVerticalMotion = cachedTransform.up * playerInput.movement.y;
 
+        // Walk by foot or fire vertical thrusters
         if (leggable.IsGrounded())
         {
             Vector3 playerPositionAddition = playerHorizontalMotion;
             playerPositionAddition *= Leggable.Run();
             playerPositionAddition *= Time.deltaTime;
             rigidbody.MovePosition(rigidbody.position + playerPositionAddition); // Movement by foot with AddForce is buggy, so for now this will work.
-
-            if (playerInput.jump)
-            {
-                jumpable.AccumulateJumpPower();
-
-                // Shrink a little on a jump
-                if (!jumpable.AccumulatedMaxJumpPower)
-                {
-                    transform.localScale -= new Vector3(0f, playerJumpShrinkSpeed, 0f);
-                }
-            }
-            else if (!playerInput.jump && jumpable.ReadyToJump)
-            {
-                Vector3 jumpMotion = transform.up;
-                jumpMotion *= jumpable.Jump();
-                rigidbody.AddForce(jumpMotion);
-
-                // Reset shrinking
-                transform.localScale = scaleBeforeJumpShrink;
-            }
         }
         else
         {
@@ -134,6 +109,7 @@ public class Player : SpaceBody
             rigidbody.AddForce(horizontalThrustersForce);
         }
 
+        // Fire vertical thrusters
         if (!Mathf.Approximately(playerInput.movement.y, 0f))
         {
             bool useSuperFuel = playerInput.movement.y > 0f && playerInput.jump;
@@ -143,6 +119,21 @@ public class Player : SpaceBody
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
+        }
+
+        // Handle jump logic
+        if (leggable.IsGrounded())
+        {
+            if (playerInput.jump)
+            {
+                jumpable.AccumulateJumpPower();
+            }
+            else if (!playerInput.jump && jumpable.ReadyToJump)
+            {
+                Vector3 jumpMotion = transform.up;
+                jumpMotion *= jumpable.Jump();
+                rigidbody.AddForce(jumpMotion); // There's no Time.deltaTime, because it's a single force push
+            }
         }
     }
 
