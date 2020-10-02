@@ -67,7 +67,7 @@ namespace UI
 
         private void AddSpaceShipUiActions()
         {
-            availableActions.Add(new UiAction(KeyCode.Q, "Unbuckle", () => player.UnbuckeFromSpaceShipSeat()));
+            availableActions.Add(new UiAction(KeyCode.Q, "Unbuckle", () => player.UnbuckleFromSpaceShipSeat()));
             availableActions.Add(new UiAction(KeyCode.F, "Toggle flashlight", () => player.buckledUpSpaceShipSeat.spaceShipInterface.ToggleFlashlight()));
         }
 

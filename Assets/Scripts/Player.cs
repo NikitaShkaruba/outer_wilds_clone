@@ -11,25 +11,22 @@ using Universe;
 [RequireComponent(typeof(SpaceSuit))]
 public class Player : SpaceBody
 {
+    // Internal unity components
     public new Camera camera;
     private new Transform transform;
 
-    // Camera
-    private float verticalBodyRotation;
-
-    // ----- Refactored ----
-
-    // Internal parts
+    // Internal components
     public Damageable Damageable;
     public SpaceSuit spaceSuit;
     private PlayerInput playerInput;
     private Leggable leggable;
     private Jumpable jumpable;
 
-    // External parts
+    // External components
     public SpaceShipSeat buckledUpSpaceShipSeat;
 
-    // Uncategorized fields
+    // Some fields
+    private float headVerticalRotation;
     private bool hasSomethingToBreathe = true;
     private bool isDead;
 
@@ -54,12 +51,6 @@ public class Player : SpaceBody
     public void OnDestroy()
     {
         Damageable.OnDeath -= Die;
-    }
-
-    private void Die()
-    {
-        isDead = true;
-        OnDeath?.Invoke();
     }
 
     private void FixedUpdate()
@@ -137,6 +128,12 @@ public class Player : SpaceBody
         }
     }
 
+    private void Die()
+    {
+        isDead = true;
+        OnDeath?.Invoke();
+    }
+
     private void PilotSpaceShip()
     {
         buckledUpSpaceShipSeat.spaceShipInterface.PilotShip(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
@@ -163,9 +160,9 @@ public class Player : SpaceBody
         float horizontalMouseOffset = playerInput.rotation.x * GameSettings.MouseSensitivity * Time.deltaTime;
         float verticalMouseOffset = playerInput.rotation.y * GameSettings.MouseSensitivity * Time.deltaTime;
 
-        verticalBodyRotation -= verticalMouseOffset;
-        verticalBodyRotation = Mathf.Clamp(verticalBodyRotation, -90f, 90f); // We don't want our player to roll over with the camera :)
-        camera.transform.localRotation = Quaternion.Euler(verticalBodyRotation, 0f, 0f);
+        headVerticalRotation -= verticalMouseOffset;
+        headVerticalRotation = Mathf.Clamp(headVerticalRotation, -90f, 90f); // We don't want our player to roll over with the camera :)
+        camera.transform.localRotation = Quaternion.Euler(headVerticalRotation, 0f, 0f);
 
         if (playerInput.alternativeRotate)
         {
@@ -205,7 +202,7 @@ public class Player : SpaceBody
         buckledUpSpaceShipSeat.StartBucklingUp(this);
     }
 
-    public void UnbuckeFromSpaceShipSeat()
+    public void UnbuckleFromSpaceShipSeat()
     {
         buckledUpSpaceShipSeat.Unbuckle();
         buckledUpSpaceShipSeat = null;
