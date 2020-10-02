@@ -8,12 +8,10 @@ namespace PlayerTools
         // Oxygen
         private readonly Tank oxygenTank;
         private const float OxygenDepletionSpeed = 0.01f;
-        private const float OxygenRefillSpeed = 0.5f;
 
         // Fuel
         private readonly Tank fuelTank;
         private const float FuelDepletionSpeed = 0.01f;
-        private const float FuelRefillSpeed = 2f;
 
         // Super-Fuel
         private readonly Tank superFuelTank;
@@ -107,14 +105,14 @@ namespace PlayerTools
             return ThrustersPower;
         }
 
-        public void FillFuelTank()
+        public void FillFuelTank(float percentToRefill)
         {
-            fuelTank.Fill(FuelRefillSpeed);
+            fuelTank.Fill(percentToRefill);
         }
 
-        public void FillOxygenTank()
+        public void FillOxygenTank(float percentToRefill)
         {
-            oxygenTank.Fill(OxygenRefillSpeed);
+            oxygenTank.Fill(percentToRefill);
         }
 
         private bool HasPropellant()

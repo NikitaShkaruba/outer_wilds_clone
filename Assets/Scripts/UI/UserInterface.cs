@@ -112,8 +112,8 @@ namespace UI
                     AddSpaceShipChairUiAction(spaceShipSeat);
                     break;
 
-                case SpaceShipHealthAndFuelStation _:
-                    AddSpaceShipHealthAndFuelRefillStation();
+                case SpaceShipHealthAndFuelStation spaceShipHealthAndFuelStation:
+                    AddSpaceShipHealthAndFuelRefillStation(spaceShipHealthAndFuelStation);
                     break;
             }
         }
@@ -136,27 +136,28 @@ namespace UI
             }
         }
 
-        private void AddSpaceShipHealthAndFuelRefillStation()
+        private void AddSpaceShipHealthAndFuelRefillStation(SpaceShipHealthAndFuelStation spaceShipHealthAndFuelStation)
         {
-            string actionDescription = CreateSpaceShipHealthAndFuelRefillStationActionDescription();
-            if (actionDescription.Equals(""))
+            if (!SpaceShipHealthAndFuelStation.CanUseRefill(player))
             {
                 return;
             }
 
-            availableActions.Add(new UiAction(KeyCode.E, actionDescription, () => player.StartRefillingStocksFromShip()));
+            string actionDescription = CreateSpaceShipHealthAndFuelRefillStationActionDescription();
+
+            availableActions.Add(new UiAction(KeyCode.E, actionDescription, () => spaceShipHealthAndFuelStation.ConnectPlayer(player)));
         }
 
         private string CreateSpaceShipHealthAndFuelRefillStationActionDescription()
         {
             List<string> actions = new List<string>();
 
-            if (!player.WantsToHealUp)
+            if (!player.Damageable.HasFullHealthPoints)
             {
                 actions.Add("Use Medkit");
             }
 
-            if (!player.WantsToRefillFuelTank)
+            if (!player.SpaceSuit.IsFuelTankFull)
             {
                 actions.Add("Refuel Jetpack");
             }

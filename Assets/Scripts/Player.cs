@@ -34,13 +34,6 @@ public class Player : SpaceBody
     [HideInInspector] public bool buckleUpTransitionGoing;
     [HideInInspector] public SpaceShip pilotedSpaceShip;
 
-    // UI which needs refactoring
-
-    private bool healthAndFuelRefilling;
-
-    [Header("Health")]
-    [SerializeField] private float healthRefillSpeed;
-
     // ----- Refactored ----
 
     private PlayerInput playerInput;
@@ -49,9 +42,6 @@ public class Player : SpaceBody
 
     private bool hasSomethingToBreathe = true;
     private bool isDead;
-
-    public bool WantsToRefillFuelTank => !SpaceSuit.IsFuelTankFull;
-    public bool WantsToHealUp => Damageable.HasFullHealthPoints;
 
     // Ui Events
     public event Action OnDeath;
@@ -74,14 +64,6 @@ public class Player : SpaceBody
     public void OnDestroy()
     {
         Damageable.OnDeath -= Die;
-    }
-
-    private void Update()
-    {
-        if (healthAndFuelRefilling)
-        {
-            RefillHealthAndFuel();
-        }
     }
 
     private void Die()
@@ -205,11 +187,6 @@ public class Player : SpaceBody
         }
     }
 
-    public void FillOxygenTanks()
-    {
-        SpaceSuit.FillOxygenTank();
-    }
-
     public void Hurt(float healthPercentageToRemove)
     {
         Damageable.Damage(healthPercentageToRemove);
@@ -220,22 +197,6 @@ public class Player : SpaceBody
         const float distanceFromBodyCenterToGround = 1.1f;
 
         return Physics.Raycast(transform.position, -transform.up, distanceFromBodyCenterToGround, groundCheckLayerMask);
-    }
-
-    public void StartRefillingStocksFromShip()
-    {
-        healthAndFuelRefilling = true;
-    }
-
-    private void RefillHealthAndFuel()
-    {
-        Damageable.Heal(healthRefillSpeed);
-        SpaceSuit.FillFuelTank();
-
-        if (Damageable.HasFullHealthPoints && SpaceSuit.IsFuelTankFull)
-        {
-            healthAndFuelRefilling = false;
-        }
     }
 
     private void Rotate()

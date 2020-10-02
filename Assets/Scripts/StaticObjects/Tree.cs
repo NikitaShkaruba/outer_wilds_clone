@@ -5,6 +5,8 @@ namespace StaticObjects
     [RequireComponent(typeof(Collider))]
     public class Tree : MonoBehaviour
     {
+        private const float OxygenRefillSpeed = 0.5f;
+
         private void OnTriggerStay(Collider other)
         {
             Player collidedPlayer = other.GetComponent<Player>();
@@ -13,7 +15,7 @@ namespace StaticObjects
                 return;
             }
 
-            collidedPlayer.FillOxygenTanks();
+            collidedPlayer.SpaceSuit.FillOxygenTank(OxygenRefillSpeed);
         }
     }
 }
