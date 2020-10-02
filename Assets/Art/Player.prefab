@@ -1,35 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5385065599220226917
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5385065599220226918}
-  m_Layer: 0
-  m_Name: GroundCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5385065599220226918
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5385065599220226917}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0.5, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5385065600682438439}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5385065599560136042
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +170,7 @@ GameObject:
   - component: {fileID: 5385065600682438436}
   - component: {fileID: 5385065600682438437}
   - component: {fileID: 5385065600682438438}
+  - component: {fileID: 4893738741991168160}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -219,7 +190,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1.8000002, z: 1}
   m_Children:
   - {fileID: 5385065599560136043}
-  - {fileID: 5385065599220226918}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -268,30 +238,8 @@ MonoBehaviour:
   initialVelocity: {x: 0, y: 0, z: 0}
   gravityScale: 1
   camera: {fileID: 5385065599560136047}
-  thrustersPower: 500
-  moveSpeed: 7
-  jumpPowerAccelerationPerTick: 50
-  maxJumpPower: 400
-  playerShrinkOnJumpSpeed: 0.05
-  isBuckledUp: 0
-  buckleUpTransitionGoing: 0
-  pilotedSpaceShip: {fileID: 0}
-  deathBlackFadeImage: {fileID: 0}
-  youAreTakingDamageText: {fileID: 0}
-  hideYouAreTakingDamageTextTimer: 0
-  hideYouAreTakingDamageTextTimerTime: 0.1
-  healthRefillSpeed: 7
-  healthIndicator: {fileID: 0}
-  oxygenDepletionSpeed: 0.01
-  oxygenRefillSpeed: 0
-  oxygenBar: {fileID: 0}
-  fuelDepletionSpeed: 0.01
-  fuelRefillSpeed: 2
-  fuelBar: {fileID: 0}
-  superFuelDepletionSpeed: 1
-  superFuelRestorationSpeed: 0.4
-  superFuelPowerMultiplier: 2
-  superFuelBar: {fileID: 0}
+  spaceSuit: {fileID: 0}
+  buckledUpSpaceShipSeat: {fileID: 0}
 --- !u!114 &7281722163792596008
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,6 +256,8 @@ MonoBehaviour:
   jump: 0
   rotation: {x: 0, y: 0}
   alternativeRotate: 0
+  toggleCornerDebug: 0
+  toggleCursorLock: 0
 --- !u!114 &5385065600682438436
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,3 +320,15 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5385065600682438433}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &4893738741991168160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5385065600682438433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ec6c8de36a4a129a143b50f844c836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

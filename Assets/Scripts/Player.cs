@@ -8,6 +8,7 @@ using UnityEngine;
 using Universe;
 
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(SpaceSuit))]
 public class Player : SpaceBody
 {
     public new Camera camera;
@@ -20,7 +21,7 @@ public class Player : SpaceBody
 
     // Internal parts
     public Damageable Damageable;
-    public SpaceSuit SpaceSuit;
+    public SpaceSuit spaceSuit;
     private PlayerInput playerInput;
     private Leggable leggable;
     private Jumpable jumpable;
@@ -41,11 +42,11 @@ public class Player : SpaceBody
 
         transform = GetComponent<Transform>();
         playerInput = GetComponent<PlayerInput>();
+        spaceSuit = GetComponent<SpaceSuit>();
 
         Damageable = new Damageable(100f);
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
-        SpaceSuit = new SpaceSuit();
 
         Damageable.OnDeath += Die;
     }
@@ -64,7 +65,7 @@ public class Player : SpaceBody
     private void FixedUpdate()
     {
         ApplyGravity();
-        SpaceSuit.Tick();
+        BreatheOxygen();
 
         if (isDead)
         {
@@ -79,7 +80,6 @@ public class Player : SpaceBody
 
         Move();
         Rotate();
-        BreatheOxygen();
 
         CornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
         CornerDebug.AddDebug("IsOnTheGround = " + leggable.IsGrounded());
@@ -104,7 +104,7 @@ public class Player : SpaceBody
         else
         {
             Vector3 horizontalThrustersForce = playerHorizontalMotion;
-            horizontalThrustersForce *= SpaceSuit.FireHorizontalThrusters();
+            horizontalThrustersForce *= spaceSuit.FireHorizontalThrusters();
             horizontalThrustersForce *= Time.deltaTime;
             rigidbody.AddForce(horizontalThrustersForce);
         }
@@ -115,7 +115,7 @@ public class Player : SpaceBody
             bool useSuperFuel = playerInput.movement.y > 0f && playerInput.jump;
 
             Vector3 verticalThrustersForce = playerVerticalMotion;
-            verticalThrustersForce *= SpaceSuit.FireVerticalThrusters(useSuperFuel);
+            verticalThrustersForce *= spaceSuit.FireVerticalThrusters(useSuperFuel);
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
@@ -144,7 +144,7 @@ public class Player : SpaceBody
 
     private void BreatheOxygen()
     {
-        hasSomethingToBreathe = SpaceSuit.GiveOxygenToBreathe();
+        hasSomethingToBreathe = spaceSuit.GiveOxygenToBreathe();
 
         if (!hasSomethingToBreathe)
         {

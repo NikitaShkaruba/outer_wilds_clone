@@ -15,7 +15,7 @@ namespace StaticObjects
                 return;
             }
 
-            collidedPlayer.SpaceSuit.FillOxygenTank(OxygenRefillSpeed);
+            collidedPlayer.spaceSuit.FillOxygenTank(OxygenRefillSpeed);
         }
     }
 }

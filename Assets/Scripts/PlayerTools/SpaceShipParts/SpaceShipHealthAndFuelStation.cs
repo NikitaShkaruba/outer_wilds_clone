@@ -27,7 +27,7 @@ namespace PlayerTools.SpaceShipParts
         private void RefillHealthAndFuel()
         {
             connectedPlayer.Damageable.Heal(HealthRefillSpeed);
-            connectedPlayer.SpaceSuit.FillFuelTank(FuelRefillSpeed);
+            connectedPlayer.spaceSuit.FillFuelTank(FuelRefillSpeed);
 
             if (!CanUseRefill(connectedPlayer))
             {
@@ -37,7 +37,7 @@ namespace PlayerTools.SpaceShipParts
 
         public static bool CanUseRefill(Player player)
         {
-            return !player.Damageable.HasFullHealthPoints || !player.SpaceSuit.IsFuelTankFull;
+            return !player.Damageable.HasFullHealthPoints || !player.spaceSuit.IsFuelTankFull;
         }
     }
 }

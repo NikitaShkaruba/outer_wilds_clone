@@ -15,17 +15,17 @@ namespace UI
         private void Start()
         {
             player.Damageable.OnHealthPointsChange += UpdateHealthIndicator;
-            player.SpaceSuit.OnOxygenTankFillPercentageChanged += UpdateOxygenBar;
-            player.SpaceSuit.OnFuelTankFillPercentageChanged += UpdateFuelBar;
-            player.SpaceSuit.OnSuperFuelTankFillPercentageChanged += UpdateSuperFuelBar;
+            player.spaceSuit.OnOxygenTankFillPercentageChanged += UpdateOxygenBar;
+            player.spaceSuit.OnFuelTankFillPercentageChanged += UpdateFuelBar;
+            player.spaceSuit.OnSuperFuelTankFillPercentageChanged += UpdateSuperFuelBar;
         }
 
         private void OnDestroy()
         {
             player.Damageable.OnHealthPointsChange -= UpdateHealthIndicator;
-            player.SpaceSuit.OnOxygenTankFillPercentageChanged -= UpdateOxygenBar;
-            player.SpaceSuit.OnFuelTankFillPercentageChanged -= UpdateFuelBar;
-            player.SpaceSuit.OnSuperFuelTankFillPercentageChanged -= UpdateSuperFuelBar;
+            player.spaceSuit.OnOxygenTankFillPercentageChanged -= UpdateOxygenBar;
+            player.spaceSuit.OnFuelTankFillPercentageChanged -= UpdateFuelBar;
+            player.spaceSuit.OnSuperFuelTankFillPercentageChanged -= UpdateSuperFuelBar;
         }
 
         private void UpdateHealthIndicator(float percentage)

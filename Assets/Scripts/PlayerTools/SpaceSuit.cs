@@ -1,9 +1,10 @@
 using System;
 using PlayerLogic;
+using UnityEngine;
 
 namespace PlayerTools
 {
-    public class SpaceSuit
+    public class SpaceSuit : MonoBehaviour
     {
         // Oxygen
         private readonly Tank oxygenTank;
@@ -32,25 +33,28 @@ namespace PlayerTools
         public event Action<float> OnFuelTankFillPercentageChanged;
         public event Action<float> OnSuperFuelTankFillPercentageChanged;
 
-        public SpaceSuit()
+        private SpaceSuit()
         {
             oxygenTank = new Tank();
             fuelTank = new Tank();
             superFuelTank = new Tank();
+        }
 
+        private void Awake()
+        {
             oxygenTank.OnFillPercentageChanged += InvokeOnOxygenTankOnFillPercentageChanged;
             fuelTank.OnFillPercentageChanged += InvokeOnFuelTankOnFillPercentageChanged;
             superFuelTank.OnFillPercentageChanged += InvokeOnSuperFuelTankOnFillPercentageChanged;
         }
 
-        ~SpaceSuit()
+        private void OnDestroy()
         {
             oxygenTank.OnFillPercentageChanged -= InvokeOnOxygenTankOnFillPercentageChanged;
             fuelTank.OnFillPercentageChanged -= InvokeOnFuelTankOnFillPercentageChanged;
             superFuelTank.OnFillPercentageChanged -= InvokeOnSuperFuelTankOnFillPercentageChanged;
         }
 
-        public void Tick()
+        private void FixedUpdate()
         {
             if (!isUsingSuperFuel && !superFuelTank.IsFull && HasPropellant())
             {
