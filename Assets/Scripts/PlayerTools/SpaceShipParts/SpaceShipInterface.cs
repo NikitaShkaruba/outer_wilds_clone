@@ -13,7 +13,7 @@ namespace PlayerTools.SpaceShipParts
 
         public void ToggleFlashlight()
         {
-            spaceShip.ToggleFlashlight();
+            spaceShip.flashlight.Toggle();
         }
     }
 }

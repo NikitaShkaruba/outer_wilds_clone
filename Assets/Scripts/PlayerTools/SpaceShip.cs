@@ -9,8 +9,6 @@ namespace PlayerTools
     [RequireComponent(typeof(SpaceShipFlashlight))]
     public class SpaceShip : SpaceBody
     {
-        [SerializeField] private GameObject hatchRotator;
-        [SerializeField] private GameObject hatchGravityField;
         [SerializeField] private SpaceShipAccelerationShowcase accelerationShowcase;
         private SpaceShipThrusters thrusters;
 
@@ -24,11 +22,11 @@ namespace PlayerTools
         [SerializeField] private float rotationThrustersPower;
 
         // Hatch
-        [HideInInspector] public bool isHatchClosed;
-        private bool isHatchMoving;
+        [SerializeField] private SpaceShipHatch spaceShipHatch;
+        [SerializeField] private GameObject hatchGravityField;
 
         // Flashlight
-        private SpaceShipFlashlight flashlight;
+        public SpaceShipFlashlight flashlight;
 
         private new void Awake()
         {
@@ -46,14 +44,10 @@ namespace PlayerTools
 
         private void FixedUpdate()
         {
-            Move();
-            Rotate();
             ApplyGravity();
 
-            if (isHatchMoving)
-            {
-                MoveHatch();
-            }
+            Move();
+            Rotate();
         }
 
         public void Pilot(Vector3 playerWantedMovement, Vector2 playerWantedRotation, bool playerWantsToRotateAroundForwardVector)
@@ -99,65 +93,17 @@ namespace PlayerTools
 
         public void PlayerEnteredShip()
         {
-            if (isHatchClosed || !hatchGravityField.activeSelf)
+            if (spaceShipHatch.isClosed || !hatchGravityField.activeSelf)
             {
                 return;
             }
 
-            InitializeHatchMoving();
+            spaceShipHatch.Toggle();
         }
 
         public void PlayerExitedShip()
         {
             hatchGravityField.SetActive(true);
-        }
-
-        public void OpenHatch()
-        {
-            if (!isHatchClosed)
-            {
-                return;
-            }
-
-            InitializeHatchMoving();
-        }
-
-        private void InitializeHatchMoving()
-        {
-            isHatchMoving = true;
-        }
-
-        private void MoveHatch()
-        {
-            float hatchClosingSpeed = 300f;
-            hatchClosingSpeed *= isHatchClosed ? 1 : -1;
-
-            hatchRotator.transform.Rotate(hatchClosingSpeed * Time.deltaTime, 0f, 0f);
-
-            float finalXEuler = isHatchClosed ? -90 : 90;
-            Quaternion desiredRotation = Quaternion.Euler(finalXEuler, 0, 0);
-
-            float angleDifference = Quaternion.Angle(hatchRotator.transform.localRotation, desiredRotation);
-            if (Mathf.Approximately(angleDifference, 0))
-            {
-                FinishHatchMoving();
-            }
-        }
-
-        private void FinishHatchMoving()
-        {
-            isHatchMoving = false;
-            isHatchClosed = !isHatchClosed;
-
-            if (isHatchClosed)
-            {
-                hatchGravityField.SetActive(false);
-            }
-        }
-
-        public void ToggleFlashlight()
-        {
-            flashlight.Toggle();
         }
     }
 }

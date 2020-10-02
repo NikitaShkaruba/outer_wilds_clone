@@ -11314,12 +11314,12 @@ MonoBehaviour:
   rigidbody: {fileID: 3987797952050055262}
   initialVelocity: {x: 0, y: 0, z: 0}
   gravityScale: 80
-  hatchRotator: {fileID: 8697271774980769764}
-  hatchGravityField: {fileID: 3987797951348593860}
   accelerationShowcase: {fileID: 3987797952050055265}
   movementThrustersPower: 300000
   rotationThrustersPower: 500
-  isHatchClosed: 0
+  spaceShipHatch: {fileID: 3987797950558746955}
+  hatchGravityField: {fileID: 3987797951348593860}
+  flashlight: {fileID: 3987797952050055284}
 --- !u!114 &3987797952050055275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14607,7 +14607,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c64350ee19484291b46ef26597cef999, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceShip: {fileID: 3987797952050055266}
+  rotator: {fileID: 8697271774980769764}
+  gravityField: {fileID: 3987797951348593860}
+  isClosed: 0
 --- !u!1 &7375542462367556446
 GameObject:
   m_ObjectHideFlags: 0

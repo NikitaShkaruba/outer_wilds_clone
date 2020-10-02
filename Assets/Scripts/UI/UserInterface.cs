@@ -120,12 +120,12 @@ namespace UI
 
         private void AddHatchUiActions(SpaceShipHatch spaceShipHatch)
         {
-            if (!spaceShipHatch.IsClosed)
+            if (!spaceShipHatch.isClosed)
             {
                 return;
             }
 
-            availableActions.Add(new UiAction(KeyCode.E, "open the hatch", spaceShipHatch.Open));
+            availableActions.Add(new UiAction(KeyCode.E, "open the hatch", spaceShipHatch.Toggle));
         }
 
         private void AddSpaceShipChairUiAction(SpaceShipSeat spaceShipSeat)
