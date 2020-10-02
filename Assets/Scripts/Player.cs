@@ -13,15 +13,7 @@ public class Player : SpaceBody
     public new Camera camera;
     private new Transform transform;
 
-    // Movement
-    [SerializeField] private float moveSpeed;
-
-    // Jump
-    private float acceleratedJumpPower;
-    [SerializeField] private float jumpPowerAccelerationPerTick;
-    [SerializeField] private float maxJumpPower;
-    [SerializeField] private float playerShrinkOnJumpSpeed;
-    private Vector3? scaleBeforeJumpShrinking;
+    [SerializeField] private float moveSpeed = 7f;
 
     // Ground check
     private LayerMask groundCheckLayerMask;
@@ -38,10 +30,16 @@ public class Player : SpaceBody
 
     private PlayerInput playerInput;
     public Damageable Damageable;
+    private Jumpable jumpable;
     public SpaceSuit SpaceSuit;
 
+    // Uncategorized fields
     private bool hasSomethingToBreathe = true;
     private bool isDead;
+
+    // Jump animation
+    private Vector3 scaleBeforeJumpShrink;
+    [SerializeField] private float playerJumpShrinkSpeed;
 
     // Ui Events
     public event Action OnDeath;
@@ -53,10 +51,12 @@ public class Player : SpaceBody
         transform = GetComponent<Transform>();
         playerInput = GetComponent<PlayerInput>();
 
-        groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
-
         Damageable = new Damageable(100f);
+        jumpable = new Jumpable();
         SpaceSuit = new SpaceSuit();
+
+        scaleBeforeJumpShrink = transform.localScale;
+        groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
 
         Damageable.OnDeath += Die;
     }
@@ -118,7 +118,25 @@ public class Player : SpaceBody
             playerPositionAddition *= Time.deltaTime;
             rigidbody.MovePosition(rigidbody.position + playerPositionAddition); // Movement by foot with AddForce is buggy, so for now this will work.
 
-            ProcessJumpLogic();
+            if (playerInput.jump)
+            {
+                jumpable.AccumulateJumpPower();
+
+                // Shrink a little on a jump
+                if (!jumpable.AccumulatedMaxJumpPower)
+                {
+                    transform.localScale -= new Vector3(0f, playerJumpShrinkSpeed, 0f);
+                }
+            }
+            else if (!playerInput.jump && jumpable.ReadyToJump)
+            {
+                Vector3 jumpMotion = transform.up;
+                jumpMotion *= jumpable.Jump();
+                rigidbody.AddForce(jumpMotion);
+
+                // Reset shrinking
+                transform.localScale = scaleBeforeJumpShrink;
+            }
         }
         else
         {
@@ -137,37 +155,6 @@ public class Player : SpaceBody
             verticalThrustersForce *= Time.deltaTime;
 
             rigidbody.AddForce(verticalThrustersForce);
-        }
-    }
-
-    private void ProcessJumpLogic()
-    {
-        if (playerInput.jump && acceleratedJumpPower <= maxJumpPower)
-        {
-            // Remember original scale
-            if (scaleBeforeJumpShrinking == null)
-            {
-                scaleBeforeJumpShrinking = transform.localScale;
-            }
-
-            // Shrink player a bit
-            transform.localScale -= new Vector3(0, playerShrinkOnJumpSpeed, 0);
-
-            // Accelerate jump power
-            acceleratedJumpPower += jumpPowerAccelerationPerTick;
-        }
-        else if (!playerInput.jump && acceleratedJumpPower > 0f)
-        {
-            // Resize player back
-            System.Diagnostics.Debug.Assert(scaleBeforeJumpShrinking != null, nameof(scaleBeforeJumpShrinking) + " != null");
-            transform.localScale = (Vector3) scaleBeforeJumpShrinking;
-
-            // Add jump force
-            Vector3 jumpMotion = transform.up * acceleratedJumpPower;
-            rigidbody.AddForce(jumpMotion);
-
-            acceleratedJumpPower = 0f;
-            scaleBeforeJumpShrinking = null;
         }
     }
 
