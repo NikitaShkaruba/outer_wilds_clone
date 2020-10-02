@@ -1,3 +1,4 @@
+using PlayerTools.SpaceShipParts.Triggers;
 using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
@@ -5,10 +6,16 @@ namespace PlayerTools.SpaceShipParts
     public class SpaceShipHatch : MonoBehaviour
     {
         [SerializeField] private GameObject rotator;
-        [SerializeField] private GameObject gravityField;
+        [SerializeField] private SpaceShipGravityField gravityField;
+        [SerializeField] private PlayerEntersShipTrigger playerEntersShipTrigger;
 
         public bool isClosed;
         private bool itMoving;
+
+        public void Awake()
+        {
+            playerEntersShipTrigger.OnPlayerEnteredShip += CloseOnPlayerExit;
+        }
 
         public void FixedUpdate()
         {
@@ -21,6 +28,16 @@ namespace PlayerTools.SpaceShipParts
         public void Toggle()
         {
             itMoving = true;
+        }
+
+        private void CloseOnPlayerExit()
+        {
+            if (isClosed || !gravityField.IsActive)
+            {
+                return;
+            }
+
+            Toggle();
         }
 
         private void MoveHatch()
@@ -47,7 +64,7 @@ namespace PlayerTools.SpaceShipParts
 
             if (isClosed)
             {
-                gravityField.SetActive(false);
+                gravityField.Disable();
             }
         }
     }

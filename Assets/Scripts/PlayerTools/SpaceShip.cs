@@ -6,13 +6,13 @@ using Universe;
 namespace PlayerTools
 {
     [RequireComponent(typeof(SpaceShipThrusters))]
-    [RequireComponent(typeof(SpaceShipFlashlight))]
     public class SpaceShip : SpaceBody
     {
+        // External components
         [SerializeField] private SpaceShipAccelerationShowcase accelerationShowcase;
-        private SpaceShipThrusters thrusters;
+        [SerializeField] private SpaceShipThrusters thrusters;
 
-        // Player Input
+        // Player input
         private Vector3 wantedMovement;
         private Vector3 wantedRotation;
         private bool wantsToRotateAroundForwardVector;
@@ -21,19 +21,11 @@ namespace PlayerTools
         [SerializeField] private float movementThrustersPower;
         [SerializeField] private float rotationThrustersPower;
 
-        // Hatch
-        [SerializeField] private SpaceShipHatch spaceShipHatch;
-        [SerializeField] private GameObject hatchGravityField;
-
-        // Flashlight
-        public SpaceShipFlashlight flashlight;
-
         private new void Awake()
         {
             base.Awake();
 
             thrusters = GetComponent<SpaceShipThrusters>();
-            flashlight = GetComponent<SpaceShipFlashlight>();
         }
 
         private void Update()
@@ -89,21 +81,6 @@ namespace PlayerTools
             {
                 rigidbody.AddTorque(transform.up * rotation.x);
             }
-        }
-
-        public void PlayerEnteredShip()
-        {
-            if (spaceShipHatch.isClosed || !hatchGravityField.activeSelf)
-            {
-                return;
-            }
-
-            spaceShipHatch.Toggle();
-        }
-
-        public void PlayerExitedShip()
-        {
-            hatchGravityField.SetActive(true);
         }
     }
 }

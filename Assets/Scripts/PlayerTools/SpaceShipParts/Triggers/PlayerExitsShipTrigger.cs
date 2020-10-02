@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts.Triggers
 {
     public class PlayerExitsShipTrigger : MonoBehaviour
     {
-        [SerializeField] private SpaceShip spaceShip;
+        public event Action OnPlayerExitedShip;
 
         private void OnTriggerExit(Collider other)
         {
@@ -14,7 +15,7 @@ namespace PlayerTools.SpaceShipParts.Triggers
                 return;
             }
 
-            spaceShip.PlayerExitedShip();
+            OnPlayerExitedShip?.Invoke();
         }
     }
 }
