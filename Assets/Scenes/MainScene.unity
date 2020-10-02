@@ -123,6 +123,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &46816739 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6157510785316739786, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+  m_PrefabInstance: {fileID: 3987797950786832321}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &46816743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46816739}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54291e6e67f34140b152d3525ef8ab68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spaceShip: {fileID: 394761767}
 --- !u!1 &57950699
 GameObject:
   m_ObjectHideFlags: 0
@@ -981,6 +999,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 373527935}
   m_CullTransparentMesh: 0
+--- !u!114 &394761767 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3987797952050055266, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+  m_PrefabInstance: {fileID: 3987797950786832321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4065f9273ba24bceb94ba78ab8c1e951, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &410261172
 GameObject:
   m_ObjectHideFlags: 0
@@ -8649,6 +8678,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -3.464
       objectReference: {fileID: 0}
+    - target: {fileID: 3987797950920962412, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+      propertyPath: seatedPlayer
+      value: 
+      objectReference: {fileID: 1174294931}
+    - target: {fileID: 3987797950920962412, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
+      propertyPath: spaceShipInterface
+      value: 
+      objectReference: {fileID: 46816743}
     - target: {fileID: 3987797952050055266, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
       propertyPath: initialVelocity.x
       value: 65.9814

@@ -16,18 +16,17 @@ public class Player : SpaceBody
     // Camera
     private float verticalBodyRotation;
 
-    // SpaceShip interaction
-    [HideInInspector] public bool isBuckledUp;
-    [HideInInspector] public bool buckleUpTransitionGoing;
-    [HideInInspector] public SpaceShip pilotedSpaceShip;
-
     // ----- Refactored ----
 
-    private PlayerInput playerInput;
+    // Internal parts
     public Damageable Damageable;
+    public SpaceSuit SpaceSuit;
+    private PlayerInput playerInput;
     private Leggable leggable;
     private Jumpable jumpable;
-    public SpaceSuit SpaceSuit;
+
+    // External parts
+    public SpaceShipSeat buckledUpSpaceShipSeat;
 
     // Uncategorized fields
     private bool hasSomethingToBreathe = true;
@@ -78,14 +77,7 @@ public class Player : SpaceBody
             return;
         }
 
-        if (buckleUpTransitionGoing)
-        {
-            DoBucklingUpPiece();
-            PilotSpaceShip();
-            return;
-        }
-
-        if (isBuckledUp)
+        if (IsBuckledUp())
         {
             PilotSpaceShip();
             return;
@@ -156,7 +148,7 @@ public class Player : SpaceBody
 
     private void PilotSpaceShip()
     {
-        pilotedSpaceShip.Pilot(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
+        buckledUpSpaceShipSeat.spaceShipInterface.PilotShip(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
     }
 
     private void BreatheOxygen()
@@ -172,7 +164,7 @@ public class Player : SpaceBody
 
     private void Rotate()
     {
-        if (buckleUpTransitionGoing || isBuckledUp)
+        if (IsBuckledUp())
         {
             return;
         }
@@ -216,72 +208,20 @@ public class Player : SpaceBody
         return rigidbody.velocity - BodyToGravitateTowards.rigidbody.velocity;
     }
 
-    public void StartBucklingUp(SpaceShipSeat spaceShipSeat)
+    public void BuckleUpIntoSpaceShipSeat(SpaceShipSeat spaceShipSeat)
     {
-        // Change state
-        buckleUpTransitionGoing = true;
-        pilotedSpaceShip = spaceShipSeat.spaceShip;
-        transform.SetParent(spaceShipSeat.transform);
-
-        // Disable movement
-        rigidbody.isKinematic = true;
-        rigidbody.detectCollisions = false;
+        buckledUpSpaceShipSeat = spaceShipSeat;
+        buckledUpSpaceShipSeat.StartBucklingUp(this);
     }
 
-    public void Unbuckle()
+    public void UnbuckeFromSpaceShipSeat()
     {
-        // Enable movement again
-        rigidbody.velocity = pilotedSpaceShip.rigidbody.velocity;
-        rigidbody.isKinematic = false;
-        rigidbody.detectCollisions = true;
-
-        // Change state
-        transform.SetParent(null);
-        isBuckledUp = false;
-        buckleUpTransitionGoing = false; // In case we stopped buckling up during the transition
-        pilotedSpaceShip = null;
+        buckledUpSpaceShipSeat.Unbuckle();
+        buckledUpSpaceShipSeat = null;
     }
 
-    private void DoBucklingUpPiece()
+    public bool IsBuckledUp()
     {
-        Vector3 transformCachedPosition = transform.localPosition;
-        Quaternion cachedTransformRotation = transform.localRotation;
-        Quaternion cachedCameraTransformRotation = camera.transform.localRotation;
-
-        // Move player into the chair
-        Vector3 desiredPosition = new Vector3(0, 0.5f, 1.1f); // A little bit forward and up of the (0,0,0) coordinates of the chair
-        Vector3 positionDifference = desiredPosition - transformCachedPosition;
-        Vector3 positionAddition = positionDifference; // difference - is what we should add in order to become the same
-        positionAddition *= 2f; // Speedup the process a bit
-        positionAddition *= Time.deltaTime; // Include physics rendering step
-        transformCachedPosition += positionAddition;
-        transform.localPosition = transformCachedPosition;
-
-        // Rotate player body to (0,0,0)
-        Quaternion wantedTransformRotation = Quaternion.Euler(BlenderBugFixes.TransformBlenderEulerAngles(new Vector3(0, 0, 0)));
-        cachedTransformRotation = Quaternion.Slerp(cachedTransformRotation, wantedTransformRotation, Time.deltaTime);
-        transform.localRotation = cachedTransformRotation;
-
-        // Rotate player camera to (0,0,0)
-        Quaternion wantedCameraRotation = Quaternion.Euler(0, 0, 0);
-        cachedCameraTransformRotation = Quaternion.Slerp(cachedCameraTransformRotation, wantedCameraRotation, Time.deltaTime);
-        camera.transform.localRotation = cachedCameraTransformRotation;
-
-        // Check that everything is positioned properly
-        const float positionCheckThreshold = 0.01f;
-        bool movedToTheChair = Mathf.Abs(positionDifference.x) <= positionCheckThreshold &&
-                               Mathf.Abs(positionDifference.y) <= positionCheckThreshold &&
-                               Mathf.Abs(positionDifference.z) <= positionCheckThreshold;
-
-        // Check that everything is rotated properly
-        const float rotationCheckThreshold = 0.00001f;
-        bool transformRotatedProperly = 1 - Mathf.Abs(Quaternion.Dot(cachedTransformRotation, wantedTransformRotation)) < rotationCheckThreshold;
-        bool cameraRotatedProperly = 1 - Mathf.Abs(Quaternion.Dot(cachedCameraTransformRotation, wantedCameraRotation)) < rotationCheckThreshold;
-
-        if (movedToTheChair && transformRotatedProperly && cameraRotatedProperly)
-        {
-            buckleUpTransitionGoing = false;
-            isBuckledUp = true;
-        }
+        return buckledUpSpaceShipSeat != null;
     }
 }
