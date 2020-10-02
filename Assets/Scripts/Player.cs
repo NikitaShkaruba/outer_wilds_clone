@@ -170,11 +170,6 @@ public class Player : SpaceBody
         }
     }
 
-    public void Hurt(float healthPercentageToRemove)
-    {
-        Damageable.Damage(healthPercentageToRemove);
-    }
-
     private void Rotate()
     {
         if (buckleUpTransitionGoing || isBuckledUp)

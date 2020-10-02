@@ -15,7 +15,7 @@ namespace StaticObjects
                 return;
             }
 
-            collidedPlayer.Hurt(fireDamage);
+            collidedPlayer.Damageable.Damage(fireDamage);
         }
     }
 }
