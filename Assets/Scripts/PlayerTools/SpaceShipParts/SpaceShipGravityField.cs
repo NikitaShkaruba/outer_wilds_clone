@@ -20,7 +20,7 @@ namespace PlayerTools.SpaceShipParts
 
         private void OnDestroy()
         {
-            playerExitsShipTrigger.OnPlayerExitedShip += Enable;
+            playerExitsShipTrigger.OnPlayerExitedShip -= Enable;
         }
 
         private void OnTriggerStay(Collider other)

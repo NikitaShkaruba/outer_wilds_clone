@@ -17,6 +17,11 @@ namespace UI.Debug
             playerInput.OnCornerDebugToggle += Toggle;
         }
 
+        private void OnDestroy()
+        {
+            playerInput.OnCornerDebugToggle -= Toggle;
+        }
+
         private void FixedUpdate()
         {
             textMeshPro.text = !isHidden ? additionalDebug : "";

@@ -10,24 +10,29 @@ namespace PlayerTools.SpaceShipParts
         [SerializeField] private PlayerEntersShipTrigger playerEntersShipTrigger;
 
         public bool isClosed;
-        private bool itMoving;
+        private bool rotating;
 
         public void Awake()
         {
             playerEntersShipTrigger.OnPlayerEnteredShip += CloseOnPlayerExit;
         }
 
+        public void OnDestroy()
+        {
+            playerEntersShipTrigger.OnPlayerEnteredShip -= CloseOnPlayerExit;
+        }
+
         public void FixedUpdate()
         {
-            if (itMoving)
+            if (rotating)
             {
-                MoveHatch();
+                RotateHatch();
             }
         }
 
         public void Toggle()
         {
-            itMoving = true;
+            rotating = true;
         }
 
         private void CloseOnPlayerExit()
@@ -40,7 +45,7 @@ namespace PlayerTools.SpaceShipParts
             Toggle();
         }
 
-        private void MoveHatch()
+        private void RotateHatch()
         {
             float hatchClosingSpeed = 300f;
             hatchClosingSpeed *= isClosed ? 1 : -1;
@@ -53,13 +58,13 @@ namespace PlayerTools.SpaceShipParts
             float angleDifference = Quaternion.Angle(rotator.transform.localRotation, desiredRotation);
             if (Mathf.Approximately(angleDifference, 0))
             {
-                FinishHatchMoving();
+                FinishHatchRotation();
             }
         }
 
-        private void FinishHatchMoving()
+        private void FinishHatchRotation()
         {
-            itMoving = false;
+            rotating = false;
             isClosed = !isClosed;
 
             if (isClosed)
