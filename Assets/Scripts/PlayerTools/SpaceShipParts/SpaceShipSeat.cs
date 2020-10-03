@@ -46,6 +46,8 @@ namespace PlayerTools.SpaceShipParts
             // Change state
             seatedPlayer.transform.SetParent(null);
             buckleUpTransitionGoing = false; // In case we stopped buckling up during the transition
+
+            seatedPlayer = null;
         }
 
         private void DoBucklingUpTransitionPiece()

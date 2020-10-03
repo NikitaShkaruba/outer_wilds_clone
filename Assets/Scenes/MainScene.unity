@@ -647,17 +647,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 245378003}
   m_CullTransparentMesh: 0
---- !u!114 &266712139 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5975871948472634594, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
-  m_PrefabInstance: {fileID: 3987797950786832321}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55e82b0aff200ae46a654c0d69d4dc1c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &298865438
 GameObject:
   m_ObjectHideFlags: 0
@@ -8870,10 +8859,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -3.464
       objectReference: {fileID: 0}
-    - target: {fileID: 3987797950920962412, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
-      propertyPath: seatedPlayer
-      value: 
-      objectReference: {fileID: 1174294931}
     - target: {fileID: 3987797952050055266, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
       propertyPath: initialVelocity.x
       value: 65.9814
@@ -8894,10 +8879,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpaceShip
       objectReference: {fileID: 0}
-    - target: {fileID: 8041485537931662254, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
-      propertyPath: spaceShipFlashlight
-      value: 
-      objectReference: {fileID: 266712139}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
 --- !u!1001 &4360151094052460793
