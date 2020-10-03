@@ -55,17 +55,18 @@ public class Player : SpaceBody
 
     private void FixedUpdate()
     {
-        ApplyGravity();
         BreatheOxygen();
-
-        if (isDead)
-        {
-            return;
-        }
 
         if (IsBuckledUp())
         {
             PilotSpaceShip();
+            return;
+        }
+
+        ApplyGravity(); // We don't need gravity when we're sitting in a chair
+
+        if (isDead)
+        {
             return;
         }
 

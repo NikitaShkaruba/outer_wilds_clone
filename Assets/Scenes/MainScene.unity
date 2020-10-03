@@ -8890,10 +8890,6 @@ PrefabInstance:
       propertyPath: playerEntersShipTrigger
       value: 
       objectReference: {fileID: 757932792}
-    - target: {fileID: 3987797952050055266, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
-      propertyPath: flashlight
-      value: 
-      objectReference: {fileID: 266712139}
     - target: {fileID: 4293875249225954570, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
       propertyPath: m_Name
       value: SpaceShip

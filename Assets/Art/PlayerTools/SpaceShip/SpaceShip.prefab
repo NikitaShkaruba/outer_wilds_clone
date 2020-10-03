@@ -11315,7 +11315,7 @@ MonoBehaviour:
   gravityScale: 80
   thrusters: {fileID: 3987797952050055275}
   accelerationShowcase: {fileID: 3987797952050055265}
-  flashlight: {fileID: 0}
+  flashlight: {fileID: 5975871948472634594}
 --- !u!114 &3987797952050055275
 MonoBehaviour:
   m_ObjectHideFlags: 0
