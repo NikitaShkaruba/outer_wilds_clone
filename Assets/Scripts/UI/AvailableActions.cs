@@ -1,23 +1,20 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using PlayerTools.SpaceShipParts;
 using TMPro;
+using UI.AvailableActionHelpers;
 using UnityEngine;
 
 namespace UI
 {
-    [RequireComponent(typeof(Player))]
-    public class UserInterface : MonoBehaviour
+    public class AvailableActions : MonoBehaviour
     {
-        private Player player;
-        [SerializeField] private TextMeshProUGUI suggestedActionsTextMeshPro;
+        [SerializeField] private Player player;
+        [SerializeField] private TextMeshProUGUI centerActionsTextMesh;
+        [SerializeField] private TextMeshProUGUI topRightActionsTextMesh;
 
         private readonly List<UiAction> availableActions = new List<UiAction>();
-
-        private void Start()
-        {
-            player = GetComponent<Player>();
-        }
 
         private void Update()
         {
@@ -32,7 +29,8 @@ namespace UI
             AddRaycastActions();
             AddStateActions();
 
-            suggestedActionsTextMeshPro.text = CreateSuggestedActionsText();
+            centerActionsTextMesh.text = CreateSuggestedActionsText(availableActions.Where(action => !action.TopRightInsteadOfCenter).ToList());
+            topRightActionsTextMesh.text = CreateSuggestedActionsText(availableActions.Where(action => action.TopRightInsteadOfCenter).ToList());
         }
 
         private void AddRaycastActions()
@@ -67,20 +65,20 @@ namespace UI
 
         private void AddSpaceShipUiActions()
         {
-            availableActions.Add(new UiAction(KeyCode.Q, "Unbuckle", () => player.UnbuckleFromSpaceShipSeat()));
-            availableActions.Add(new UiAction(KeyCode.F, "Toggle flashlight", () => player.buckledUpSpaceShipSeat.spaceShipInterface.ToggleFlashlight()));
+            availableActions.Add(new UiAction(KeyCode.Q, "Unbuckle", () => player.UnbuckleFromSpaceShipSeat(), true));
+            availableActions.Add(new UiAction(KeyCode.F, "Toggle flashlight", () => player.buckledUpSpaceShipSeat.spaceShipInterface.ToggleFlashlight(), true));
         }
 
-        private string CreateSuggestedActionsText()
+        private static string CreateSuggestedActionsText(List<UiAction> actions)
         {
-            if (availableActions.Count == 0)
+            if (actions.Count == 0)
             {
                 return "";
             }
 
             StringBuilder text = new StringBuilder();
 
-            foreach (UiAction action in availableActions)
+            foreach (UiAction action in actions)
             {
                 text.Append($"[{action.KeyCode}] - {action.Description}\n");
             }
