@@ -54,7 +54,7 @@ namespace PlayerTools.SpaceShipParts
 
         private void MoveShip()
         {
-            Transform cachedTransform = transform;
+            Transform cachedTransform = spaceShip.transform;
 
             // Get direction
             Vector3 motion = cachedTransform.forward * wantedAcceleration.x +
@@ -74,15 +74,15 @@ namespace PlayerTools.SpaceShipParts
             rotation *= GameSettings.MouseSensitivity; // Apply mouse sensitivity settings
             rotation *= Time.deltaTime; // Include physics step
 
-            spaceShip.rigidbody.AddTorque(transform.right * -rotation.y);
+            spaceShip.rigidbody.AddTorque(spaceShip.transform.right * -rotation.y);
 
             if (rotateAlternatively)
             {
-                spaceShip.rigidbody.AddTorque(transform.forward * -rotation.x);
+                spaceShip.rigidbody.AddTorque(spaceShip.transform.forward * -rotation.x);
             }
             else
             {
-                spaceShip.rigidbody.AddTorque(transform.up * rotation.x);
+                spaceShip.rigidbody.AddTorque(spaceShip.transform.up * rotation.x);
             }
         }
 

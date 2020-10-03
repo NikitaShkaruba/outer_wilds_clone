@@ -1,10 +1,8 @@
 using PlayerTools.SpaceShipParts;
-using UnityEngine;
 using Universe;
 
 namespace PlayerTools
 {
-    [RequireComponent(typeof(SpaceShipThrusters))]
     public class SpaceShip : SpaceBody
     {
         // External components
