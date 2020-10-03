@@ -1621,6 +1621,7 @@ MonoBehaviour:
   player: {fileID: 1174294931}
   centerActionsTextMesh: {fileID: 112136144}
   topRightActionsTextMesh: {fileID: 2038178684}
+  crosshair: {fileID: 825234421}
 --- !u!1 &741968777
 GameObject:
   m_ObjectHideFlags: 0

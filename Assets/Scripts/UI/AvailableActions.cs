@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private Player player;
         [SerializeField] private TextMeshProUGUI centerActionsTextMesh;
         [SerializeField] private TextMeshProUGUI topRightActionsTextMesh;
+        [SerializeField] private GameObject crosshair;
 
         private readonly List<UiAction> availableActions = new List<UiAction>();
 
@@ -29,8 +30,12 @@ namespace UI
             AddRaycastActions();
             AddStateActions();
 
-            centerActionsTextMesh.text = CreateSuggestedActionsText(availableActions.Where(action => !action.TopRightInsteadOfCenter).ToList());
-            topRightActionsTextMesh.text = CreateSuggestedActionsText(availableActions.Where(action => action.TopRightInsteadOfCenter).ToList());
+            List<UiAction> centerActions = availableActions.Where(action => !action.TopRightInsteadOfCenter).ToList();
+            List<UiAction> topRightActions = availableActions.Where(action => action.TopRightInsteadOfCenter).ToList();
+
+            centerActionsTextMesh.text = CreateSuggestedActionsText(centerActions);
+            topRightActionsTextMesh.text = CreateSuggestedActionsText(topRightActions);
+            crosshair.SetActive(centerActions.Count == 0);
         }
 
         private void AddRaycastActions()
