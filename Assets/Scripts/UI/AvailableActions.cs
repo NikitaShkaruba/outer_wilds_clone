@@ -62,7 +62,7 @@ namespace UI
 
         private void AddStateActions()
         {
-            if (player.IsBuckledUp())
+            if (player.BuckledUppable.IsBuckledUp())
             {
                 AddSpaceShipUiActions();
             }
@@ -70,8 +70,8 @@ namespace UI
 
         private void AddSpaceShipUiActions()
         {
-            availableActions.Add(new UiAction(KeyCode.Q, "Unbuckle", () => player.UnbuckleFromSpaceShipSeat(), true));
-            availableActions.Add(new UiAction(KeyCode.F, "Toggle flashlight", () => player.buckledUpSpaceShipSeat.spaceShipInterface.ToggleFlashlight(), true));
+            availableActions.Add(new UiAction(KeyCode.Q, "Unbuckle", () => player.BuckledUppable.UnbuckleFromSpaceShipSeat(), true));
+            availableActions.Add(new UiAction(KeyCode.F, "Toggle flashlight", () => player.BuckledUppable.ToggleFlashlight(), true));
         }
 
         private static string CreateSuggestedActionsText(List<UiAction> actions)
@@ -133,9 +133,9 @@ namespace UI
 
         private void AddSpaceShipChairUiAction(SpaceShipSeat spaceShipSeat)
         {
-            if (!player.IsBuckledUp())
+            if (!player.BuckledUppable.IsBuckledUp())
             {
-                availableActions.Add(new UiAction(KeyCode.E, "buckle up", () => player.BuckleUpIntoSpaceShipSeat(spaceShipSeat)));
+                availableActions.Add(new UiAction(KeyCode.E, "buckle up", () => player.BuckledUppable.BuckleUpIntoSpaceShipSeat(spaceShipSeat)));
             }
         }
 

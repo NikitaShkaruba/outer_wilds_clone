@@ -3,7 +3,6 @@ using Common;
 using Physics;
 using PlayerLogic;
 using PlayerTools;
-using PlayerTools.SpaceShipParts;
 using UI.Debug;
 using UnityEngine;
 using Universe;
@@ -20,14 +19,12 @@ public class Player : AcceleratedMonoBehaviour
 
     // Internal components
     public Damageable Damageable;
-    public SpaceSuit spaceSuit;
     private PlayerInput playerInput;
     private Leggable leggable;
     private Jumpable jumpable;
     private Gravitatable gravitatable;
-
-    // External components
-    public SpaceShipSeat buckledUpSpaceShipSeat;
+    public SpaceSuit spaceSuit;
+    public BuckledUppable BuckledUppable;
 
     // Some fields
     private float headVerticalRotation;
@@ -51,6 +48,7 @@ public class Player : AcceleratedMonoBehaviour
         Damageable = new Damageable(100f);
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
+        BuckledUppable = new BuckledUppable(this);
 
         Damageable.OnDeath += Die;
     }
@@ -64,9 +62,9 @@ public class Player : AcceleratedMonoBehaviour
     {
         BreatheOxygen();
 
-        if (IsBuckledUp())
+        if (BuckledUppable.IsBuckledUp())
         {
-            PilotSpaceShip();
+            BuckledUppable.PilotShip(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
             return;
         }
 
@@ -141,11 +139,6 @@ public class Player : AcceleratedMonoBehaviour
         OnDeath?.Invoke();
     }
 
-    private void PilotSpaceShip()
-    {
-        buckledUpSpaceShipSeat.spaceShipInterface.PilotShip(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
-    }
-
     private void BreatheOxygen()
     {
         hasSomethingToBreathe = spaceSuit.GiveOxygenToBreathe();
@@ -159,7 +152,7 @@ public class Player : AcceleratedMonoBehaviour
 
     private void Rotate()
     {
-        if (IsBuckledUp())
+        if (BuckledUppable.IsBuckledUp())
         {
             return;
         }
@@ -179,22 +172,5 @@ public class Player : AcceleratedMonoBehaviour
         {
             transform.Rotate(Vector3.up * horizontalMouseOffset);
         }
-    }
-
-    public void BuckleUpIntoSpaceShipSeat(SpaceShipSeat spaceShipSeat)
-    {
-        buckledUpSpaceShipSeat = spaceShipSeat;
-        buckledUpSpaceShipSeat.StartBucklingUp(this);
-    }
-
-    public void UnbuckleFromSpaceShipSeat()
-    {
-        buckledUpSpaceShipSeat.Unbuckle();
-        buckledUpSpaceShipSeat = null;
-    }
-
-    public bool IsBuckledUp()
-    {
-        return buckledUpSpaceShipSeat != null;
     }
 }
