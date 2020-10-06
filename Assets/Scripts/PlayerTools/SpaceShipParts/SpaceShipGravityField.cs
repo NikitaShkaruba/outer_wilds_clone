@@ -44,7 +44,7 @@ namespace PlayerTools.SpaceShipParts
             Transform cachedTransform = transform;
             Vector3 cachedTransformUp = cachedTransform.up;
 
-            Vector3 positionDifference = cachedTransform.position - player.Position;
+            Vector3 positionDifference = cachedTransform.position - player.rigidbody.position;
             Vector3 directionToCenter = positionDifference.ProjectOntoPlane(cachedTransformUp);
 
             Vector3 force = directionToCenter; // Pull towards the center

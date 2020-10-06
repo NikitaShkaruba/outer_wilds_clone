@@ -1,23 +1,34 @@
+using Physics;
 using PlayerTools.SpaceShipParts;
+using UnityEngine;
 using Universe;
 
 namespace PlayerTools
 {
-    public class SpaceShip : SpaceBody
+    [RequireComponent(typeof(Rigidbody))]
+    public class SpaceShip : AcceleratedMonoBehaviour
     {
+        // Internal components
+        public new Rigidbody rigidbody;
+
         // External components
         public SpaceShipThrusters thrusters;
         public SpaceShipAccelerationShowcase accelerationShowcase;
         public SpaceShipFlashlight flashlight;
 
+        private Gravitatable gravitatable;
+
         private new void Awake()
         {
             base.Awake();
+
+            rigidbody = GetComponent<Rigidbody>();
+            gravitatable = new Gravitatable(rigidbody);
         }
 
         private void FixedUpdate()
         {
-            ApplyGravity();
+            gravitatable.ApplyGravity();
         }
     }
 }

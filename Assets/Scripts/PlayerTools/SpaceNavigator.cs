@@ -149,7 +149,7 @@ namespace PlayerTools
 
         private float GetCursorPositionAddition(CelestialBody celestialBody)
         {
-            float distanceDiff = Mathf.Abs((celestialBody.Position - player.Position).magnitude);
+            float distanceDiff = Mathf.Abs((celestialBody.rigidbody.position - player.rigidbody.position).magnitude);
             float addition = 90000f / distanceDiff * celestialBody.radius / 4f;
 
             float minSizeValue = 6f * celestialBody.radius;
@@ -166,7 +166,7 @@ namespace PlayerTools
             Transform cachedCameraTransform = player.camera.transform;
 
             // Try to find something at the cursor
-            RaycastHit[] raycastHits = Physics.RaycastAll(cachedCameraTransform.position, cachedCameraTransform.forward, player.camera.farClipPlane);
+            RaycastHit[] raycastHits = UnityEngine.Physics.RaycastAll(cachedCameraTransform.position, cachedCameraTransform.forward, player.camera.farClipPlane);
             if (raycastHits.Length == 0)
             {
                 return null;
@@ -212,7 +212,7 @@ namespace PlayerTools
 
         private Vector3 GetCelestialBodyOnScreenCoordinates(CelestialBody celestialBody)
         {
-            Vector3 positionOnScreen = player.camera.WorldToScreenPoint(celestialBody.Position);
+            Vector3 positionOnScreen = player.camera.WorldToScreenPoint(celestialBody.rigidbody.position);
 
             positionOnScreen.z = positionOnScreen.z > 0 ? 1 : -1; // If Z coordinate is too big, we don't see the ui. And we need to keep the minus in order to understand if ui is at the back
 
@@ -263,7 +263,7 @@ namespace PlayerTools
 
         private string GetDistanceToCelestialBodyText()
         {
-            float metersFromPlayerToCelestialBody = (player.Position - lockedCelestialBody.Position).magnitude;
+            float metersFromPlayerToCelestialBody = (player.rigidbody.position - lockedCelestialBody.rigidbody.position).magnitude;
 
             if (metersFromPlayerToCelestialBody > 5000)
             {
@@ -279,7 +279,7 @@ namespace PlayerTools
         {
             float velocityToCelestialBody = (player.rigidbody.velocity - lockedCelestialBody.rigidbody.velocity).magnitude;
 
-            float currentDistance = (player.Position - lockedCelestialBody.Position).magnitude;
+            float currentDistance = (player.rigidbody.position - lockedCelestialBody.rigidbody.position).magnitude;
             string velocitySign = previousDistance < currentDistance ? "-" : "";
             previousDistance = currentDistance;
 

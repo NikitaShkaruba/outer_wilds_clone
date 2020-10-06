@@ -1,33 +1,41 @@
 using UnityEngine;
+using Universe;
 
-namespace Universe
+namespace Physics
 {
-    public abstract class SpaceBody : Body
+    public class Gravitatable
     {
-        protected CelestialBody BodyToGravitateTowards;
+        private readonly Rigidbody rigidbody;
+        private CelestialBody bodyToGravitateTowards;
 
-        public float gravityScale;
+        public Gravitatable(Rigidbody rigidbody)
+        {
+            this.rigidbody = rigidbody;
+        }
 
-        protected void ApplyGravity()
+        public void ApplyGravity(float multiplier = 1f)
         {
             Vector3 maxGravityForce = Vector3.zero;
-            BodyToGravitateTowards = null;
+            bodyToGravitateTowards = null;
 
             foreach (CelestialBody celestialBody in SolarSystem.CelestialBodies)
             {
-                Vector3 gravityForce = SolarSystem.ComputeSpaceBodyGravitationalForce(this, celestialBody);
-                rigidbody.AddForce(gravityForce * Time.deltaTime);
+                Vector3 gravityForce = Gravitation.ComputePlayerForce(rigidbody, celestialBody.rigidbody);
+                gravityForce *= celestialBody.spaceBodiesGravityScale;
+                gravityForce *= multiplier;
+                gravityForce *= Time.deltaTime;
+                rigidbody.AddForce(gravityForce);
 
                 if (ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
                 {
                     maxGravityForce = gravityForce;
-                    BodyToGravitateTowards = celestialBody;
+                    bodyToGravitateTowards = celestialBody;
                 }
             }
 
-            if (BodyToGravitateTowards != null)
+            if (bodyToGravitateTowards != null)
             {
-                RotateTowardsCelestialBody(BodyToGravitateTowards);
+                RotateTowardsCelestialBody(bodyToGravitateTowards);
             }
         }
 
@@ -40,7 +48,7 @@ namespace Universe
             }
 
             // We only rotate to a body if it is nearby
-            if ((celestialBody.Position - Position).magnitude > 600f)
+            if ((celestialBody.rigidbody.position - rigidbody.position).magnitude > 600f)
             {
                 return false;
             }
@@ -56,10 +64,10 @@ namespace Universe
 
         private void RotateTowardsCelestialBody(CelestialBody celestialBody)
         {
-            Transform cachedTransform = transform;
+            Transform cachedTransform = rigidbody.transform;
             Quaternion cachedTransformRotation = cachedTransform.rotation;
 
-            Vector3 gravityForceDirection = (cachedTransform.position - celestialBody.Position).normalized;
+            Vector3 gravityForceDirection = (cachedTransform.position - celestialBody.rigidbody.position).normalized;
             Vector3 playerUp = cachedTransform.up;
             Quaternion neededRotation = Quaternion.FromToRotation(playerUp, gravityForceDirection) * cachedTransformRotation;
 

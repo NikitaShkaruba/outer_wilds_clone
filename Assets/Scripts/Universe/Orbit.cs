@@ -23,7 +23,7 @@ namespace Universe
 
             while (nextElement != coordinates.Last && nextElement != null)
             {
-                UnityEngine.Debug.DrawLine(element.Value, nextElement.Value, color);
+                Debug.DrawLine(element.Value, nextElement.Value, color);
 
                 element = nextElement;
                 nextElement = element.Next;
@@ -33,13 +33,13 @@ namespace Universe
         public void Update(CelestialBody celestialBody)
         {
             // Don't update coordinates if difference in coordinates is low
-            if ((coordinates.Last.Value - celestialBody.Position).magnitude < StepSize)
+            if ((coordinates.Last.Value - celestialBody.rigidbody.position).magnitude < StepSize)
             {
                 return;
             }
 
             // Add new position
-            coordinates.AddLast(celestialBody.Position);
+            coordinates.AddLast(celestialBody.rigidbody.position);
             if (coordinates.Count == MaxLength)
             {
                 coordinates.RemoveFirst();

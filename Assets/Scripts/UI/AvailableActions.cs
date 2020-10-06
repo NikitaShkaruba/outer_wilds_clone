@@ -43,7 +43,7 @@ namespace UI
             Transform cachedPlayerCameraTransform = player.camera.transform;
             const float interactDistance = 2f;
 
-            RaycastHit[] raycasts = Physics.RaycastAll(cachedPlayerCameraTransform.position, cachedPlayerCameraTransform.forward, interactDistance);
+            RaycastHit[] raycasts = UnityEngine.Physics.RaycastAll(cachedPlayerCameraTransform.position, cachedPlayerCameraTransform.forward, interactDistance);
             if (raycasts.Length == 0)
             {
                 return;

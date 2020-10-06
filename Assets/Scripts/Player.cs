@@ -1,5 +1,6 @@
 ﻿using System;
 using Common;
+using Physics;
 using PlayerLogic;
 using PlayerTools;
 using PlayerTools.SpaceShipParts;
@@ -9,11 +10,13 @@ using Universe;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(SpaceSuit))]
-public class Player : SpaceBody
+[RequireComponent(typeof(Rigidbody))]
+public class Player : AcceleratedMonoBehaviour
 {
     // Internal unity components
     public new Camera camera;
     private new Transform transform;
+    public new Rigidbody rigidbody;
 
     // Internal components
     public Damageable Damageable;
@@ -21,6 +24,7 @@ public class Player : SpaceBody
     private PlayerInput playerInput;
     private Leggable leggable;
     private Jumpable jumpable;
+    private Gravitatable gravitatable;
 
     // External components
     public SpaceShipSeat buckledUpSpaceShipSeat;
@@ -38,9 +42,12 @@ public class Player : SpaceBody
         base.Awake();
 
         transform = GetComponent<Transform>();
+        rigidbody = GetComponent<Rigidbody>();
+
         playerInput = GetComponent<PlayerInput>();
         spaceSuit = GetComponent<SpaceSuit>();
 
+        gravitatable = new Gravitatable(rigidbody);
         Damageable = new Damageable(100f);
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
@@ -63,7 +70,7 @@ public class Player : SpaceBody
             return;
         }
 
-        ApplyGravity(); // We don't need gravity when we're sitting in a chair
+        gravitatable.ApplyGravity(0.005f);
 
         if (isDead)
         {
@@ -73,7 +80,6 @@ public class Player : SpaceBody
         Move();
         Rotate();
 
-        CornerDebug.AddDebug($"Player velocity: {FormatPlayerVelocity()}");
         CornerDebug.AddDebug("IsOnTheGround = " + leggable.IsGrounded());
     }
 
@@ -173,28 +179,6 @@ public class Player : SpaceBody
         {
             transform.Rotate(Vector3.up * horizontalMouseOffset);
         }
-    }
-
-    private string FormatPlayerVelocity()
-    {
-        Vector3 velocity = BodyToGravitateTowards == null ? rigidbody.velocity : GetRelativeVelocity();
-
-        const string stringFormat = "####0";
-        string playerVelocityXText = velocity.x.ToString(stringFormat);
-        string playerVelocityYText = velocity.y.ToString(stringFormat);
-        string playerVelocityZText = velocity.z.ToString(stringFormat);
-
-        return $"({playerVelocityXText}, {playerVelocityYText}, {playerVelocityZText})";
-    }
-
-    private Vector3 GetRelativeVelocity()
-    {
-        if (BodyToGravitateTowards == null)
-        {
-            return Vector3.zero;
-        }
-
-        return rigidbody.velocity - BodyToGravitateTowards.rigidbody.velocity;
     }
 
     public void BuckleUpIntoSpaceShipSeat(SpaceShipSeat spaceShipSeat)

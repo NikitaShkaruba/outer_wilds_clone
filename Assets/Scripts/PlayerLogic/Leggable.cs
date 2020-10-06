@@ -24,7 +24,7 @@ namespace PlayerLogic
         public bool IsGrounded()
         {
             Transform cachedPlayerTransform = player.transform;
-            return Physics.Raycast(cachedPlayerTransform.position, -cachedPlayerTransform.up, DistanceFromBodyCenterToGround, groundCheckLayerMask);
+            return UnityEngine.Physics.Raycast(cachedPlayerTransform.position, -cachedPlayerTransform.up, DistanceFromBodyCenterToGround, groundCheckLayerMask);
         }
     }
 }
