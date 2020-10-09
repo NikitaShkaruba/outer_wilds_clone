@@ -1,6 +1,6 @@
-﻿using TMPro;
+﻿using Celestial;
+using TMPro;
 using UnityEngine;
-using Universe;
 
 // I don't like a lot of inspector fields here, but I'm not sure how to do it better. Don't like initializing everything from the constructor either
 namespace PlayerTools

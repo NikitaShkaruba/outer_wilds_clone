@@ -1,5 +1,5 @@
+using Celestial;
 using UnityEngine;
-using Universe;
 
 namespace Physics
 {
@@ -7,22 +7,22 @@ namespace Physics
     {
         private readonly Rigidbody rigidbody;
         private CelestialBody bodyToGravitateTowards;
+        private readonly CelestialBody[] celestialBodies;
 
-        public Gravitatable(Rigidbody rigidbody)
+        public Gravitatable(Rigidbody rigidbody, CelestialBody[] celestialBodies)
         {
             this.rigidbody = rigidbody;
+            this.celestialBodies = celestialBodies;
         }
 
-        public void ApplyGravity(float multiplier = 1f)
+        public void ApplyGravity()
         {
             Vector3 maxGravityForce = Vector3.zero;
             bodyToGravitateTowards = null;
 
-            foreach (CelestialBody celestialBody in SolarSystem.CelestialBodies)
+            foreach (CelestialBody celestialBody in celestialBodies)
             {
-                Vector3 gravityForce = Gravitation.ComputePlayerForce(rigidbody, celestialBody.rigidbody);
-                gravityForce *= celestialBody.spaceBodiesGravityScale;
-                gravityForce *= multiplier;
+                Vector3 gravityForce = Gravitation.ComputeForce(rigidbody, celestialBody.rigidbody);
                 gravityForce *= Time.deltaTime;
                 rigidbody.AddForce(gravityForce);
 

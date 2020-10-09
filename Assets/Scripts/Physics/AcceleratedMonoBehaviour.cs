@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Universe
+namespace Physics
 {
     [RequireComponent(typeof(Rigidbody))]
     public abstract class AcceleratedMonoBehaviour : MonoBehaviour

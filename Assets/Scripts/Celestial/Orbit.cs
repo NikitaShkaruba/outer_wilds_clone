@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Universe
+namespace Celestial
 {
     public class Orbit
     {

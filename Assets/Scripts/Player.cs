@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Linq;
+using Celestial;
 using Common;
 using Physics;
 using PlayerLogic;
 using PlayerTools;
 using UI.Debug;
 using UnityEngine;
-using Universe;
 
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(SpaceSuit))]
@@ -44,7 +45,7 @@ public class Player : AcceleratedMonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         spaceSuit = GetComponent<SpaceSuit>();
 
-        gravitatable = new Gravitatable(rigidbody);
+        gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().ToArray());
         Damageable = new Damageable(100f);
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
@@ -68,7 +69,7 @@ public class Player : AcceleratedMonoBehaviour
             return;
         }
 
-        gravitatable.ApplyGravity(0.005f);
+        gravitatable.ApplyGravity();
 
         if (isDead)
         {

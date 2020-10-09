@@ -6,12 +6,7 @@ namespace Physics
     {
         private const float GravitationalConstant = 1000000f;
 
-        public static Vector3 ComputePlayerForce(Rigidbody firstBody, Rigidbody secondBody)
-        {
-            return ComputeCelestialBodyForce(firstBody, secondBody);
-        }
-
-        public static Vector3 ComputeCelestialBodyForce(Rigidbody firstBody, Rigidbody secondBody)
+        public static Vector3 ComputeForce(Rigidbody firstBody, Rigidbody secondBody)
         {
             Vector3 force = ComputeNewtonsForce(firstBody, secondBody);
 
@@ -31,8 +26,7 @@ namespace Physics
                                    (firstBody.mass * secondBody.mass / positionsDifference.sqrMagnitude);
 
             // Add direction
-            Vector3 force = positionsDifference.normalized * forceMagnitude;
-            return force;
+            return positionsDifference.normalized * forceMagnitude;
         }
     }
 }

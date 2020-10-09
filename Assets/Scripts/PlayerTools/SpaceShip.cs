@@ -1,7 +1,8 @@
+using System.Linq;
+using Celestial;
 using Physics;
 using PlayerTools.SpaceShipParts;
 using UnityEngine;
-using Universe;
 
 namespace PlayerTools
 {
@@ -23,7 +24,7 @@ namespace PlayerTools
             base.Awake();
 
             rigidbody = GetComponent<Rigidbody>();
-            gravitatable = new Gravitatable(rigidbody);
+            gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().ToArray());
         }
 
         private void FixedUpdate()
