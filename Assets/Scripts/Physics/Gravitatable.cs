@@ -8,11 +8,13 @@ namespace Physics
         private readonly Rigidbody rigidbody;
         private CelestialBody bodyToGravitateTowards;
         private readonly CelestialBody[] celestialBodies;
+        private readonly bool rotatable;
 
-        public Gravitatable(Rigidbody rigidbody, CelestialBody[] celestialBodies)
+        public Gravitatable(Rigidbody rigidbody, CelestialBody[] celestialBodies, bool rotatable = true)
         {
             this.rigidbody = rigidbody;
             this.celestialBodies = celestialBodies;
+            this.rotatable = rotatable;
         }
 
         public void ApplyGravity()
@@ -41,6 +43,11 @@ namespace Physics
 
         private bool ShouldRotateTowardsCelestialBody(Vector3 gravityForce, Vector3 maxGravityForce, CelestialBody celestialBody)
         {
+            if (!rotatable)
+            {
+                return false;
+            }
+
             // We only rotate to a body with the most gravity force
             if (gravityForce.magnitude < maxGravityForce.magnitude)
             {
