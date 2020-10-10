@@ -69,7 +69,7 @@ public class Player : AcceleratedMonoBehaviour
             return;
         }
 
-        gravitatable.ApplyGravity();
+        gravitatable.ApplyGravity(true);
 
         if (isDead)
         {

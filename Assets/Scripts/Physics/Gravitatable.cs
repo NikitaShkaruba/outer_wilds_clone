@@ -17,14 +17,25 @@ namespace Physics
             this.rotatable = rotatable;
         }
 
-        public void ApplyGravity()
+        public void ApplyGravity(bool isNotCelestialBody = false)
         {
             Vector3 maxGravityForce = Vector3.zero;
             bodyToGravitateTowards = null;
 
             foreach (CelestialBody celestialBody in celestialBodies)
             {
-                Vector3 gravityForce = Gravitation.ComputeForce(rigidbody, celestialBody.rigidbody);
+                // This difference is needed because celestial body gravity is a little bit to harsh for the player
+                Vector3 gravityForce;
+                if (isNotCelestialBody)
+                {
+                    gravityForce = Gravitation.ComputeNonCelestialBodyForce(rigidbody, celestialBody.rigidbody);
+                    gravityForce *= celestialBody.gravityScale;
+                }
+                else
+                {
+                    gravityForce = Gravitation.ComputeCelestialBodyForce(rigidbody, celestialBody.rigidbody);
+                }
+
                 gravityForce *= Time.deltaTime;
                 rigidbody.AddForce(gravityForce);
 

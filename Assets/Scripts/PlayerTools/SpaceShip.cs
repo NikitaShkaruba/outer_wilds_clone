@@ -29,7 +29,7 @@ namespace PlayerTools
 
         private void FixedUpdate()
         {
-            gravitatable.ApplyGravity();
+            gravitatable.ApplyGravity(true);
         }
     }
 }
