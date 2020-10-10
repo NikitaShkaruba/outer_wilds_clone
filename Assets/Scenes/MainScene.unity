@@ -1516,7 +1516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &665722520
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1573,7 +1573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &670515285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1837,7 +1837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &825234422
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2834,7 +2834,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1487890814
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2982,7 +2982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1525413023
 Transform:
   m_ObjectHideFlags: 0
@@ -3139,7 +3139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1701022289
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8603,6 +8603,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: AshTwin
       objectReference: {fileID: 0}
+    - target: {fileID: 265417756721081719, guid: 5f9b0732786b95d4bb302df8840c0c11, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3888204978508406628, guid: 5f9b0732786b95d4bb302df8840c0c11, type: 3}
       propertyPath: m_LocalPosition.x
       value: 979.0541
@@ -8868,7 +8872,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4293875249225954570, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
@@ -8882,6 +8886,10 @@ PrefabInstance:
     - target: {fileID: 829801187842967870, guid: 402608ad20ed75a4c83351e4b2b098ff, type: 3}
       propertyPath: m_Name
       value: EmberTwin
+      objectReference: {fileID: 0}
+    - target: {fileID: 829801187842967870, guid: 402608ad20ed75a4c83351e4b2b098ff, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4458372385934228269, guid: 402608ad20ed75a4c83351e4b2b098ff, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8939,6 +8947,10 @@ PrefabInstance:
     - target: {fileID: 5385065600682438433, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385065600682438433, guid: d28508053983e574c9043c10e8161f8e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: initialVelocity.x
@@ -9105,6 +9117,10 @@ PrefabInstance:
     - target: {fileID: 6689359598198128507, guid: f227f240573d9eb4688c28802ec17eb4, type: 3}
       propertyPath: m_Name
       value: SunStation
+      objectReference: {fileID: 0}
+    - target: {fileID: 6689359598198128507, guid: f227f240573d9eb4688c28802ec17eb4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f227f240573d9eb4688c28802ec17eb4, type: 3}

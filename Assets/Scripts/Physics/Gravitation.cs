@@ -4,14 +4,14 @@ namespace Physics
 {
     public static class Gravitation
     {
-        private const float GravitationalConstant = 1000000f;
+        private const float GravitationalConstant = 50000000f;
 
         public static Vector3 ComputeForce(Rigidbody firstBody, Rigidbody secondBody)
         {
             Vector3 force = ComputeNewtonsForce(firstBody, secondBody);
 
             // Hack Newton's law in order to increase orbital speed with mass.
-            // Todo: Add orbital speed multiplier???
+            // Maybe we should add orbital speed multiplier???
             force /= firstBody.mass;
 
             return force;

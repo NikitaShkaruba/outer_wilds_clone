@@ -146,7 +146,7 @@ public class Player : AcceleratedMonoBehaviour
 
         if (!hasSomethingToBreathe)
         {
-            // Todo: add little delay (player can survive without oxygen for 30 seconds or so)
+            // Maybe add a little delay later (player can survive without oxygen for 30 seconds or so)
             Die();
         }
     }
