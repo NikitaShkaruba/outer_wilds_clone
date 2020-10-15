@@ -28,8 +28,12 @@ namespace Physics
                 Vector3 gravityForce;
                 if (isNotCelestialBody)
                 {
-                    gravityForce = Gravitation.ComputeNonCelestialBodyForce(rigidbody, celestialBody.rigidbody);
-                    gravityForce *= celestialBody.gravityScale;
+                    gravityForce = Vector3.zero;
+                    if (celestialBody.name != "Sun")
+                    {
+                        gravityForce = Gravitation.ComputeNonCelestialBodyForce(rigidbody, celestialBody.rigidbody);
+                        gravityForce *= celestialBody.gravityScale;
+                    }
                 }
                 else
                 {

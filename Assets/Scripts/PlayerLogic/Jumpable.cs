@@ -6,7 +6,7 @@ namespace PlayerLogic
     {
         // Jumping
         private const float JumpPowerAccumulationSpeed = 50f;
-        private const float MaxJumpPower = 400f;
+        private const float MaxJumpPower = 1000f;
         private float accumulatedJumpPower;
 
         // Shrinking on accumulation
@@ -41,6 +41,7 @@ namespace PlayerLogic
 
             ResetPlayerShrinkScale();
 
+            return MaxJumpPower;
             return jumpPower;
         }
 

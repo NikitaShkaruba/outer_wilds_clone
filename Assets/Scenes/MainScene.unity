@@ -1516,7 +1516,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &665722520
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1573,7 +1573,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &670515285
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1837,7 +1837,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &825234422
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2834,7 +2834,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1487890814
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2982,7 +2982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1525413023
 Transform:
   m_ObjectHideFlags: 0
@@ -3139,7 +3139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1701022289
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8605,7 +8605,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 265417756721081719, guid: 5f9b0732786b95d4bb302df8840c0c11, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2512614010058380802, guid: 5f9b0732786b95d4bb302df8840c0c11, type: 3}
       propertyPath: playerGravityScale
@@ -8674,11 +8674,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4420228247020011884, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
       propertyPath: gravityScale
-      value: 1
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4420228247020011887, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
       propertyPath: m_Constraints
       value: 116
+      objectReference: {fileID: 0}
+    - target: {fileID: 4420228247020011887, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
+      propertyPath: m_Drag
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5100747342493922185, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
       propertyPath: m_LocalPosition.x
@@ -8724,9 +8728,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8111589267442549144, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 6087b1c3a8e84464fbcb3d210635e060, type: 2}
     - target: {fileID: 8111589267442549146, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
       propertyPath: m_Name
       value: TimberHearth
+      objectReference: {fileID: 0}
+    - target: {fileID: 8111589267442549146, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bb48f26ddde54a24b9d02e84d53bd340, type: 3}
@@ -8755,7 +8767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4305133022965848753, guid: b2021307c553c9b478ab2be317f329bc, type: 3}
       propertyPath: gravityScale
-      value: 1
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6052708798459767105, guid: b2021307c553c9b478ab2be317f329bc, type: 3}
       propertyPath: m_SortMode
@@ -8900,7 +8912,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4293875249225954570, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7470688581858992915, guid: bdc444cab99af264aaa128250c930ce4, type: 3}
       propertyPath: movementThrustersPower
@@ -8925,7 +8937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 829801187842967870, guid: 402608ad20ed75a4c83351e4b2b098ff, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4360151094697586716, guid: 402608ad20ed75a4c83351e4b2b098ff, type: 3}
       propertyPath: playerGravityScale
@@ -8988,6 +9000,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5385065598913815213, guid: d28508053983e574c9043c10e8161f8e, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 6087b1c3a8e84464fbcb3d210635e060, type: 2}
     - target: {fileID: 5385065600682438433, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: m_Name
       value: Player
@@ -8995,6 +9011,10 @@ PrefabInstance:
     - target: {fileID: 5385065600682438433, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5385065600682438434, guid: d28508053983e574c9043c10e8161f8e, type: 3}
+      propertyPath: m_Drag
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385065600682438435, guid: d28508053983e574c9043c10e8161f8e, type: 3}
       propertyPath: initialVelocity.x
@@ -9176,7 +9196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6689359598198128507, guid: f227f240573d9eb4688c28802ec17eb4, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f227f240573d9eb4688c28802ec17eb4, type: 3}

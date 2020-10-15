@@ -27,6 +27,9 @@ namespace Celestial
 
             gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().Where(body => body != this).ToArray(), false);
             orbit = new Orbit(rigidbody.position, Color.white);
+            CelestialBodyGravitySimulation.Register(name);
+
+            // Time.timeScale = 80f;
         }
 
         private void FixedUpdate()
@@ -36,7 +39,9 @@ namespace Celestial
                 return;
             }
 
+            // CelestialBodyGravitySimulation.StoreCoordinate(rigidbody.position);
             gravitatable.ApplyGravity();
+            // rigidbody.MovePosition(CelestialBodyGravitySimulation.GiveNextPosition(name));
             DrawOrbit();
         }
 

@@ -23,7 +23,8 @@ namespace Physics
 
             // Apply less gravity if the celestial body is far away
             Vector3 positionsDifference = secondBody.position - firstBody.position;
-            force /= 10 * positionsDifference.magnitude;
+            // force /= 10 * positionsDifference.magnitude;
+            force /= positionsDifference.sqrMagnitude; // Remove even more gravity with distance
 
             return force;
         }
