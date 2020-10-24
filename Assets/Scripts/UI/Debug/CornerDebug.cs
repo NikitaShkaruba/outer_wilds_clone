@@ -1,4 +1,5 @@
-﻿using PlayerLogic;
+﻿using System.Collections.Generic;
+using PlayerLogic;
 using TMPro;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace UI.Debug
 
         public bool isHidden;
         private static string additionalDebug;
+        private static readonly List<string> gravityDebugCelestialBodies = new List<string>();
 
         private void Awake()
         {
@@ -38,9 +40,22 @@ namespace UI.Debug
             additionalDebug += debugString + "\n";
         }
 
+        public static void AddGravityDebug(string celestialBodyName, string debugString)
+        {
+            // We don't want to write it too many times in fixedUpdate
+            if (gravityDebugCelestialBodies.Contains(celestialBodyName))
+            {
+                return;
+            }
+
+            gravityDebugCelestialBodies.Add(celestialBodyName);
+            AddDebug(debugString);
+        }
+
         private static void ResetDebug()
         {
             additionalDebug = "";
+            gravityDebugCelestialBodies.RemoveAll(_ => true);
             AddDefaultDebug();
         }
 

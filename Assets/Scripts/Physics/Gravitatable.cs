@@ -1,4 +1,5 @@
 using Celestial;
+using UI.Debug;
 using UnityEngine;
 
 namespace Physics
@@ -38,6 +39,7 @@ namespace Physics
 
                 gravityForce *= Time.deltaTime;
                 rigidbody.AddForce(gravityForce);
+                CornerDebug.AddGravityDebug(celestialBody.name, $"'{celestialBody.name}' gravity magnitude: {gravityForce.magnitude}");
 
                 if (ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
                 {
