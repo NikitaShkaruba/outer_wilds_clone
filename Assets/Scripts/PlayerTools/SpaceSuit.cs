@@ -22,7 +22,7 @@ namespace PlayerTools
         private bool isUsingSuperFuel;
 
         // Thrusters
-        private const float ThrustersPower = 500f;
+        private const float ThrustersPower = 2800f;
         private const float NoThrustersPower = 0f;
 
         // Handy properties
