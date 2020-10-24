@@ -24,6 +24,7 @@ public class Player : AcceleratedMonoBehaviour
     private Leggable leggable;
     private Jumpable jumpable;
     private Gravitatable gravitatable;
+    private TowardsCelestialBodyRotatable towardsCelestialBodyRotatable;
     public SpaceSuit spaceSuit;
     public BuckledUppable BuckledUppable;
 
@@ -46,6 +47,7 @@ public class Player : AcceleratedMonoBehaviour
         spaceSuit = GetComponent<SpaceSuit>();
 
         gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().ToArray());
+        towardsCelestialBodyRotatable = new TowardsCelestialBodyRotatable(rigidbody);
         Damageable = new Damageable(100f);
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
@@ -69,7 +71,8 @@ public class Player : AcceleratedMonoBehaviour
             return;
         }
 
-        gravitatable.ApplyGravity(true);
+        MaxGravitatableInfo maxGravitatableInfo = gravitatable.ApplyGravity();
+        towardsCelestialBodyRotatable.RotateIfNeeded(maxGravitatableInfo);
 
         if (isDead)
         {

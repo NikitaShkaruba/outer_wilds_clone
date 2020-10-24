@@ -18,6 +18,7 @@ namespace PlayerTools
         public SpaceShipFlashlight flashlight;
 
         private Gravitatable gravitatable;
+        private TowardsCelestialBodyRotatable towardsCelestialBodyRotatable;
 
         private new void Awake()
         {
@@ -25,11 +26,13 @@ namespace PlayerTools
 
             rigidbody = GetComponent<Rigidbody>();
             gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().ToArray());
+            towardsCelestialBodyRotatable = new TowardsCelestialBodyRotatable(rigidbody);
         }
 
         private void FixedUpdate()
         {
-            gravitatable.ApplyGravity(true);
+            MaxGravitatableInfo maxGravitatableInfo = gravitatable.ApplyGravity();
+            towardsCelestialBodyRotatable.RotateIfNeeded(maxGravitatableInfo);
         }
     }
 }

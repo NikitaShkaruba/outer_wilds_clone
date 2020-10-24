@@ -1,3 +1,4 @@
+using Celestial;
 using UnityEngine;
 
 namespace Physics
@@ -17,13 +18,14 @@ namespace Physics
             return force;
         }
 
-        public static Vector3 ComputeNonCelestialBodyForce(Rigidbody firstBody, Rigidbody secondBody)
+        public static Vector3 ComputeNonCelestialBodyForce(Rigidbody rigidbody, CelestialBody celestialBody)
         {
-            Vector3 force = ComputeNewtonsForce(firstBody, secondBody);
+            Vector3 force = ComputeNewtonsForce(rigidbody, celestialBody.rigidbody);
 
             // Apply less gravity if the celestial body is far away
-            Vector3 positionsDifference = secondBody.position - firstBody.position;
+            Vector3 positionsDifference = celestialBody.rigidbody.position - rigidbody.position;
             force /= 10 * positionsDifference.magnitude;
+            force *= celestialBody.gravityScale;
 
             return force;
         }

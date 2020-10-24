@@ -25,7 +25,7 @@ namespace Celestial
 
             rigidbody = GetComponent<Rigidbody>();
 
-            gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().Where(body => body != this).ToArray(), false);
+            gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().Where(body => body != this).ToArray(), true);
             orbit = new Orbit(rigidbody.position, Color.white);
         }
 
