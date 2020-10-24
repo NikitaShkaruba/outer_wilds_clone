@@ -7,7 +7,7 @@ namespace Physics
     public class Gravitatable
     {
         private readonly Rigidbody rigidbody;
-        private CelestialBody bodyToGravitateTowards;
+        private CelestialBody bodyToRotateTowards;
         private readonly CelestialBody[] celestialBodies;
         private readonly bool rotatable;
 
@@ -21,7 +21,7 @@ namespace Physics
         public void ApplyGravity(bool isNotCelestialBody = false)
         {
             Vector3 maxGravityForce = Vector3.zero;
-            bodyToGravitateTowards = null;
+            bodyToRotateTowards = null;
 
             foreach (CelestialBody celestialBody in celestialBodies)
             {
@@ -44,13 +44,13 @@ namespace Physics
                 if (ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
                 {
                     maxGravityForce = gravityForce;
-                    bodyToGravitateTowards = celestialBody;
+                    bodyToRotateTowards = celestialBody;
                 }
             }
 
-            if (bodyToGravitateTowards != null)
+            if (bodyToRotateTowards != null)
             {
-                RotateTowardsCelestialBody(bodyToGravitateTowards);
+                RotateTowardsCelestialBody(bodyToRotateTowards);
             }
         }
 
