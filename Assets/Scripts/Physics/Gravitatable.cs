@@ -41,7 +41,7 @@ namespace Physics
                 rigidbody.AddForce(gravityForce);
                 CornerDebug.AddGravityDebug(celestialBody.name, $"'{celestialBody.name}' gravity magnitude: {gravityForce.magnitude}");
 
-                if (ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
+                if (isNotCelestialBody && ShouldRotateTowardsCelestialBody(gravityForce, maxGravityForce, celestialBody))
                 {
                     maxGravityForce = gravityForce;
                     bodyToRotateTowards = celestialBody;
