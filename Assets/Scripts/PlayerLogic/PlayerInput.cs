@@ -14,6 +14,9 @@ namespace PlayerLogic
         public Vector2 rotation;
         public bool alternativeRotate;
 
+        [Header("Other")]
+        public bool extendMarshmallowStick;
+
         [Header("Dev")]
         public bool toggleCornerDebug;
         public bool toggleCursorLock;
@@ -28,7 +31,13 @@ namespace PlayerLogic
         {
             ProcessMovementInput();
             ProcessRotationInput();
+            ProcessOtherInput();
             ProcessDebugInput();
+        }
+
+        private void ProcessOtherInput()
+        {
+            extendMarshmallowStick = Input.GetKey(KeyCode.F);
         }
 
         private void ProcessMovementInput()

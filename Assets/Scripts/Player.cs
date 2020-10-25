@@ -5,6 +5,7 @@ using Common;
 using Physics;
 using PlayerLogic;
 using PlayerTools;
+using StaticObjects.CampfireCamp;
 using UI.Debug;
 using UnityEngine;
 
@@ -27,6 +28,7 @@ public class Player : AcceleratedMonoBehaviour
     private TowardsCelestialBodyRotatable towardsCelestialBodyRotatable;
     public SpaceSuit spaceSuit;
     public BuckledUppable BuckledUppable;
+    public MarshmallowRoastable MarshmallowRoastable;
 
     // Some fields
     private float headVerticalRotation;
@@ -52,6 +54,7 @@ public class Player : AcceleratedMonoBehaviour
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
         BuckledUppable = new BuckledUppable(this);
+        MarshmallowRoastable = new MarshmallowRoastable(this);
 
         Damageable.OnDeath += Die;
     }
@@ -68,6 +71,12 @@ public class Player : AcceleratedMonoBehaviour
         if (BuckledUppable.IsBuckledUp())
         {
             BuckledUppable.PilotShip(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
+            return;
+        }
+
+        if (MarshmallowRoastable.IsCooking())
+        {
+            MarshmallowRoastable.Cook(playerInput.rotation, playerInput.extendMarshmallowStick);
             return;
         }
 

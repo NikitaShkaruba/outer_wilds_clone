@@ -10,7 +10,7 @@ namespace UI.AvailableActionHelpers
         public readonly Action Callback;
         public readonly bool TopRightInsteadOfCenter;
 
-        public UiAction(KeyCode keyCode, string description, Action callback, bool topRightInsteadOfCenter = false)
+        public UiAction(KeyCode keyCode, string description, Action callback = null, bool topRightInsteadOfCenter = false)
         {
             KeyCode = keyCode;
             Description = description;

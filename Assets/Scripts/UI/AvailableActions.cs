@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using PlayerTools.SpaceShipParts;
+using StaticObjects;
 using TMPro;
 using UI.AvailableActionHelpers;
 using UnityEngine;
@@ -66,6 +67,12 @@ namespace UI
             {
                 AddSpaceShipUiActions();
             }
+
+            if (player.MarshmallowRoastable.IsCooking())
+            {
+                availableActions.Add(new UiAction(KeyCode.F, "Extend stick", null, true));
+                availableActions.Add(new UiAction(KeyCode.Q, "Put stick away", () => player.MarshmallowRoastable.StopCooking(), true));
+            }
         }
 
         private void AddSpaceShipUiActions()
@@ -95,6 +102,12 @@ namespace UI
         {
             foreach (UiAction uiAction in availableActions)
             {
+                // Some actions don't need callbacks
+                if (uiAction.Callback == null)
+                {
+                    continue;
+                }
+
                 bool isButtonPressed = Input.GetKeyDown(uiAction.KeyCode);
                 if (isButtonPressed)
                 {
@@ -116,7 +129,11 @@ namespace UI
                     break;
 
                 case SpaceShipHealthAndFuelStation spaceShipHealthAndFuelStation:
-                    AddSpaceShipHealthAndFuelRefillStation(spaceShipHealthAndFuelStation);
+                    AddSpaceShipHealthAndFuelRefillStationAction(spaceShipHealthAndFuelStation);
+                    break;
+
+                case Campfire campfire:
+                    AddCampfireRaycastActions(campfire);
                     break;
             }
         }
@@ -139,7 +156,7 @@ namespace UI
             }
         }
 
-        private void AddSpaceShipHealthAndFuelRefillStation(SpaceShipHealthAndFuelStation spaceShipHealthAndFuelStation)
+        private void AddSpaceShipHealthAndFuelRefillStationAction(SpaceShipHealthAndFuelStation spaceShipHealthAndFuelStation)
         {
             if (!SpaceShipHealthAndFuelStation.CanUseRefill(player))
             {
@@ -149,6 +166,16 @@ namespace UI
             string actionDescription = CreateSpaceShipHealthAndFuelRefillStationActionDescription();
 
             availableActions.Add(new UiAction(KeyCode.E, actionDescription, () => spaceShipHealthAndFuelStation.ConnectPlayer(player)));
+        }
+
+        private void AddCampfireRaycastActions(Campfire campfire)
+        {
+            if (player.MarshmallowRoastable.IsCooking())
+            {
+                return;
+            }
+
+            availableActions.Add(new UiAction(KeyCode.E, "Roast Marshmallow", () => player.MarshmallowRoastable.StartCooking(campfire)));
         }
 
         private string CreateSpaceShipHealthAndFuelRefillStationActionDescription()
