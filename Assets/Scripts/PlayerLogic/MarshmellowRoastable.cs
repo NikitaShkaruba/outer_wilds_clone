@@ -1,9 +1,9 @@
 using Celestial;
 using Common;
-using PlayerLogic;
+using StaticObjects;
 using UnityEngine;
 
-namespace StaticObjects.CampfireCamp
+namespace PlayerLogic
 {
     public class MarshmallowRoastable
     {

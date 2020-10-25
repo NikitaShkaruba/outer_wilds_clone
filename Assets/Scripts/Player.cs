@@ -5,7 +5,6 @@ using Common;
 using Physics;
 using PlayerLogic;
 using PlayerTools;
-using StaticObjects.CampfireCamp;
 using UI.Debug;
 using UnityEngine;
 
