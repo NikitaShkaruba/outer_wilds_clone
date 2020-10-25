@@ -16,6 +16,7 @@ public class Player : AcceleratedMonoBehaviour
 {
     // Internal unity components
     public new Camera camera;
+    [SerializeField] private GameObject marshmallowStick;
     private new Transform transform;
     public new Rigidbody rigidbody;
 
@@ -54,7 +55,7 @@ public class Player : AcceleratedMonoBehaviour
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
         BuckledUppable = new BuckledUppable(this);
-        MarshmallowRoastable = new MarshmallowRoastable(this);
+        MarshmallowRoastable = new MarshmallowRoastable(this, marshmallowStick);
 
         Damageable.OnDeath += Die;
     }
