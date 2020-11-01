@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 5385065600682438435}
   - component: {fileID: 4893738741991168160}
   - component: {fileID: 7281722163792596008}
+  - component: {fileID: 3311046938968651655}
   - component: {fileID: 5385065600682438437}
   - component: {fileID: 5385065600682438438}
   m_Layer: 0
@@ -233,12 +234,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9070acdcbda998d45aaa3a58cf0675fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 5385065600682438434}
   initialVelocity: {x: 0, y: 0, z: 0}
-  gravityScale: 1
   camera: {fileID: 5385065599560136047}
+  rigidbody: {fileID: 5385065600682438434}
+  playerInput: {fileID: 0}
   spaceSuit: {fileID: 4893738741991168160}
-  buckledUpSpaceShipSeat: {fileID: 0}
+  marshmallowCookable: {fileID: 0}
 --- !u!114 &4893738741991168160
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -267,8 +268,24 @@ MonoBehaviour:
   jump: 0
   rotation: {x: 0, y: 0}
   alternativeRotate: 0
+  extendMarshmallowStick: 0
   toggleCornerDebug: 0
   toggleCursorLock: 0
+--- !u!114 &3311046938968651655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5385065600682438433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6387742bda485e8a89e305b4f0bb32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  marshmallowStick: {fileID: 0}
+  marshmallow: {fileID: 0}
+  marshmallowPrefab: {fileID: 7827055704249870772, guid: c678cb5f6eb9fc648a7b1b90904e7384, type: 3}
 --- !u!23 &5385065600682438437
 MeshRenderer:
   m_ObjectHideFlags: 0

@@ -68,10 +68,41 @@ namespace UI
                 AddSpaceShipUiActions();
             }
 
-            if (player.MarshmallowRoastable.IsCooking())
+            if (player.marshmallowCookable.IsCooking())
             {
-                availableActions.Add(new UiAction(KeyCode.F, "Extend stick", null, true));
-                availableActions.Add(new UiAction(KeyCode.Q, "Put stick away", () => player.MarshmallowRoastable.StopCooking(), true));
+                AddMarshmallowCookingActions();
+            }
+        }
+
+        private void AddMarshmallowCookingActions()
+        {
+            availableActions.Add(new UiAction(KeyCode.F, "Extend", null, true));
+            availableActions.Add(new UiAction(KeyCode.Q, "Put away", () => player.marshmallowCookable.StopCooking(), true));
+
+            if (player.playerInput.extendMarshmallowStick)
+            {
+                return;
+            }
+
+            if (player.marshmallowCookable.marshmallow == null)
+            {
+                availableActions.Add(new UiAction(KeyCode.E, "Replace", () => player.marshmallowCookable.ReplaceMarshmallow()));
+            }
+            else if (player.marshmallowCookable.marshmallow.IsBurning)
+            {
+                availableActions.Add(new UiAction(KeyCode.E, "Extinguish", () => player.marshmallowCookable.marshmallow.Extinguish()));
+            }
+            else
+            {
+                if (player.marshmallowCookable.marshmallow.IsCooked || player.marshmallowCookable.marshmallow.IsBurned)
+                {
+                    availableActions.Add(new UiAction(KeyCode.E, "Eat", () => player.marshmallowCookable.EatMarshmallow()));
+                }
+
+                if (player.marshmallowCookable.marshmallow.IsBurned)
+                {
+                    availableActions.Add(new UiAction(KeyCode.R, "Toss", () => player.marshmallowCookable.ThrowBurnedMarshmallow()));
+                }
             }
         }
 
@@ -170,12 +201,12 @@ namespace UI
 
         private void AddCampfireRaycastActions(Campfire campfire)
         {
-            if (player.MarshmallowRoastable.IsCooking())
+            if (player.marshmallowCookable.IsCooking())
             {
                 return;
             }
 
-            availableActions.Add(new UiAction(KeyCode.E, "Roast Marshmallow", () => player.MarshmallowRoastable.StartCooking(campfire)));
+            availableActions.Add(new UiAction(KeyCode.E, "Roast Marshmallow", () => player.marshmallowCookable.StartCooking(campfire)));
         }
 
         private string CreateSpaceShipHealthAndFuelRefillStationActionDescription()

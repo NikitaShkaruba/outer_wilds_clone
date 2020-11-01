@@ -11,24 +11,24 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(SpaceSuit))]
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(MarshmallowCookable))]
 public class Player : AcceleratedMonoBehaviour
 {
     // Internal unity components
     public new Camera camera;
-    [SerializeField] private GameObject marshmallowStick;
     private new Transform transform;
     public new Rigidbody rigidbody;
 
     // Internal components
     public Damageable Damageable;
-    private PlayerInput playerInput;
+    [HideInInspector] public PlayerInput playerInput;
     private Leggable leggable;
     private Jumpable jumpable;
     private Gravitatable gravitatable;
     private TowardsCelestialBodyRotatable towardsCelestialBodyRotatable;
     public SpaceSuit spaceSuit;
     public BuckledUppable BuckledUppable;
-    public MarshmallowRoastable MarshmallowRoastable;
+    [HideInInspector] public MarshmallowCookable marshmallowCookable;
 
     // Some fields
     private float headVerticalRotation;
@@ -47,6 +47,7 @@ public class Player : AcceleratedMonoBehaviour
 
         playerInput = GetComponent<PlayerInput>();
         spaceSuit = GetComponent<SpaceSuit>();
+        marshmallowCookable = GetComponent<MarshmallowCookable>();
 
         gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().ToArray());
         towardsCelestialBodyRotatable = new TowardsCelestialBodyRotatable(rigidbody);
@@ -54,7 +55,6 @@ public class Player : AcceleratedMonoBehaviour
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
         BuckledUppable = new BuckledUppable(this);
-        MarshmallowRoastable = new MarshmallowRoastable(this, marshmallowStick);
 
         Damageable.OnDeath += Die;
     }
@@ -74,9 +74,9 @@ public class Player : AcceleratedMonoBehaviour
             return;
         }
 
-        if (MarshmallowRoastable.IsCooking())
+        if (marshmallowCookable.IsCooking())
         {
-            MarshmallowRoastable.Cook(playerInput.rotation, playerInput.extendMarshmallowStick);
+            marshmallowCookable.HoldMarshmallowStick(playerInput.rotation, playerInput.extendMarshmallowStick);
             return;
         }
 
