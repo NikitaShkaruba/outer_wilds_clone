@@ -1,7 +1,5 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Celestial;
-using Common;
 using Physics;
 using PlayerLogic;
 using PlayerTools;
@@ -14,37 +12,36 @@ using UnityEngine;
 [RequireComponent(typeof(MarshmallowCookable))]
 public class Player : AcceleratedMonoBehaviour
 {
-    // Internal unity components
+    // Unity components
     public new Camera camera;
     private new Transform transform;
     public new Rigidbody rigidbody;
 
-    // Internal components
-    public Damageable Damageable;
+    // MonoBehaviour humble object components
+    public SpaceSuit spaceSuit;
     [HideInInspector] public PlayerInput playerInput;
+    [HideInInspector] public MarshmallowCookable marshmallowCookable;
+
+    // Other humble object components
+    private OxygenBreathable oxygenBreathable;
+    private Rotatable rotatable;
+    public Damageable Damageable;
+    public Dieable Dieable;
     private Leggable leggable;
     private Jumpable jumpable;
     private Gravitatable gravitatable;
     private TowardsCelestialBodyRotatable towardsCelestialBodyRotatable;
-    public SpaceSuit spaceSuit;
     public BuckledUppable BuckledUppable;
-    [HideInInspector] public MarshmallowCookable marshmallowCookable;
-
-    // Some fields
-    private float headVerticalRotation;
-    private bool hasSomethingToBreathe = true;
-    private bool isDead;
-
-    // Ui Events
-    public event Action OnDeath;
 
     public new void Awake()
     {
         base.Awake();
 
+        // Internal unity components
         transform = GetComponent<Transform>();
         rigidbody = GetComponent<Rigidbody>();
 
+        // Separate components
         playerInput = GetComponent<PlayerInput>();
         spaceSuit = GetComponent<SpaceSuit>();
         marshmallowCookable = GetComponent<MarshmallowCookable>();
@@ -55,18 +52,23 @@ public class Player : AcceleratedMonoBehaviour
         leggable = new Leggable(this);
         jumpable = new Jumpable(this);
         BuckledUppable = new BuckledUppable(this);
+        Dieable = new Dieable();
+        oxygenBreathable = new OxygenBreathable();
+        rotatable = new Rotatable();
 
-        Damageable.OnDeath += Die;
+        Damageable.OnNoHealthPointsRemaining += Dieable.Die;
+        oxygenBreathable.OnNoOxygenLeft += Dieable.Die;
     }
 
     public void OnDestroy()
     {
-        Damageable.OnDeath -= Die;
+        Damageable.OnNoHealthPointsRemaining -= Dieable.Die;
+        oxygenBreathable.OnNoOxygenLeft -= Dieable.Die;
     }
 
     private void FixedUpdate()
     {
-        BreatheOxygen();
+        oxygenBreathable.BreatheOxygen(spaceSuit);
 
         if (BuckledUppable.IsBuckledUp())
         {
@@ -83,13 +85,17 @@ public class Player : AcceleratedMonoBehaviour
         MaxGravitatableInfo maxGravitatableInfo = gravitatable.ApplyGravity();
         towardsCelestialBodyRotatable.RotateIfNeeded(maxGravitatableInfo);
 
-        if (isDead)
+        if (Dieable.IsDead)
         {
             return;
         }
 
         Move();
-        Rotate();
+
+        if (!BuckledUppable.IsBuckledUp())
+        {
+            rotatable.Rotate(transform, camera, playerInput);
+        }
 
         CornerDebug.AddDebug("IsOnTheGround = " + leggable.IsGrounded());
     }
@@ -108,7 +114,9 @@ public class Player : AcceleratedMonoBehaviour
             Vector3 playerPositionAddition = playerHorizontalMotion;
             playerPositionAddition *= Leggable.Run();
             playerPositionAddition *= Time.deltaTime;
-            rigidbody.MovePosition(rigidbody.position + playerPositionAddition); // Movement by foot with AddForce is buggy, so for now this will work.
+            // Movement by foot with AddForce is buggy, so for now this will work.
+            // 03 November 2020 Update: Should've used AddForce :D
+            rigidbody.MovePosition(rigidbody.position + playerPositionAddition);
         }
         else
         {
@@ -143,47 +151,6 @@ public class Player : AcceleratedMonoBehaviour
                 jumpMotion *= jumpable.Jump();
                 rigidbody.AddForce(jumpMotion); // There's no Time.deltaTime, because it's a single force push
             }
-        }
-    }
-
-    private void Die()
-    {
-        isDead = true;
-        OnDeath?.Invoke();
-    }
-
-    private void BreatheOxygen()
-    {
-        hasSomethingToBreathe = spaceSuit.GiveOxygenToBreathe();
-
-        if (!hasSomethingToBreathe)
-        {
-            // Maybe add a little delay later (player can survive without oxygen for 30 seconds or so)
-            Die();
-        }
-    }
-
-    private void Rotate()
-    {
-        if (BuckledUppable.IsBuckledUp())
-        {
-            return;
-        }
-
-        float horizontalMouseOffset = playerInput.rotation.x * GameSettings.MouseSensitivity * Time.deltaTime;
-        float verticalMouseOffset = playerInput.rotation.y * GameSettings.MouseSensitivity * Time.deltaTime;
-
-        headVerticalRotation -= verticalMouseOffset;
-        headVerticalRotation = Mathf.Clamp(headVerticalRotation, -90f, 90f); // We don't want our player to roll over with the camera :)
-        camera.transform.localRotation = Quaternion.Euler(headVerticalRotation, 0f, 0f);
-
-        if (playerInput.alternativeRotate)
-        {
-            transform.Rotate(Vector3.forward * -horizontalMouseOffset);
-        }
-        else
-        {
-            transform.Rotate(Vector3.up * horizontalMouseOffset);
         }
     }
 }

@@ -20,12 +20,12 @@ namespace UI
 
         public void Start()
         {
-            player.OnDeath += Enable;
+            player.Dieable.OnDeath += Enable;
         }
 
         public void OnDestroy()
         {
-            player.OnDeath -= Enable;
+            player.Dieable.OnDeath -= Enable;
         }
 
         public void Update()

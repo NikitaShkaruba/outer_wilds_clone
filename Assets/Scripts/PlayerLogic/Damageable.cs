@@ -15,7 +15,7 @@ namespace PlayerLogic
 
         public event Action<float> OnHealthPointsChange;
         public event Action OnTakingDamage;
-        public event Action OnDeath;
+        public event Action OnNoHealthPointsRemaining;
 
         public Damageable(float maxHealthPoints)
         {
@@ -44,7 +44,7 @@ namespace PlayerLogic
 
             if (HasNoHealthPoints)
             {
-                OnDeath?.Invoke();
+                OnNoHealthPointsRemaining?.Invoke();
             }
         }
     }
