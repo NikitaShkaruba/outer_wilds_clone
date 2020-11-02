@@ -1,4 +1,4 @@
-using PlayerTools;
+using PlayerLogic.MarshmallowCookableParts;
 using UnityEngine;
 
 namespace StaticObjects.CampfireParts

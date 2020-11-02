@@ -16,11 +16,11 @@ namespace PlayerLogic
             jumpable = new Jumpable(player);
         }
 
-        public void Move(PlayerInput playerInput)
+        public void Move(PlayerControllable playerControllable)
         {
-            Vector3 playerVerticalMotion = player.transform.up * playerInput.movement.y;
-            Vector3 playerHorizontalMotion = player.transform.forward * playerInput.movement.x +
-                                             player.transform.right * playerInput.movement.z;
+            Vector3 playerVerticalMotion = player.transform.up * playerControllable.movement.y;
+            Vector3 playerHorizontalMotion = player.transform.forward * playerControllable.movement.x +
+                                             player.transform.right * playerControllable.movement.z;
 
             if (leggable.IsGrounded())
             {
@@ -31,14 +31,14 @@ namespace PlayerLogic
                 FireHorizontalThrusters(playerHorizontalMotion);
             }
 
-            if (DoPlayerWantsToFlyVertically(playerInput))
+            if (DoPlayerWantsToFlyVertically(playerControllable))
             {
-                FireVerticalThrusters(playerInput, playerVerticalMotion);
+                FireVerticalThrusters(playerControllable, playerVerticalMotion);
             }
 
             if (leggable.IsGrounded())
             {
-                HandleJumpLogic(playerInput);
+                HandleJumpLogic(playerControllable);
             }
 
             CornerDebug.AddDebug("IsOnTheGround = " + leggable.IsGrounded());
@@ -65,9 +65,9 @@ namespace PlayerLogic
             player.rigidbody.AddForce(horizontalThrustersForce);
         }
 
-        private void FireVerticalThrusters(PlayerInput playerInput, Vector3 playerVerticalMotion)
+        private void FireVerticalThrusters(PlayerControllable playerControllable, Vector3 playerVerticalMotion)
         {
-            bool useSuperFuel = playerInput.movement.y > 0f && playerInput.jump;
+            bool useSuperFuel = playerControllable.movement.y > 0f && playerControllable.jump;
 
             Vector3 verticalThrustersForce = playerVerticalMotion;
             verticalThrustersForce *= player.spaceSuit.FireVerticalThrusters(useSuperFuel);
@@ -76,13 +76,13 @@ namespace PlayerLogic
             player.rigidbody.AddForce(verticalThrustersForce);
         }
 
-        private void HandleJumpLogic(PlayerInput playerInput)
+        private void HandleJumpLogic(PlayerControllable playerControllable)
         {
-            if (playerInput.jump)
+            if (playerControllable.jump)
             {
                 jumpable.AccumulateJumpPower();
             }
-            else if (!playerInput.jump && jumpable.ReadyToJump)
+            else if (!playerControllable.jump && jumpable.ReadyToJump)
             {
                 Vector3 jumpMotion = player.transform.up;
                 jumpMotion *= jumpable.Jump();
@@ -90,9 +90,9 @@ namespace PlayerLogic
             }
         }
 
-        private static bool DoPlayerWantsToFlyVertically(PlayerInput playerInput)
+        private static bool DoPlayerWantsToFlyVertically(PlayerControllable playerControllable)
         {
-            return !Mathf.Approximately(playerInput.movement.y, 0f);
+            return !Mathf.Approximately(playerControllable.movement.y, 0f);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Text;
 using PlayerTools.SpaceShipParts;
 using StaticObjects;
 using TMPro;
-using UI.AvailableActionHelpers;
+using UI.UiActionParts;
 using UnityEngine;
 
 namespace UI
@@ -79,7 +79,7 @@ namespace UI
             availableActions.Add(new UiAction(KeyCode.F, "Extend", null, true));
             availableActions.Add(new UiAction(KeyCode.Q, "Put away", () => player.marshmallowCookable.StopCooking(), true));
 
-            if (player.playerInput.extendMarshmallowStick)
+            if (player.playerControllable.extendMarshmallowStick)
             {
                 return;
             }

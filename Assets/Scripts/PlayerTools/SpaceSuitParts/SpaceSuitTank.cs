@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 
-namespace PlayerLogic
+namespace PlayerTools.SpaceSuitParts
 {
-    public class Tank
+    public class SpaceSuitTank
     {
         private const float MaxFillPercentage = 100f;
         private const float MinFillPercentage = 0f;

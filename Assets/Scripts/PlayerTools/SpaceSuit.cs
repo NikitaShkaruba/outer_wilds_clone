@@ -1,5 +1,5 @@
 using System;
-using PlayerLogic;
+using PlayerTools.SpaceSuitParts;
 using UnityEngine;
 
 namespace PlayerTools
@@ -7,15 +7,15 @@ namespace PlayerTools
     public class SpaceSuit : MonoBehaviour
     {
         // Oxygen
-        private readonly Tank oxygenTank;
+        private readonly SpaceSuitTank oxygenTank;
         private const float OxygenDepletionSpeed = 0.01f;
 
         // Fuel
-        private readonly Tank fuelTank;
+        private readonly SpaceSuitTank fuelTank;
         private const float FuelDepletionSpeed = 0.01f;
 
         // Super-Fuel
-        private readonly Tank superFuelTank;
+        private readonly SpaceSuitTank superFuelTank;
         private const float SuperFuelDepletionSpeed = 1f;
         private const float SuperFuelRestorationSpeed = 0.4f;
         private const float SuperFuelPowerMultiplier = 2f;
@@ -35,9 +35,9 @@ namespace PlayerTools
 
         private SpaceSuit()
         {
-            oxygenTank = new Tank();
-            fuelTank = new Tank();
-            superFuelTank = new Tank();
+            oxygenTank = new SpaceSuitTank();
+            fuelTank = new SpaceSuitTank();
+            superFuelTank = new SpaceSuitTank();
         }
 
         private void Awake()

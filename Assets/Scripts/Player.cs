@@ -6,7 +6,7 @@ using PlayerTools;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerControllable))]
 [RequireComponent(typeof(SpaceSuit))]
 [RequireComponent(typeof(MarshmallowCookable))]
 public class Player : AcceleratedMonoBehaviour
@@ -18,7 +18,7 @@ public class Player : AcceleratedMonoBehaviour
 
     // MonoBehaviour humble object components
     public SpaceSuit spaceSuit;
-    [HideInInspector] public PlayerInput playerInput;
+    [HideInInspector] public PlayerControllable playerControllable;
     [HideInInspector] public MarshmallowCookable marshmallowCookable;
 
     // Other humble object components
@@ -40,7 +40,7 @@ public class Player : AcceleratedMonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
 
         // Separate components
-        playerInput = GetComponent<PlayerInput>();
+        playerControllable = GetComponent<PlayerControllable>();
         spaceSuit = GetComponent<SpaceSuit>();
         marshmallowCookable = GetComponent<MarshmallowCookable>();
 
@@ -69,13 +69,13 @@ public class Player : AcceleratedMonoBehaviour
 
         if (BuckledUppable.IsBuckledUp())
         {
-            BuckledUppable.PilotShip(playerInput.movement, playerInput.rotation, playerInput.alternativeRotate);
+            BuckledUppable.PilotShip(playerControllable.movement, playerControllable.rotation, playerControllable.alternativeRotate);
             return;
         }
 
         if (marshmallowCookable.IsCooking())
         {
-            marshmallowCookable.HoldMarshmallowStick(playerInput.rotation, playerInput.extendMarshmallowStick);
+            marshmallowCookable.HoldMarshmallowStick(playerControllable.rotation, playerControllable.extendMarshmallowStick);
             return;
         }
 
@@ -87,11 +87,11 @@ public class Player : AcceleratedMonoBehaviour
             return;
         }
 
-        moveable.Move(playerInput);
+        moveable.Move(playerControllable);
 
         if (!BuckledUppable.IsBuckledUp())
         {
-            rotatable.Rotate(transform, camera, playerInput);
+            rotatable.Rotate(transform, camera, playerControllable);
         }
     }
 }

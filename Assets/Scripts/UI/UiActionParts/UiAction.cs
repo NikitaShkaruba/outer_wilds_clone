@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UI.AvailableActionHelpers
+namespace UI.UiActionParts
 {
     public readonly struct UiAction
     {

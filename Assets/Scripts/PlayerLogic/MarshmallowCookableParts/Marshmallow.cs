@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PlayerTools
+namespace PlayerLogic.MarshmallowCookableParts
 {
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(Rigidbody))]

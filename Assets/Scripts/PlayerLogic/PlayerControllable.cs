@@ -4,7 +4,7 @@ using UnityEngine;
 namespace PlayerLogic
 {
     // I don't want to use Unity's new input system there, because the old system is more than fine for pc-only build
-    public class PlayerInput : MonoBehaviour
+    public class PlayerControllable : MonoBehaviour
     {
         [Header("Movement")]
         public Vector3 movement;

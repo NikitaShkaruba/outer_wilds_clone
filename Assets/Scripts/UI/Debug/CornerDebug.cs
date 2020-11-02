@@ -8,7 +8,7 @@ namespace UI.Debug
     public class CornerDebug : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI textMeshPro;
-        [SerializeField] private PlayerInput playerInput;
+        [SerializeField] private PlayerControllable playerControllable;
 
         public bool isHidden;
         private static string additionalDebug;
@@ -16,12 +16,12 @@ namespace UI.Debug
 
         private void Awake()
         {
-            playerInput.OnCornerDebugToggle += Toggle;
+            playerControllable.OnCornerDebugToggle += Toggle;
         }
 
         private void OnDestroy()
         {
-            playerInput.OnCornerDebugToggle -= Toggle;
+            playerControllable.OnCornerDebugToggle -= Toggle;
         }
 
         private void FixedUpdate()
