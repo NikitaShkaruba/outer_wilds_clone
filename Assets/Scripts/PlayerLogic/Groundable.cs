@@ -2,23 +2,17 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
-    public class Leggable
+    public class Groundable
     {
-        private const float MoveSpeed = 7f;
         private const float DistanceFromBodyCenterToGround = 1.1f;
 
         private readonly Player player;
         private readonly LayerMask groundCheckLayerMask;
 
-        public Leggable(Player player)
+        public Groundable(Player player)
         {
             this.player = player;
             groundCheckLayerMask = LayerMask.GetMask("Planets", "Objects");
-        }
-
-        public static float Run()
-        {
-            return MoveSpeed;
         }
 
         public bool IsGrounded()

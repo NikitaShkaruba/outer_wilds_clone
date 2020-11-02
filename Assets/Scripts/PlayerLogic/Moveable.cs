@@ -6,13 +6,15 @@ namespace PlayerLogic
     public class Moveable
     {
         private readonly Player player;
-        private readonly Leggable leggable;
+        private readonly Groundable groundable;
         private readonly Jumpable jumpable;
+
+        private const float LegsMoveSpeed = 7f;
 
         public Moveable(Player player)
         {
             this.player = player;
-            leggable = new Leggable(player);
+            groundable = new Groundable(player);
             jumpable = new Jumpable(player);
         }
 
@@ -22,7 +24,7 @@ namespace PlayerLogic
             Vector3 playerHorizontalMotion = player.transform.forward * playerControllable.movement.x +
                                              player.transform.right * playerControllable.movement.z;
 
-            if (leggable.IsGrounded())
+            if (groundable.IsGrounded())
             {
                 WalkByFoot(playerHorizontalMotion);
             }
@@ -36,12 +38,12 @@ namespace PlayerLogic
                 FireVerticalThrusters(playerControllable, playerVerticalMotion);
             }
 
-            if (leggable.IsGrounded())
+            if (groundable.IsGrounded())
             {
                 HandleJumpLogic(playerControllable);
             }
 
-            CornerDebug.AddDebug("IsOnTheGround = " + leggable.IsGrounded());
+            CornerDebug.AddDebug("IsOnTheGround = " + groundable.IsGrounded());
         }
 
         private void WalkByFoot(Vector3 playerHorizontalMotion)
@@ -50,7 +52,7 @@ namespace PlayerLogic
             // 03 November 2020 Update: Should've used AddForce :D
 
             Vector3 playerPositionAddition = playerHorizontalMotion;
-            playerPositionAddition *= Leggable.Run();
+            playerPositionAddition *= LegsMoveSpeed;
             playerPositionAddition *= Time.deltaTime;
 
             player.rigidbody.MovePosition(player.rigidbody.position + playerPositionAddition);
