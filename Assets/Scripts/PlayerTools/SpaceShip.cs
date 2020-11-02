@@ -25,6 +25,7 @@ namespace PlayerTools
             base.Awake();
 
             rigidbody = GetComponent<Rigidbody>();
+
             gravitatable = new Gravitatable(rigidbody, FindObjectsOfType<CelestialBody>().ToArray());
             towardsCelestialBodyRotatable = new TowardsCelestialBodyRotatable(rigidbody);
         }

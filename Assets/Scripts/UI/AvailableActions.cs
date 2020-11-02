@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace UI
 {
-    public class AvailableActions : MonoBehaviour
+    public class UiActions : MonoBehaviour
     {
         [SerializeField] private Player player;
         [SerializeField] private TextMeshProUGUI centerActionsTextMesh;

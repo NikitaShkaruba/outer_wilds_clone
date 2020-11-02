@@ -5,9 +5,9 @@ using PlayerLogic;
 using PlayerTools;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerInput))]
 [RequireComponent(typeof(SpaceSuit))]
-[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(MarshmallowCookable))]
 public class Player : AcceleratedMonoBehaviour
 {

@@ -9,12 +9,23 @@ namespace PlayerLogic
 
         public void Rotate(Transform transform, Camera camera, PlayerInput playerInput)
         {
-            float horizontalMouseOffset = playerInput.rotation.x * GameSettings.MouseSensitivity * Time.deltaTime;
+            ProcessVerticalInput(camera, playerInput);
+            ProcessHorizontalInput(transform, playerInput);
+        }
+
+        private void ProcessVerticalInput(Camera camera, PlayerInput playerInput)
+        {
             float verticalMouseOffset = playerInput.rotation.y * GameSettings.MouseSensitivity * Time.deltaTime;
 
             headVerticalRotation -= verticalMouseOffset;
             headVerticalRotation = Mathf.Clamp(headVerticalRotation, -90f, 90f); // We don't want our player to roll over with the camera :)
+
             camera.transform.localRotation = Quaternion.Euler(headVerticalRotation, 0f, 0f);
+        }
+
+        private static void ProcessHorizontalInput(Transform transform, PlayerInput playerInput)
+        {
+            float horizontalMouseOffset = playerInput.rotation.x * GameSettings.MouseSensitivity * Time.deltaTime;
 
             if (playerInput.alternativeRotate)
             {
