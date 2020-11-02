@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that lights SpaceShipAcceleration tool, that helps the player to understand which SpaceShipThrusters are fired now
+     */
     public class SpaceShipAccelerationShowcase : MonoBehaviour
     {
         [SerializeField] private Material defaultMaterial;

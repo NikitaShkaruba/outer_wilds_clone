@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Celestial
 {
+    /**
+     * Class for a celestial body which has rigidbody, gravitates to other celestial bodies and has an orbit trail
+     */
     [RequireComponent(typeof(Rigidbody))]
     public class CelestialBody : AcceleratedMonoBehaviour
     {

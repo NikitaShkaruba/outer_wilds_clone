@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Physics
 {
+    /**
+     * Class that rotates a rigidbody towards a celestial body (makes rigidbody's ground to be at the bottom of it's local rotation)
+     */
     public class TowardsCelestialBodyRotatable
     {
         private readonly Rigidbody rigidbody;

@@ -1,5 +1,8 @@
 namespace Common
 {
+    /**
+     * Enum with directions
+     */
     public static class Directions
     {
         public const string Top = "Top";

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceSuitParts
 {
+    /**
+     * Class that can store some percentage of some gas (or literally anything) inside
+     */
     public class SpaceSuitTank
     {
         private const float MaxFillPercentage = 100f;

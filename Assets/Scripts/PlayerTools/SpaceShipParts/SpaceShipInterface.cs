@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that provides ways for player to interact with a SpaceShip
+     */
     public class SpaceShipInterface : MonoBehaviour
     {
         [SerializeField] private SpaceShip spaceShip;

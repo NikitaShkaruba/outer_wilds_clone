@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts.Triggers
 {
+    /**
+     * Class that helps to understand if player is exited a SpaceShip
+     */
     public class PlayerExitsShipTrigger : MonoBehaviour
     {
         public event Action OnPlayerExitedShip;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /**
+     * Ui element that shows the player that he is being damaged
+     */
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class YouAreTakingDamageText : MonoBehaviour
     {

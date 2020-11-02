@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Physics
 {
+    /**
+     * Component that handles gravitation to all existing CelestialBodies
+     */
     public class Gravitatable
     {
         private readonly Rigidbody rigidbody;

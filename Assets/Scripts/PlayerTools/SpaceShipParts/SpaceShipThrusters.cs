@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that handles SpaceShip's moving logic, and that also provides effects for it's thrusters
+     */
     public class SpaceShipThrusters : MonoBehaviour
     {
         // Player input

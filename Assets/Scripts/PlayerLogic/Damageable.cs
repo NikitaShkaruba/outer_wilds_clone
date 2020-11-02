@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles Health Points logic
+     */
     public class Damageable
     {
         private float healthPoints;

@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /**
+     * Ui element that shows player information about it's health, oxygen, fuel and superFuel
+     */
     public class SpaceSuitStatus : MonoBehaviour
     {
         [SerializeField] private Image healthIndicatorImage;

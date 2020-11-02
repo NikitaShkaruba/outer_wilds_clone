@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace StaticObjects
 {
+    /**
+     * Class that represents tree - that can refresh player's SpaceSuit oxygen tank
+     */
     [RequireComponent(typeof(Collider))]
     public class Tree : MonoBehaviour
     {

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Physics
 {
+    /**
+     * Class that stores gravity computation laws
+     */
     public static class Gravitation
     {
         private const float GravitationalConstant = 50000000f;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that helps to buckle up the player, that provides spaceShipInterface link for him also
+     */
     public class SpaceShipSeat : MonoBehaviour
     {
         public SpaceShip spaceShip;

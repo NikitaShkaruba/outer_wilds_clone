@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace Physics
 {
+    /**
+     * Class that stores information about max gravitatable celestial body, which can later be used to determine
+     * around which celestial body you should rotate the player or the spaceShip
+     */
     public class MaxGravitatableInfo
     {
         public Vector3 MaxGravityForce;

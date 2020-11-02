@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace UI.Debug
 {
+    /**
+     * UI element that shows debug information at the bottom left corner of a game
+     */
     public class CornerDebug : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI textMeshPro;

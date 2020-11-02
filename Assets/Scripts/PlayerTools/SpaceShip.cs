@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace PlayerTools
 {
+    /**
+     * Main Class for the SpaceShip. It gravitates towards CelestialBodies and knows about all it's children parts
+     */
     [RequireComponent(typeof(Rigidbody))]
     public class SpaceShip : AcceleratedMonoBehaviour
     {
@@ -17,6 +20,7 @@ namespace PlayerTools
         public SpaceShipAccelerationShowcase accelerationShowcase;
         public SpaceShipFlashlight flashlight;
 
+        // Humble object components
         private Gravitatable gravitatable;
         private TowardsCelestialBodyRotatable towardsCelestialBodyRotatable;
 

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Celestial
 {
+    /**
+     * Class for an orbit trail - stores celestial body orbit coordinates and draws them
+     */
     public class Orbit
     {
         private readonly LinkedList<Vector3> coordinates = new LinkedList<Vector3>();

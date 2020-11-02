@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts.Triggers
 {
+    /**
+     * Class that helps to understand if player is entered a SpaceShip
+     */
     public class PlayerEntersShipTrigger : MonoBehaviour
     {
         public event Action OnPlayerEnteredShip;

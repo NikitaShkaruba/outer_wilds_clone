@@ -10,6 +10,9 @@ using UnityEngine;
 
 namespace UI
 {
+    /**
+     * Ui element that shows the player actions that he can interact with
+     */
     public class UiActions : MonoBehaviour
     {
         [SerializeField] private Player player;

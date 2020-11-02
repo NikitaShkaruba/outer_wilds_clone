@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that opens / closes SpaceShip's entrance hatch
+     */
     public class SpaceShipHatch : MonoBehaviour
     {
         [SerializeField] private GameObject rotator;

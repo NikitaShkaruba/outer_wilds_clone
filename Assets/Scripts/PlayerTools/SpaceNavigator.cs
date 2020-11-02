@@ -6,6 +6,10 @@ using UnityEngine;
 // I don't like a lot of inspector fields here, but I'm not sure how to do it better. Don't like initializing everything from the constructor either
 namespace PlayerTools
 {
+    /**
+     * Class that gives the player an ability to lock onto celestial bodies and get a lot of useful information like
+     * relative speed, distance, relative acceleration, celestial body's name
+     */
     public class SpaceNavigator : MonoBehaviour
     {
         // Cursors

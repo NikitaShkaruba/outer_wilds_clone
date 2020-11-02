@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles jumping logic
+     */
     public class Jumpable
     {
         // Jumping

@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Common
 {
+    /**
+     * Class with some blender models integration methods
+     */
     public static class BlenderBugFixes
     {
         /**

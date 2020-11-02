@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace UI.UiActionParts
 {
+    /**
+     * Class that represents UiAction.
+     * UiActions stores an information about available actions in this class.
+     */
     public readonly struct UiAction
     {
         public readonly KeyCode KeyCode;

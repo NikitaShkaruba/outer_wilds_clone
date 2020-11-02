@@ -2,6 +2,9 @@
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that handles SpaceShip's flashlight logic
+     */
     public class SpaceShipFlashlight : MonoBehaviour
     {
         [SerializeField] private Light lightSource;

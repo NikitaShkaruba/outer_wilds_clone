@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles player locking onto something logic.
+     * For example: locking near a campfire for cooking, locking into SpaceShipSeat
+     */
     public class PlayerLockable
     {
         private bool isTransitionGoing;

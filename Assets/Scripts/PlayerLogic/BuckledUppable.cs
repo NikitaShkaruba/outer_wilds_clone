@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles buckling up into a SpaceShitSeat logic, that gives buckled up player some methods to access SpaceShip's interface.
+     * Todo: move buckling-up logic here from SpaceShipSeat
+     */
     public class BuckledUppable
     {
         private SpaceShipSeat buckledUpSpaceShipSeat;

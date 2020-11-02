@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace StaticObjects
 {
+    /**
+     * Class that represents Campfire that can damage the player
+     */
     [RequireComponent(typeof(Collider))]
     public class Campfire : MonoBehaviour
     {

@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles player rotation logic
+     */
     public class Rotatable
     {
         private float headVerticalRotation;

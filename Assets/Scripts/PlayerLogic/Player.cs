@@ -6,6 +6,10 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Player's main MonoBehaviour - which is a gian Humble Object.
+     * If you want to understand how player works - check out his humble object components
+     */
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(PlayerControllable))]
     [RequireComponent(typeof(SpaceSuit))]

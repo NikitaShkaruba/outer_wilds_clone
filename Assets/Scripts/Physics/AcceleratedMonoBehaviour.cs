@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Physics
 {
+    /**
+     * MonoBehaviour that is accelerated on initialization
+     */
     [RequireComponent(typeof(Rigidbody))]
     public abstract class AcceleratedMonoBehaviour : MonoBehaviour
     {

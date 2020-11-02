@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PlayerTools
 {
+    /**
+     * Class that represents SpaceShipSuit - which has oxygen, fuel, superFuel tanks, which also has thrusters
+     */
     public class SpaceSuit : MonoBehaviour
     {
         // Oxygen

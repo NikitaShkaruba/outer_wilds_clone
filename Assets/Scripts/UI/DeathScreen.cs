@@ -4,6 +4,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /**
+     * Ui element that fades the screen, which simulates the player death
+     */
     [RequireComponent(typeof(Image))]
     public class DeathScreen : MonoBehaviour
     {

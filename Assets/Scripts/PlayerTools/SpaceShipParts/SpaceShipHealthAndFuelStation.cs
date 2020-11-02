@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that handles logic for SpaceShip's ResourcesStation which can heal player and restore his fuel
+     */
     public class SpaceShipHealthAndFuelStation : MonoBehaviour
     {
         private const float FuelRefillSpeed = 2f;

@@ -3,7 +3,11 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
-    // I don't want to use Unity's new input system there, because the old system is more than fine for pc-only build
+    /**
+     * Class that reads player inputs and provides a simple player input facade for other classes to use
+     * 
+     * I don't want to use Unity's new input system there, because the old system is more than fine for a small project like this.
+     */
     public class PlayerControllable : MonoBehaviour
     {
         [Header("Movement")]

@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts
 {
+    /**
+     * Class that helps to pull player inside the SpaceShip from the ground
+     */
     public class SpaceShipGravityField : MonoBehaviour
     {
         [SerializeField] private PlayerExitsShipTrigger playerExitsShipTrigger;

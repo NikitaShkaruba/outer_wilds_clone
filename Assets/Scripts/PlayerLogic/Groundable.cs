@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles grounding logic
+     */
     public class Groundable
     {
         private const float DistanceFromBodyCenterToGround = 1.1f;

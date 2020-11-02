@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles player moving logic
+     */
     public class Moveable
     {
         private readonly Player player;

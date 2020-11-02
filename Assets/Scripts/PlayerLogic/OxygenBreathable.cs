@@ -3,6 +3,9 @@ using PlayerTools;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles oxygen breathing logic
+     */
     public class OxygenBreathable
     {
         private bool hasSomethingToBreathe = true;

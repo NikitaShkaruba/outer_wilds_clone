@@ -2,6 +2,10 @@ using UnityEngine;
 
 namespace PlayerLogic.MarshmallowCookableParts
 {
+    /**
+     * Class that represents marshmallow.
+     * It knows what is it to be cooked (logic to update it's color), it knows how to be burned, and it knows how to self-destruct when not needed
+     */
     [RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Collider))]

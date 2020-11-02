@@ -6,6 +6,9 @@ using UnityEngine;
 
 namespace PlayerLogic
 {
+    /**
+     * Class that handles Marshmallow cooking logic.
+     */
     [RequireComponent(typeof(Player))]
     public class MarshmallowCookable : MonoBehaviour
     {
