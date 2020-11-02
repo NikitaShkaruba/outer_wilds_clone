@@ -2005,7 +2005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 914601119}
-  playerInput: {fileID: 512887857}
+  playerControllable: {fileID: 512887857}
   isHidden: 0
 --- !u!114 &914601119
 MonoBehaviour:

@@ -1,3 +1,4 @@
+using PlayerLogic;
 using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts

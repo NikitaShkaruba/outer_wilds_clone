@@ -1,3 +1,4 @@
+using PlayerLogic;
 using TMPro;
 using UnityEngine;
 

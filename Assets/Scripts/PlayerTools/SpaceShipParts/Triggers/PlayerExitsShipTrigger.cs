@@ -1,4 +1,5 @@
 ﻿using System;
+using PlayerLogic;
 using UnityEngine;
 
 namespace PlayerTools.SpaceShipParts.Triggers
