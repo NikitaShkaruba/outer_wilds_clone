@@ -30,6 +30,7 @@ namespace PlayerLogic
             if (groundable.IsGrounded())
             {
                 WalkByFoot(playerHorizontalMotion);
+                HandleJumpLogic(playerControllable);
             }
             else
             {
@@ -39,11 +40,6 @@ namespace PlayerLogic
             if (DoPlayerWantsToFlyVertically(playerControllable))
             {
                 FireVerticalThrusters(playerControllable, playerVerticalMotion);
-            }
-
-            if (groundable.IsGrounded())
-            {
-                HandleJumpLogic(playerControllable);
             }
 
             CornerDebug.AddDebug("IsOnTheGround = " + groundable.IsGrounded());
